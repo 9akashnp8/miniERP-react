@@ -5,14 +5,14 @@ import { getEmployees } from "../lib/employees";
 
 export default function Employees() {
     const employees = useLoaderData();
-
+    console.log(employees);
     return (
         <>
             <h1>Employees</h1>
             <div>
                 {employees.map((employee) => {
                     return (
-                        <p key={employee.id}>{employee.name}</p>
+                        <p key={employee.emp_id}>{employee.emp_name}</p>
                     )
                 })}
             </div>
