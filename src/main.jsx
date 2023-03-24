@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import Root from './routes/root';
 import ErrorPage from './error-page';
 import Employees, {loader as employeeLoader } from './routes/employee';
+import Login from './routes/login';
 
 // 3rd part
 import{
@@ -22,6 +23,11 @@ const router = createBrowserRouter([
                 loader: employeeLoader
             }
         ]
+    },
+    {
+        path: "login",
+        element: <Login />,
+        errorElement: <ErrorPage />
     }
 ])
 

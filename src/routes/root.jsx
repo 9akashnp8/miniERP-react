@@ -6,6 +6,7 @@ export default function Root() {
         <>
             <Link to={'/'}>Home</Link>
             <Link to={'employee'}>Employee</Link>
+            <Link to={'login'}>Login</Link>
             <Outlet />
         </>
     )
