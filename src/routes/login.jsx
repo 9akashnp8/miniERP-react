@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import {
+    getFiveMinsFromNow,
+    getOneDayFromNow,
+} from "../lib/functions";
+
 export default function Login() {
     const navigate = useNavigate();
     
@@ -17,8 +22,11 @@ export default function Login() {
 
             const accessToken = response.data.access;
             const refreshToken = response.data.refresh;
-            document.cookie =  `access=${accessToken}; path=/;`;
-            document.cookie =  `refresh=${refreshToken}; path=/;`;
+            const accessExpiry = getFiveMinsFromNow();
+            const refreshExpiry = getOneDayFromNow();
+
+            document.cookie =  `access=${accessToken}; path=/; expires=${accessExpiry.toUTCString()}`;
+            document.cookie =  `refresh=${refreshToken}; path=/; expires=${refreshExpiry.toUTCString()}`;
 
             if (response.status == 200) {
                 navigate("/");
