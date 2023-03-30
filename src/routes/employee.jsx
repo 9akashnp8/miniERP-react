@@ -5,7 +5,6 @@ import { getEmployees } from "../lib/employees";
 
 export default function Employees() {
     const employees = useLoaderData();
-    console.log(employees);
     return (
         <>
             <h1>Employees</h1>
