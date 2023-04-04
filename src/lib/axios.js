@@ -16,8 +16,6 @@ api.interceptors.request.use(function (config) {
     const accessToken = getCookie("access");
     if (accessToken) {
         config.headers["Authorization"] = `Bearer ${accessToken}`
-    } else {
-        window.location.href = "login"
     }
     return config;
   }, function (error) {
