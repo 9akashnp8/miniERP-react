@@ -117,6 +117,16 @@ export default function SideDrawer({ children }) {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
+                        <Link to={"laptop"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItem key={1} disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Laptops"} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
                         {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                             <ListItem key={text} disablePadding>
                                 <ListItemButton>

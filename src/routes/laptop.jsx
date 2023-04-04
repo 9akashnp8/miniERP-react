@@ -9,34 +9,36 @@ import Paper from '@mui/material/Paper';
 
 import { useLoaderData } from "react-router-dom";
 
-import { getEmployees } from "../lib/employees";
+import { getLaptops } from '../lib/laptops';
 
-export default function EmployeeTable() {
-    const employees = useLoaderData();
+export default function LaptopTable() {
+    const laptops = useLoaderData();
 
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Employee Name</TableCell>
-                        <TableCell align="center">Department</TableCell>
-                        <TableCell align="center">Designation</TableCell>
-                        <TableCell align="center">Branch</TableCell>
+                        <TableCell>Laptop HW ID</TableCell>
+                        <TableCell align="center">Serial Number</TableCell>
+                        <TableCell align="center">Processor</TableCell>
+                        <TableCell align="center">RAM</TableCell>
+                        <TableCell align="center">Location</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {employees.map((employee) => (
+                    {laptops.map((laptop) => (
                         <TableRow
-                            key={employee.id}
+                            key={laptop.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {employee.emp_name}
+                                {laptop.hardware_id}
                             </TableCell>
-                            <TableCell align="center">{employee.dept_id.dept_name}</TableCell>
-                            <TableCell align="center">{employee.desig_id.designation}</TableCell>
-                            <TableCell align="center">{employee.loc_id.location}</TableCell>
+                            <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
+                            <TableCell align="center">{laptop.processor}</TableCell>
+                            <TableCell align="center">{laptop.ram_capacity}</TableCell>
+                            <TableCell align="center">{laptop.laptop_branch}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -46,6 +48,6 @@ export default function EmployeeTable() {
 }
 
 export async function loader() {
-    const employees = getEmployees();
-    return employees;
+    const laptops = getLaptops();
+    return laptops;
 }

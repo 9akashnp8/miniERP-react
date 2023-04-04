@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Root from './routes/root';
 import ErrorPage from './error-page';
-import Employees, {loader as employeeLoader } from './routes/employee';
+import EmployeeTable, {loader as employeeLoader } from './routes/employee';
+import LaptopTable, {loader as laptopLoader } from './routes/laptop';
 import Login from './routes/login';
 
 // 3rd part
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "employee",
-                element: <Employees />,
+                element: <EmployeeTable />,
                 loader: employeeLoader
+            },
+            {
+                path: "laptop",
+                element: <LaptopTable />,
+                loader: laptopLoader
             }
         ]
     },
