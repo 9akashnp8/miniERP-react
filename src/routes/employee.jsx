@@ -5,6 +5,7 @@ import { getEmployees } from "../lib/employees";
 
 export default function Employees() {
     const employees = useLoaderData();
+
     return (
         <>
             <h1>Employees</h1>
@@ -23,6 +24,5 @@ export default function Employees() {
 
 export async function loader() {
     const employees = getEmployees();
-
     return employees;
 }

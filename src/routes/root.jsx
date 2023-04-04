@@ -1,13 +1,17 @@
 import { Outlet, Link } from "react-router-dom"
 
+import SideDrawer from "../components/SideDrawer"
+
 export default function Root() {
 
     return (
         <>
-            <Link to={'/'}>Home</Link>
+            <SideDrawer>
+                <Outlet />
+            </SideDrawer>
+            {/* <Link to={'/'}>Home</Link>
             <Link to={'employee'}>Employee</Link>
-            <Link to={'login'}>Login</Link>
-            <Outlet />
+            <Link to={'login'}>Login</Link> */}
         </>
     )
 }

@@ -10,6 +10,11 @@ import{
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import "@fontsource/inter"
+
+import { theme, darkTheme } from "./lib/theme";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +38,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <CssBaseline />
+        <ThemeProvider theme={darkTheme}>
+            <RouterProvider router={router} />
+        </ThemeProvider>
     </React.StrictMode>,
 )
