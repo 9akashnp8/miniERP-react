@@ -18,15 +18,12 @@ export default function Login() {
             const response = await axios.post("http://localhost:8000/api/token/", {
                 "username": username,
                 "password": password
-            })
+            }, {withCredentials: true})
 
             const accessToken = response.data.access;
-            const refreshToken = response.data.refresh;
             const accessExpiry = getFiveMinsFromNow();
-            const refreshExpiry = getOneDayFromNow();
 
             document.cookie =  `access=${accessToken}; path=/; expires=${accessExpiry.toUTCString()}`;
-            document.cookie =  `refresh=${refreshToken}; path=/; expires=${refreshExpiry.toUTCString()}`;
 
             if (response.status == 200) {
                 navigate("/");
