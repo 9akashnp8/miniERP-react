@@ -15,9 +15,6 @@ const baseQuery = fetchBaseQuery({
 
 async function baseQueryWithReauth(args, api, extraOptions) {
     let result = await baseQuery(args, api, extraOptions)
-    console.log("args", args)
-    console.log("api", api)
-    console.log("extraOptions", extraOptions)
 
     if (result?.error?.status === 401) {
         const argsX = {url: 'token/refresh/', method: 'POST'}
