@@ -9,9 +9,6 @@ export default function Root() {
             <SideDrawer>
                 <Outlet />
             </SideDrawer>
-            {/* <Link to={'/'}>Home</Link>
-            <Link to={'employee'}>Employee</Link>
-            <Link to={'login'}>Login</Link> */}
         </>
     )
 }

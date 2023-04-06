@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-import {
-    getFiveMinsFromNow,
-    getOneDayFromNow,
-} from "../lib/functions";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../features/auth/authSlice";
+import { useLoginMutation } from "../features/auth/authApiSlice";
 
 export default function Login() {
     const navigate = useNavigate();
+    const [ login ] = useLoginMutation();
+    const dispatch = useDispatch();
     
     async function handleSubmit(event) {
         event.preventDefault();
@@ -15,19 +14,9 @@ export default function Login() {
         const password = event.target.password.value;
     
         try {
-            const response = await axios.post("http://localhost:8000/api/token/", {
-                "username": username,
-                "password": password
-            }, {withCredentials: true})
-
-            const accessToken = response.data.access;
-            const accessExpiry = getFiveMinsFromNow();
-
-            document.cookie =  `access=${accessToken}; path=/; expires=${accessExpiry.toUTCString()}`;
-
-            if (response.status == 200) {
-                navigate("/");
-            }
+            const userData = await login({ username, password}).unwrap()
+            dispatch(setCredentials({ ...userData }))
+            navigate('/')
         } catch(error) {
             console.log(error);
         }

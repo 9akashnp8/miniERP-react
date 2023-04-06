@@ -7,12 +7,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { useLoaderData } from "react-router-dom";
-
-import { getLaptops } from '../lib/laptops';
+import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
 
 export default function LaptopTable() {
-    const laptops = useLoaderData();
+    const { data: laptops, isLoading, isError, error } = useGetLaptopsQuery();
+
+    if (isLoading) {
+        return <p>Loading...</p>
+    }
+
+    if (isError) {
+        return <p>{JSON.stringify(error)}</p>
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -27,7 +33,7 @@ export default function LaptopTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {laptops.map((laptop) => (
+                    {laptops.results.map((laptop) => (
                         <TableRow
                             key={laptop.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -45,9 +51,4 @@ export default function LaptopTable() {
             </Table>
         </TableContainer>
     );
-}
-
-export async function loader() {
-    const laptops = getLaptops();
-    return laptops;
 }
