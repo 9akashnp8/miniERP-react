@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Root from './routes/root';
 import ErrorPage from './error-page';
-import EmployeeTable, {loader as employeeLoader } from './routes/employee';
-import LaptopTable, {loader as laptopLoader } from './routes/laptop';
+import EmployeeTable from './routes/employee';
+import LaptopTable from './routes/laptop';
 import Login from './routes/login';
 import RequireAuth from './features/auth/RequireAuth';
 

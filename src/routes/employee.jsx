@@ -7,12 +7,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { useLoaderData } from "react-router-dom";
-
-import { getEmployees } from "../lib/employees";
+import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
 
 export default function EmployeeTable() {
-    const employees = useLoaderData();
+    const { data: employees, isLoading, isError, error } = useGetEmployeesQuery();
+
+    if (isLoading) {
+        return <p>Loading...</p>
+    }
+
+    if (isError) {
+        return <p>{JSON.stringify(error)}</p>
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -26,7 +32,7 @@ export default function EmployeeTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {employees.map((employee) => (
+                    {employees.results.map((employee) => (
                         <TableRow
                             key={employee.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -43,9 +49,4 @@ export default function EmployeeTable() {
             </Table>
         </TableContainer>
     );
-}
-
-export async function loader() {
-    const employees = getEmployees();
-    return employees;
 }
