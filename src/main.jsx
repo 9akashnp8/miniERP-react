@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import CssBaseline from '@mui/material/CssBaseline'; // place import before Box
 import Root from './routes/root';
 import ErrorPage from './error-page';
 import EmployeeTable from './routes/employee';
@@ -14,7 +15,6 @@ import{
 } from "react-router-dom";
 import { store } from './store';
 import { Provider } from 'react-redux';
-import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import "@fontsource/inter"
 

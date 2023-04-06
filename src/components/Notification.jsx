@@ -1,5 +1,4 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Box } from '@mui/system';
 
 export default function Notification() {
     return (
