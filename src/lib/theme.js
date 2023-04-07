@@ -1,5 +1,6 @@
 import TableCell from '@mui/material/TableCell';
 import InputBase from '@mui/material/InputBase';
+import ButtonBase from '@mui/material/ButtonBase';
 
 import { createTheme } from "@mui/material/styles";
 import { styled, alpha } from '@mui/material/styles';
@@ -69,4 +70,16 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontWeight: 'bold'
+}))
+
+export const StyledButton = styled(ButtonBase)(({ theme }) => ({
+    fontSize: '1rem',
+    padding: '0.625rem',
+    borderRadius: '0.25rem',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        border: '1px solid rgba(255, 255, 255, 0.5)',
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
 }))
