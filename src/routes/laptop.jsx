@@ -13,12 +13,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import Box from '@mui/material/Box';
 
 import {
     Search,
     SearchIconWrapper,
     StyledInputBase,
-    StyledTableCell
+    StyledTableCell,
+    StyledButton
 } from '../lib/theme';
 import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
 
@@ -50,7 +52,13 @@ export default function LaptopTable() {
     return (
         <>
             <AppBar position="static">
-                <Toolbar>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        padding: '0.75rem',
+                        gap: '0.5rem'
+                    }}
+                >
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -61,7 +69,9 @@ export default function LaptopTable() {
                             onChange={(e) => setLaptopSearch(e.target.value)}
                         />
                     </Search>
-                </Toolbar>
+                    <StyledButton sx={{ marginLeft: 'auto'}} >Create</StyledButton>
+                    <StyledButton>...</StyledButton>
+                </Box>
             </AppBar>
             <TableContainer component={Paper} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

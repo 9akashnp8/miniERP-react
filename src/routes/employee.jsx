@@ -16,12 +16,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 import {
     Search,
     SearchIconWrapper,
     StyledInputBase,
-    StyledTableCell
+    StyledTableCell,
+    StyledButton
 } from '../lib/theme';
 import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
 
@@ -55,7 +57,13 @@ export default function EmployeeTable() {
     return (
         <>
             <AppBar position="static">
-                <Toolbar>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        padding: '0.75rem',
+                        gap: '0.5rem'
+                    }}
+                >
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -66,7 +74,9 @@ export default function EmployeeTable() {
                             onChange={(e) => setEmployeeSearch(e.target.value)}
                         />
                     </Search>
-                </Toolbar>
+                    <StyledButton sx={{ marginLeft: 'auto'}} >Create</StyledButton>
+                    <StyledButton>...</StyledButton>
+                </Box>
             </AppBar>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
