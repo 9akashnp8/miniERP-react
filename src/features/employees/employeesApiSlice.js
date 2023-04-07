@@ -3,7 +3,12 @@ import { apiSlice } from "../api/apiSlice";
 export const employeeApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getEmployees: builder.query({
-            query: (page = 1) => `employee/?page=${page}`,
+            query: (args) => {
+                const {page, employeeSearch} = args
+                return {
+                    url: `employee/?page=${page}&emp_name=${employeeSearch}`
+                }
+            },
         })
     })
 })
