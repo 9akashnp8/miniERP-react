@@ -14,6 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 
+import { StyledTableCell } from '../lib/theme';
 import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
 
 const Search = styled('div')(({ theme }) => ({
@@ -98,15 +99,15 @@ export default function LaptopTable() {
                     </Search>
                 </Toolbar>
             </AppBar>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Laptop HW ID</TableCell>
-                            <TableCell align="center">Serial Number</TableCell>
-                            <TableCell align="center">Processor</TableCell>
-                            <TableCell align="center">RAM</TableCell>
-                            <TableCell align="center">Location</TableCell>
+                            <StyledTableCell>Laptop HW ID</StyledTableCell>
+                            <StyledTableCell align="center">Serial Number</StyledTableCell>
+                            <StyledTableCell align="center">Processor</StyledTableCell>
+                            <StyledTableCell align="center">RAM</StyledTableCell>
+                            <StyledTableCell align="center">Location</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

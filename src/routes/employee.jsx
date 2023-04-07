@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 
+import { StyledTableCell } from '../lib/theme';
 import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
 
 const Search = styled('div')(({ theme }) => ({
@@ -107,10 +108,10 @@ export default function EmployeeTable() {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Employee Name</TableCell>
-                            <TableCell align="center">Department</TableCell>
-                            <TableCell align="center">Designation</TableCell>
-                            <TableCell align="center">Branch</TableCell>
+                            <StyledTableCell>Employee Name</StyledTableCell>
+                            <StyledTableCell align="center">Department</StyledTableCell>
+                            <StyledTableCell align="center">Designation</StyledTableCell>
+                            <StyledTableCell align="center">Branch</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

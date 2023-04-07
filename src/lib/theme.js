@@ -1,4 +1,7 @@
+import TableCell from '@mui/material/TableCell';
+
 import { createTheme } from "@mui/material/styles";
+import { styled, alpha } from '@mui/material/styles';
 
 export const theme = createTheme({
     typography: {
@@ -20,3 +23,8 @@ export const darkTheme = createTheme({
         mode: 'dark',
     },
 });
+
+// Custom styled components
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    fontWeight: 'bold'
+}))
