@@ -3,7 +3,12 @@ import { apiSlice } from "../api/apiSlice";
 export const laptopApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getLaptops: builder.query({
-            query: (page = 1) => `laptop/?page=${page}`,
+            query: (args) => {
+                const {page, laptopSearch} = args
+                return {
+                    url: `laptop/?page=${page}&search=${laptopSearch}`
+                }
+            },
         })
     })
 })
