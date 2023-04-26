@@ -20,7 +20,8 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledButton
+    StyledButton,
+    StyledLink
 } from '../lib/theme';
 import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
 
@@ -77,7 +78,7 @@ export default function LaptopTable() {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Laptop HW ID</StyledTableCell>
+                            <StyledTableCell align="center">Laptop HW ID</StyledTableCell>
                             <StyledTableCell align="center">Serial Number</StyledTableCell>
                             <StyledTableCell align="center">Processor</StyledTableCell>
                             <StyledTableCell align="center">RAM</StyledTableCell>
@@ -90,8 +91,8 @@ export default function LaptopTable() {
                                 key={laptop.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
-                                    {laptop.hardware_id}
+                                <TableCell component="th" scope="row" align="center">
+                                    <StyledLink>{laptop.hardware_id}</StyledLink>
                                 </TableCell>
                                 <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                 <TableCell align="center">{laptop.processor}</TableCell>

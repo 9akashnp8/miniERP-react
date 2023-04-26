@@ -85,3 +85,16 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
 }))
+
+export const StyledLink = styled('span')(({ theme }) => ({
+    '&:hover': {
+        padding: '0.25rem 0.5rem',
+        cursor: 'pointer',
+        border: '1px solid rgba(255, 255, 255, 0.5)',
+        borderRadius: '0.25rem',
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    '&:active': {
+        backgroundColor: alpha(theme.palette.common.white, 0.375)
+    },
+}))

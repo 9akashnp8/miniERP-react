@@ -23,7 +23,8 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledButton
+    StyledButton,
+    StyledLink
 } from '../lib/theme';
 import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
 
@@ -82,7 +83,7 @@ export default function EmployeeTable() {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Employee Name</StyledTableCell>
+                            <StyledTableCell align="center">Employee Name</StyledTableCell>
                             <StyledTableCell align="center">Department</StyledTableCell>
                             <StyledTableCell align="center">Designation</StyledTableCell>
                             <StyledTableCell align="center">Branch</StyledTableCell>
@@ -94,8 +95,8 @@ export default function EmployeeTable() {
                                 key={employee.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
-                                    {employee.emp_name}
+                                <TableCell component="th" scope="row" align="center">
+                                    <StyledLink>{employee.emp_name}</StyledLink>
                                 </TableCell>
                                 <TableCell align="center">{employee.dept_id.dept_name}</TableCell>
                                 <TableCell align="center">{employee.desig_id.designation}</TableCell>
