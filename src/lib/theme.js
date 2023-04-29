@@ -1,6 +1,7 @@
 import TableCell from '@mui/material/TableCell';
 import InputBase from '@mui/material/InputBase';
 import ButtonBase from '@mui/material/ButtonBase';
+import { Link } from 'react-router-dom';
 
 import { createTheme } from "@mui/material/styles";
 import { styled, alpha } from '@mui/material/styles';
@@ -86,7 +87,9 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     },
 }))
 
-export const StyledLink = styled('span')(({ theme }) => ({
+export const StyledLink = styled(Link)(({ theme }) => ({
+    textDecoration: 'none',
+    color: 'inherit',
     '&:hover': {
         padding: '0.25rem 0.5rem',
         cursor: 'pointer',

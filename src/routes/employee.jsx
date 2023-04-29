@@ -28,6 +28,8 @@ import {
 } from '../lib/theme';
 import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
 
+import { Link } from "react-router-dom";
+
 export default function EmployeeTable() {
     const [page, setPage] = useState(1);
     const [employeeSearch, setEmployeeSearch] = useState('');
@@ -75,7 +77,18 @@ export default function EmployeeTable() {
                             onChange={(e) => setEmployeeSearch(e.target.value)}
                         />
                     </Search>
-                    <StyledButton sx={{ marginLeft: 'auto'}} >Create</StyledButton>
+                    <Link
+                        to={`create`}
+                        style={{
+                            textDecoration: 'none',
+                            color: 'inherit',
+                            marginLeft: 'auto'
+                        }}
+                    >
+                        <StyledButton>
+                            Create
+                        </StyledButton>
+                    </Link>
                     <StyledButton>...</StyledButton>
                 </Box>
             </AppBar>
@@ -96,7 +109,7 @@ export default function EmployeeTable() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink>{employee.emp_name}</StyledLink>
+                                    <StyledLink to={`/employee/${employee.emp_id}`}>{employee.emp_name}</StyledLink>
                                 </TableCell>
                                 <TableCell align="center">{employee.dept_id.dept_name}</TableCell>
                                 <TableCell align="center">{employee.desig_id.designation}</TableCell>

@@ -25,6 +25,8 @@ import {
 } from '../lib/theme';
 import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
 
+import { Link } from "react-router-dom";
+
 export default function LaptopTable() {
     const [page, setPage] = useState(1);
     const [laptopSearch, setLaptopSearch] = useState('');
@@ -70,7 +72,18 @@ export default function LaptopTable() {
                             onChange={(e) => setLaptopSearch(e.target.value)}
                         />
                     </Search>
-                    <StyledButton sx={{ marginLeft: 'auto'}} >Create</StyledButton>
+                    <Link
+                        to={`create`}
+                        style={{
+                            textDecoration: 'none',
+                            color: 'inherit',
+                            marginLeft: 'auto'
+                        }}
+                    >
+                        <StyledButton>
+                            Create
+                        </StyledButton>
+                    </Link>
                     <StyledButton>...</StyledButton>
                 </Box>
             </AppBar>
@@ -92,7 +105,7 @@ export default function LaptopTable() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink>{laptop.hardware_id}</StyledLink>
+                                    <StyledLink to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</StyledLink>
                                 </TableCell>
                                 <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                 <TableCell align="center">{laptop.processor}</TableCell>
