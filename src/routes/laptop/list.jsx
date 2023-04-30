@@ -22,8 +22,8 @@ import {
     StyledTableCell,
     StyledButton,
     StyledLink
-} from '../lib/theme';
-import { useGetLaptopsQuery } from '../features/laptops/laptopsApiSlice';
+} from '../../lib/theme';
+import { useGetLaptopsQuery } from '../../features/laptops/laptopsApiSlice';
 
 import { Link } from "react-router-dom";
 
@@ -110,7 +110,7 @@ export default function LaptopTable() {
                                 <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                 <TableCell align="center">{laptop.processor}</TableCell>
                                 <TableCell align="center">{laptop.ram_capacity}</TableCell>
-                                <TableCell align="center">{laptop.laptop_branch}</TableCell>
+                                <TableCell align="center">{laptop.laptop_branch.location}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

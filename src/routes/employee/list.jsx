@@ -25,8 +25,8 @@ import {
     StyledTableCell,
     StyledButton,
     StyledLink
-} from '../lib/theme';
-import { useGetEmployeesQuery } from '../features/employees/employeesApiSlice';
+} from '../../lib/theme';
+import { useGetEmployeesQuery } from '../../features/employees/employeesApiSlice';
 
 import { Link } from "react-router-dom";
 

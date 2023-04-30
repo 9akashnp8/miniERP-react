@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client'
 import CssBaseline from '@mui/material/CssBaseline'; // place import before Box
 import Root from './routes/root';
 import ErrorPage from './error-page';
-import EmployeeTable from './routes/employee';
-import LaptopTable from './routes/laptop';
+import EmployeeTable from './routes/employee/list';
+import LaptopTable from './routes/laptop/list';
 import Login from './routes/login';
 import RequireAuth from './features/auth/RequireAuth';
+import EmployeeDetail from './routes/employee/detail';
+import LaptopDetail from './routes/laptop/detail';
 
 // 3rd part
 import{
@@ -35,8 +37,16 @@ const router = createBrowserRouter([
                         element: <EmployeeTable />
                     },
                     {
+                        path: "employee/:id",
+                        element: <EmployeeDetail />
+                    },
+                    {
                         path: "laptop",
                         element: <LaptopTable />
+                    },
+                    {
+                        path: "laptop/:id",
+                        element: <LaptopDetail />
                     }
                 ]
             }

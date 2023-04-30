@@ -9,10 +9,19 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                     url: `employee/?page=${page}&emp_name=${employeeSearch}`
                 }
             },
+        }),
+        getEmployeeDetail: builder.query({
+            query: (args) => {
+                const { id } = args
+                return {
+                    url: `employee/${id}/`
+                }
+            }
         })
     })
 })
 
 export const {
-    useGetEmployeesQuery
+    useGetEmployeesQuery,
+    useGetEmployeeDetailQuery,
 } = employeeApiSlice
