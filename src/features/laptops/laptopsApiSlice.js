@@ -9,10 +9,19 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                     url: `laptop/?page=${page}&search=${laptopSearch}`
                 }
             },
+        }),
+        getLaptopDetail: builder.query({
+            query: (args) => {
+                const { id } = args
+                return {
+                    url: `laptop/${id}/`
+                }
+            }
         })
     })
 })
 
 export const {
-    useGetLaptopsQuery
+    useGetLaptopsQuery,
+    useGetLaptopDetailQuery,
 } = laptopApiSlice

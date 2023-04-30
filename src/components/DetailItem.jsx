@@ -1,21 +1,32 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { darkTheme } from '../lib/theme';
 
-export default function DetailItem({textAlign, title, content}) {
+import { darkTheme, StyledLink } from '../lib/theme';
+
+export default function DetailItem({ breakPoint = 4, textAlign, title, content, isLink, linkTo}) {
     return (
-        <Grid item xs={4} textAlign={textAlign}>
+        <Grid item xs={breakPoint} textAlign={textAlign}>
             <Typography
                 fontSize={'0.75rem'}
                 color={darkTheme.palette.text.secondary}
             >
                 {title}
             </Typography>
-            <Typography
-                fontWeight={'bold'}
-            >
-                {content}
-            </Typography>
+            { 
+                isLink
+                ? (
+                    <StyledLink to={linkTo}>
+                        {content}
+                    </StyledLink>
+                )
+                : (
+                    <Typography
+                        fontWeight={'bold'}
+                    >
+                        {content}
+                    </Typography>
+                )
+            }
         </Grid>
     )
 }
