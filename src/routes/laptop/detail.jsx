@@ -29,7 +29,6 @@ import {
 } from "../../lib/theme";
 import DetailItem from "../../components/DetailItem";
 import { useGetLaptopDetailQuery } from "../../features/laptops/laptopsApiSlice";
-import { calculateLaptopAge } from "../../lib/utils";
 
 export default function LaptopDetail() {
     const { id } = useParams();
