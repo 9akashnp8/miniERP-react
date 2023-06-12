@@ -11,3 +11,15 @@ export function getCookie(name) {
 export function deleteCookie(name) {
     document.cookie = name + '=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+/** 
+ * returns a YYYY-MM-DD date string of current date 
+ */
+export function getCurrentDate(dateObject) {
+  if (dateObject instanceof Date) {
+    let day = dateObject.getDate();
+    let month = dateObject.getMonth();
+    let year = dateObject.getFullYear();
+    return `${year}-${day}-${month}`
+  }
+}

@@ -17,11 +17,19 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                     url: `employee/${id}/`
                 }
             }
-        })
+        }),
+        createNewEmployee: builder.mutation({
+            query: (payload) => ({
+                url: 'employee/',
+                method: 'POST',
+                body: payload
+            })
+        }),
     })
 })
 
 export const {
     useGetEmployeesQuery,
     useGetEmployeeDetailQuery,
+    useCreateNewEmployeeMutation,
 } = employeeApiSlice
