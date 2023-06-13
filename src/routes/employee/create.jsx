@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import { useState, forwardRef } from "react";
 
 import { getCurrentDate } from "../../lib/utils";
+import { FORM_DB_FIELD_MAPPING } from "../../lib/constants";
 import { useGetDesignationsQuery } from "../../features/employees/designationApiSlice";
 import { useGetDepartmentsQuery } from "../../features/employees/departmentApiSlice";
 import { useGetBranchesQuery } from "../../features/employees/branchApiSlice";
@@ -41,16 +42,16 @@ export default function EmployeeCreate() {
             dateJoined: getCurrentDate(),
             dateExited: '',
         },
-        // validationSchema: Yup.object({
-        //     employeeId: Yup.string().required('Required'),
-        //     department: Yup.string().required('Required'),
-        //     designation: Yup.string().required('Required'),
-        //     employeeName: Yup.string().required('Required'),
-        //     emailId: Yup.string().email().required('Required'),
-        //     dateJoined: Yup.string().required('Required'),
-        //     employeeStatus: Yup.string().required('Required'),
-        //     branch: Yup.string().required('Required'),
-        // }),
+        validationSchema: Yup.object({
+            employeeId: Yup.string().required('Required'),
+            department: Yup.string().required('Required'),
+            designation: Yup.string().required('Required'),
+            employeeName: Yup.string().required('Required'),
+            emailId: Yup.string().email().required('Required'),
+            dateJoined: Yup.string().required('Required'),
+            employeeStatus: Yup.string().required('Required'),
+            branch: Yup.string().required('Required'),
+        }),
         onSubmit: (values, {resetForm}) => {
             var payload = {
                 dept_id: values.department,
@@ -64,12 +65,14 @@ export default function EmployeeCreate() {
                 emp_date_joined: values.dateJoined,
                 emp_date_exited: values.dateExited ? values.dateExited : null,
             }
-            console.log(JSON.stringify(payload));
+            // alert(JSON.stringify(payload));
             createNewEmployee(payload)
                 .unwrap()
                 .then(()=> {})
-                .then((error) => {
-                    console.log(error)
+                .catch((error) => {
+                    Object.entries(error.data).forEach(([field, message]) => {
+                        formik.setFieldError(FORM_DB_FIELD_MAPPING[field], message)
+                    })
                 })
         }
     })
