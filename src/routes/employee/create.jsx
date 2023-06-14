@@ -10,6 +10,9 @@ import Box from "@mui/material/Box";
 import FormHelperText from "@mui/material/FormHelperText";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import * as Yup from 'yup';
 import { useFormik } from "formik";
@@ -29,6 +32,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 export default function EmployeeCreate() {
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const formik = useFormik({
         initialValues: {
             employeeId: '',
@@ -39,8 +43,8 @@ export default function EmployeeCreate() {
             mobileNumber: '',
             employeeStatus: 'Active',
             branch: '',
-            dateJoined: getCurrentDate(),
-            dateExited: '',
+            dateJoined: getCurrentDate(new Date()),
+            dateExited: null,
         },
         validationSchema: Yup.object({
             employeeId: Yup.string().required('Required'),
@@ -52,7 +56,8 @@ export default function EmployeeCreate() {
             employeeStatus: Yup.string().required('Required'),
             branch: Yup.string().required('Required'),
         }),
-        onSubmit: (values, {resetForm}) => {
+        onSubmit: (values, { resetForm }) => {
+            setLoading(true)
             var payload = {
                 dept_id: values.department,
                 desig_id: values.designation,
@@ -65,20 +70,23 @@ export default function EmployeeCreate() {
                 emp_date_joined: values.dateJoined,
                 emp_date_exited: values.dateExited ? values.dateExited : null,
             }
-            // alert(JSON.stringify(payload));
             createNewEmployee(payload)
                 .unwrap()
-                .then(()=> {})
+                .then((res) => {
+                    setOpen(true)
+                    resetForm();
+                })
                 .catch((error) => {
                     Object.entries(error.data).forEach(([field, message]) => {
                         formik.setFieldError(FORM_DB_FIELD_MAPPING[field], message)
                     })
                 })
+                .finally(() => setLoading(false))
         }
     })
     const {
         data: designations
-    } = useGetDesignationsQuery({ deptId: formik.values.department});
+    } = useGetDesignationsQuery({ deptId: formik.values.department });
     const {
         data: departments
     } = useGetDepartmentsQuery();
@@ -90,7 +98,7 @@ export default function EmployeeCreate() {
     ] = useCreateNewEmployeeMutation();
 
     function handleClose(event, reason) {
-        if (reason ===  'clickaway') {
+        if (reason === 'clickaway') {
             return;
         }
         setOpen(false);
@@ -98,7 +106,12 @@ export default function EmployeeCreate() {
 
     return (
         <Box sx={{ maxWidth: "80%", margin: "auto", py: 3 }}>
-            <Paper sx={{ p: 5 }} variant="outlined">
+            <Typography variant="h4" component="h1" gutterBottom>
+                Add Employee
+            </Typography>
+            <Divider />
+            {loading ? <LinearProgress /> : null}
+            <Paper sx={{ pt: 3 }} variant="">
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
@@ -354,7 +367,7 @@ export default function EmployeeCreate() {
                         </Grid>
                     </Grid>
                 </form>
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
                     <Alert
                         onClose={handleClose}
                         severity="success"

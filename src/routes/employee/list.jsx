@@ -111,9 +111,9 @@ export default function EmployeeTable() {
                                 <TableCell component="th" scope="row" align="center">
                                     <StyledLink to={`/employee/${employee.emp_id}`}>{employee.emp_name}</StyledLink>
                                 </TableCell>
-                                <TableCell align="center">{employee.dept_id.dept_name}</TableCell>
-                                <TableCell align="center">{employee.desig_id.designation}</TableCell>
-                                <TableCell align="center">{employee.loc_id.location}</TableCell>
+                                <TableCell align="center">{employee.dept_id?.dept_name}</TableCell>
+                                <TableCell align="center">{employee.desig_id?.designation}</TableCell>
+                                <TableCell align="center">{employee.loc_id?.location}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

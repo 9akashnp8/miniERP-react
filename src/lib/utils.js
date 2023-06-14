@@ -17,9 +17,6 @@ export function deleteCookie(name) {
  */
 export function getCurrentDate(dateObject) {
   if (dateObject instanceof Date) {
-    let day = dateObject.getDate();
-    let month = dateObject.getMonth();
-    let year = dateObject.getFullYear();
-    return `${year}-${day}-${month}`
+    return dateObject.toISOString().split('T')[0]
   }
 }
