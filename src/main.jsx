@@ -10,6 +10,7 @@ import RequireAuth from './features/auth/RequireAuth';
 import EmployeeDetail from './routes/employee/detail';
 import LaptopDetail from './routes/laptop/detail';
 import EmployeeCreate from './routes/employee/create';
+import EmployeeHistory from './routes/employee/history';
 
 // 3rd part
 import{
@@ -46,13 +47,17 @@ const router = createBrowserRouter([
                         element: <EmployeeDetail />
                     },
                     {
+                        path: "employee/:id/history",
+                        element: <EmployeeHistory />
+                    },
+                    {
                         path: "laptop",
                         element: <LaptopTable />
                     },
                     {
                         path: "laptop/:id",
                         element: <LaptopDetail />
-                    }
+                    },
                 ]
             }
         ]

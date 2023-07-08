@@ -25,6 +25,14 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 body: payload
             })
         }),
+        getEmployeeHistory: builder.query({
+            query: (args) => {
+                const { id } = args
+                return {
+                    url: `employee/${id}/history/`
+                }
+            }
+        }),
     })
 })
 
@@ -32,4 +40,5 @@ export const {
     useGetEmployeesQuery,
     useGetEmployeeDetailQuery,
     useCreateNewEmployeeMutation,
+    useGetEmployeeHistoryQuery,
 } = employeeApiSlice
