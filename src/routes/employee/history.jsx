@@ -25,6 +25,10 @@ export default function EmployeeHistory() {
         error
     } = useGetEmployeeHistoryQuery({ id: id });
 
+    if (isLoading) {
+        return "Loading..."
+    }
+
     return (
         <>
             <Typography variant="h4" component="h1" pb={2} >
