@@ -28,6 +28,7 @@ import {
     StyledLink
 } from "../../lib/theme";
 import DetailItem from "../../components/DetailItem";
+import Delete from "../../components/Delete";
 import { useGetEmployeeDetailQuery } from "../../features/employees/employeesApiSlice";
 
 
@@ -73,7 +74,15 @@ export default function EmployeeDetail() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
-                        sx={{ marginTop: '10px' }}
+                        sx={{ marginTop: '10px'}}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
                     >
                         <MenuItem onClick={handleClose}>
                             <Link
@@ -83,14 +92,7 @@ export default function EmployeeDetail() {
                                 History
                             </Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Link
-                                to={`delete`}
-                                style={{ textDecoration: 'none', color: 'inherit' }}
-                            >
-                                Delete
-                            </Link>
-                        </MenuItem>
+                        <Delete employeeId={id}/>
                     </Menu>
                 </Stack>
                 <Paper variant="outlined">

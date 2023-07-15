@@ -25,6 +25,12 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 body: payload
             })
         }),
+        deleteEmployee: builder.mutation({
+            query: (id) => ({
+                url: `/employee/${id}/`,
+                method: 'DELETE',
+            }),
+        }),
         getEmployeeHistory: builder.query({
             query: (args) => {
                 const { id } = args
@@ -40,5 +46,6 @@ export const {
     useGetEmployeesQuery,
     useGetEmployeeDetailQuery,
     useCreateNewEmployeeMutation,
+    useDeleteEmployeeMutation,
     useGetEmployeeHistoryQuery,
 } = employeeApiSlice
