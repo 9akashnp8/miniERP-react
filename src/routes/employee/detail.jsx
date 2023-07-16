@@ -55,7 +55,7 @@ export default function EmployeeDetail() {
             <>
                 <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
                     <Typography variant="h4" component="h1">
-                        {employee.emp_name}
+                        {employee?.emp_name}
                     </Typography>
                     <Link
                         to={`edit`}
@@ -100,32 +100,32 @@ export default function EmployeeDetail() {
                         <DetailItem
                             textAlign={'left'}
                             title={'Employee Id'}
-                            content={employee.lk_emp_id}
+                            content={employee?.lk_emp_id}
                         />
                         <DetailItem
                             textAlign={'center'}
                             title={'Email'}
-                            content={employee.emp_email}
+                            content={employee?.emp_email}
                         />
                         <DetailItem
                             textAlign={'right'}
                             title={'Branch'}
-                            content={employee.loc_id.location}
+                            content={employee?.loc_id?.location}
                         />
                         <DetailItem
                             textAlign={'left'}
                             title={'Department'}
-                            content={employee.dept_id.dept_name}
+                            content={employee?.dept_id?.dept_name}
                         />
                         <DetailItem
                             textAlign={'center'}
                             title={'Designation'}
-                            content={employee.desig_id.designation}
+                            content={employee?.desig_id?.designation}
                         />
                         <DetailItem
                             textAlign={'right'}
                             title={'Date Joined'}
-                            content={employee.emp_date_joined}
+                            content={employee?.emp_date_joined}
                         />
                     </Grid>
                 </Paper>
