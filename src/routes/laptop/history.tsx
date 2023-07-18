@@ -13,6 +13,7 @@ import {
     StyledTableCell,
 } from '../../lib/theme';
 import { useGetLaptopHistoryQuery } from '../../features/laptops/laptopsApiSlice';
+import { LaptopHistoryItem } from '../../types/laptop';
 
 export default function LaptopHistory() {
     const { id } = useParams();
@@ -45,7 +46,7 @@ export default function LaptopHistory() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {laptopHistory.history.map((history) => (
+                            {laptopHistory.history.map((history: LaptopHistoryItem) => (
                                 <TableRow
                                     key={history.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

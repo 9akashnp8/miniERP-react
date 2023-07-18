@@ -12,6 +12,7 @@ import LaptopDetail from './routes/laptop/detail';
 import LaptopHistory from './routes/laptop/history';
 import EmployeeCreate from './routes/employee/create';
 import EmployeeHistory from './routes/employee/history';
+import EmployeeEdit from './routes/employee/edit';
 
 // 3rd part
 import{
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
                         element: <EmployeeHistory />
                     },
                     {
+                        path: "employee/:id/edit",
+                        element: <EmployeeEdit />
+                    },
+                    {
                         path: "laptop",
                         element: <LaptopTable />
                     },
@@ -74,7 +79,7 @@ const router = createBrowserRouter([
     }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root') as Element).render(
     <React.StrictMode>
         <Provider store={store}>
             <CssBaseline />

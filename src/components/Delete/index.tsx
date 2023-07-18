@@ -6,9 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDeleteEmployeeMutation } from '../../features/employees/employeesApiSlice';
 
-export default function ({ employeeId }) {
+interface DeleteComponentProps {
+    employeeId: number
+}
+
+export default function ({ employeeId }: DeleteComponentProps) {
     const navigate = useNavigate();
-    const [ content, setContent ] = useState("Delete")
+    const [ content, setContent ] = useState<any>("Delete") // TODO: change this
     const [ deleteResource ]  = useDeleteEmployeeMutation();
 
     const handleDelete = async () => {
