@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDeleteEmployeeMutation } from '../../features/employees/employeesApiSlice';
 
 interface DeleteComponentProps {
-    employeeId: number
+    employeeId: string | undefined
 }
 
 export default function ({ employeeId }: DeleteComponentProps) {
