@@ -35,6 +35,7 @@ api.interceptors.response.use(function (config) {
             .post('/token/refresh/', {}, { withCredentials: true })
             .then((response) => {
                 const accessExpiry = getFiveMinsFromNow();
+                const accessToken = getCookie("access");
                 document.cookie =  `access=${accessToken}; path=/; expires=${accessExpiry.toUTCString()}`;
                 api.defaults.headers['Authorization'] =
                     'Bearer ' + response.data.access;

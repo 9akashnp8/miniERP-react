@@ -25,7 +25,7 @@ async function baseQueryWithReauth(args: any, api: any, extraOptions: any) { // 
             api.dispatch(setCredentials({ ...refreshResult.data }))
             result = await baseQuery(args, api, extraOptions)
         } else {
-            api.dispatch(logOut())
+            api.dispatch(logOut({}))
         }
     }
 
