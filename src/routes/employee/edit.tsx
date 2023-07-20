@@ -1,3 +1,4 @@
+import * as React from 'react';
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import FormHelperText from "@mui/material/FormHelperText";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -26,8 +27,15 @@ import { useGetDesignationsQuery } from "../../features/employees/designationApi
 import { useGetDepartmentsQuery } from "../../features/employees/departmentApiSlice";
 import { useGetBranchesQuery } from "../../features/employees/branchApiSlice";
 import { useUpdateEmployeeMutation, useGetEmployeeDetailQuery } from "../../features/employees/employeesApiSlice";
+import { SnackbarCloseReason } from "@mui/material/Snackbar";
+import { Department, Designation } from "../../types/employee";
+import { Location } from "../../types/employee";
+import { FormFieldMapping } from "../../types/common";
 
-const Alert = forwardRef(function Alert(props, ref) {
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
@@ -83,8 +91,8 @@ export default function EmployeeEdit() {
                     resetForm();
                 })
                 .catch((error) => {
-                    Object.entries(error.data).forEach(([field, message]) => {
-                        formik.setFieldError(FORM_DB_FIELD_MAPPING[field], message)
+                    Object.entries(error.data).forEach(([field, message]: [string, any]) => { // TODO: Change this
+                        formik.setFieldError(FORM_DB_FIELD_MAPPING[field as keyof FormFieldMapping], message)
                     })
                 })
                 .finally(() => setLoading(false))
@@ -103,7 +111,7 @@ export default function EmployeeEdit() {
         updateEmployee, response
     ] = useUpdateEmployeeMutation();
 
-    function handleClose(event, reason) {
+    function handleClose(event: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason) {
         if (reason === 'clickaway') {
             return;
         }
@@ -118,7 +126,7 @@ export default function EmployeeEdit() {
                 </Typography>
                 <Divider />
                 {loading ? <LinearProgress /> : null}
-                <Paper sx={{ pt: 3 }} variant="">
+                <Paper sx={{ pt: 3 }}>
                     <form onSubmit={formik.handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
@@ -131,10 +139,10 @@ export default function EmployeeEdit() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.employeeId}
-                                    error={formik.touched.employeeId && formik.errors.employeeId}
+                                    error={Boolean(formik.touched.employeeId && formik.errors.employeeId)}
                                     helperText={
                                         formik.touched.employeeId && formik.errors.employeeId
-                                            ? formik.errors.employeeId
+                                            ? String(formik.errors.employeeId)
                                             : null
                                     }
                                 />
@@ -149,12 +157,12 @@ export default function EmployeeEdit() {
                                         label="Department"
                                         labelId="department-label"
                                         value={formik.values.department}
-                                        onChange={formik.handleChange("department")}
+                                        onChange={() => formik.handleChange("department")}
                                         onBlur={formik.handleBlur("department")}
-                                        error={formik.touched.department && formik.errors.department}
+                                        error={Boolean(formik.touched.department && formik.errors.department)}
                                     >
                                         {departments
-                                            ? departments.results.map((department) => {
+                                            ? departments.results.map((department: Department) => {
                                                 return (
                                                     <MenuItem
                                                         key={department.department_id}
@@ -168,7 +176,7 @@ export default function EmployeeEdit() {
                                     </Select>
                                     <FormHelperText error>
                                         {formik.touched.department && formik.errors.department
-                                            ? formik.errors.department
+                                            ? String(formik.errors.department)
                                             : null}
                                     </FormHelperText>
                                 </FormControl>
@@ -183,14 +191,14 @@ export default function EmployeeEdit() {
                                         label="Designation"
                                         labelId="designation-label"
                                         value={formik.values.designation || employee.dept_id?.department_id}
-                                        onChange={formik.handleChange("designation")}
+                                        onChange={() => formik.handleChange("designation")}
                                         onBlur={formik.handleBlur("designation")}
                                         error={
-                                            formik.touched.designation && formik.errors.designation
+                                            Boolean(formik.touched.designation && formik.errors.designation)
                                         }
                                     >
                                         {designations
-                                            ? designations.results.map((designation) => {
+                                            ? designations.results.map((designation: Designation) => {
                                                 return (
                                                     <MenuItem
                                                         key={designation.designation_id}
@@ -204,7 +212,7 @@ export default function EmployeeEdit() {
                                     </Select>
                                     <FormHelperText error>
                                         {formik.touched.designation && formik.errors.designation
-                                            ? formik.errors.designation
+                                            ? String(formik.errors.designation)
                                             : null}
                                     </FormHelperText>
                                 </FormControl>
@@ -220,11 +228,11 @@ export default function EmployeeEdit() {
                                     onBlur={formik.handleBlur}
                                     value={formik.values.employeeName || employee.emp_name}
                                     error={
-                                        formik.touched.employeeName && formik.errors.employeeName
+                                        Boolean(formik.touched.employeeName && formik.errors.employeeName)
                                     }
                                     helperText={
                                         formik.touched.employeeName && formik.errors.employeeName
-                                            ? formik.errors.employeeName
+                                            ? String(formik.errors.employeeName)
                                             : null
                                     }
                                 />
@@ -239,10 +247,10 @@ export default function EmployeeEdit() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.emailId || employee.emp_email}
-                                    error={formik.touched.emailId && formik.errors.emailId}
+                                    error={Boolean(formik.touched.emailId && formik.errors.emailId)}
                                     helperText={
                                         formik.touched.emailId && formik.errors.emailId
-                                            ? formik.errors.emailId
+                                            ? String(formik.errors.emailId)
                                             : null
                                     }
                                 />
@@ -258,11 +266,11 @@ export default function EmployeeEdit() {
                                     onBlur={formik.handleBlur}
                                     value={formik.values.mobileNumber || employee.emp_phone}
                                     error={
-                                        formik.touched.mobileNumber && formik.errors.mobileNumber
+                                        Boolean(formik.touched.mobileNumber && formik.errors.mobileNumber)
                                     }
                                     helperText={
                                         formik.touched.mobileNumber && formik.errors.mobileNumber
-                                            ? formik.errors.mobileNumber
+                                            ? String(formik.errors.mobileNumber)
                                             : null
                                     }
                                 />
@@ -279,11 +287,10 @@ export default function EmployeeEdit() {
                                         label="Employee Status"
                                         labelId="status-label"
                                         value={formik.values.employeeStatus || employee.emp_status}
-                                        onChange={formik.handleChange("employeeStatus")}
+                                        onChange={() => formik.handleChange("employeeStatus")}
                                         onBlur={formik.handleBlur("employeeStatus")}
                                         error={
-                                            formik.touched.employeeStatus &&
-                                            formik.errors.employeeStatus
+                                            Boolean(formik.touched.employeeStatus && formik.errors.employeeStatus)
                                         }
                                     >
                                         <MenuItem value="Active">Active</MenuItem>
@@ -291,7 +298,7 @@ export default function EmployeeEdit() {
                                     </Select>
                                     <FormHelperText error>
                                         {formik.touched.employeeStatus && formik.errors.employeeStatus
-                                            ? formik.errors.employeeStatus
+                                            ? String(formik.errors.employeeStatus)
                                             : null}
                                     </FormHelperText>
                                 </FormControl>
@@ -305,12 +312,12 @@ export default function EmployeeEdit() {
                                         label="Branch"
                                         labelId="branch-label"
                                         value={formik.values.branch || employee.loc_id?.location_id}
-                                        onChange={formik.handleChange("branch")}
+                                        onChange={() => formik.handleChange("branch")}
                                         onBlur={formik.handleBlur("branch")}
-                                        error={formik.touched.branch && formik.errors.branch}
+                                        error={Boolean(formik.touched.branch && formik.errors.branch)}
                                     >
                                         {branches
-                                            ? branches.results.map((branch) => {
+                                            ? branches.results.map((branch: Location) => {
                                                 return (
                                                     <MenuItem
                                                         key={branch.location_id}
@@ -324,7 +331,7 @@ export default function EmployeeEdit() {
                                     </Select>
                                     <FormHelperText error>
                                         {formik.touched.branch && formik.errors.branch
-                                            ? formik.errors.branch
+                                            ? String(formik.errors.branch)
                                             : null}
                                     </FormHelperText>
                                 </FormControl>
@@ -340,10 +347,10 @@ export default function EmployeeEdit() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.dateJoined || employee.emp_date_joined}
-                                    error={formik.touched.dateJoined && formik.errors.dateJoined}
+                                    error={Boolean(formik.touched.dateJoined && formik.errors.dateJoined)}
                                     helperText={
                                         formik.touched.dateJoined && formik.errors.dateJoined
-                                            ? formik.errors.dateJoined
+                                            ? String(formik.errors.dateJoined)
                                             : null
                                     }
                                 />
@@ -359,10 +366,10 @@ export default function EmployeeEdit() {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.dateExited || employee.emp_date_exited}
-                                    error={formik.touched.dateExited && formik.errors.dateExited}
+                                    error={Boolean(formik.touched.dateExited && formik.errors.dateExited)}
                                     helperText={
                                         formik.touched.dateExited && formik.errors.dateExited
-                                            ? formik.errors.dateExited
+                                            ? String(formik.errors.dateExited)
                                             : null
                                     }
                                 />
@@ -376,7 +383,7 @@ export default function EmployeeEdit() {
                     </form>
                     <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
                         <Alert
-                            onClose={handleClose}
+                            onClose={() => handleClose}
                             severity="success"
                             sx={{ width: "100%" }}
                         >

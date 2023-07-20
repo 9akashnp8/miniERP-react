@@ -27,6 +27,7 @@ import {
     StyledLink
 } from '../../lib/theme';
 import { useGetEmployeesQuery } from '../../features/employees/employeesApiSlice';
+import { Employee } from '../../types/employee';
 
 import { Link } from "react-router-dom";
 
@@ -43,10 +44,10 @@ export default function EmployeeTable() {
     } = useGetEmployeesQuery({page: page, employeeSearch: employeeSearch});
 
     const handleChangePage = useCallback(
-        (event, newPage) => {
+        (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
             console.log(newPage)
             setPage(newPage + 1);
-        }
+        }, []
     );
 
     if (isLoading) {
@@ -103,9 +104,9 @@ export default function EmployeeTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {employees.results.map((employee) => (
+                        {employees.results.map((employee: Employee) => (
                             <TableRow
-                                key={employee.id}
+                                key={employee.emp_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">

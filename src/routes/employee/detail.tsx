@@ -30,6 +30,8 @@ import {
 import DetailItem from "../../components/DetailItem";
 import Delete from "../../components/Delete";
 import { useGetEmployeeDetailQuery } from "../../features/employees/employeesApiSlice";
+import { Laptop } from "../../types/laptop";
+import { OnClickEvent } from "../../types/common";
 
 
 export default function EmployeeDetail() {
@@ -41,9 +43,9 @@ export default function EmployeeDetail() {
         isError,
         error
     } = useGetEmployeeDetailQuery({ id: id });
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState<null | EventTarget & HTMLButtonElement>(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event) => {
+    const handleClick = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -147,7 +149,7 @@ export default function EmployeeDetail() {
                             </TableHead>
                             <TableBody>
                                 {employee.laptops.length > 0
-                                    ? employee.laptops.map((laptop) => (
+                                    ? employee.laptops.map((laptop: Laptop) => (
                                         <TableRow
                                             key={laptop.id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -164,7 +166,7 @@ export default function EmployeeDetail() {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell colSpan={3} align="center">
-                                                <StyledLink >No Laptops Assigned</StyledLink>
+                                                <StyledLink to={'#'} >No Laptops Assigned</StyledLink>
                                             </TableCell>
                                         </TableRow>
                                     )
