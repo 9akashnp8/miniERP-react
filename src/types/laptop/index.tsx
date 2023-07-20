@@ -37,17 +37,3 @@ export interface Laptop {
     laptop_branch: Branch;
     laptop_building: Building;
 }
-
-export interface LaptopHistoryItem {
-    id: number;
-    history_date: string;
-    field: string;
-    old_value?: string | number;
-    new_value?: string | number;
-    history_user?: string
-}
-
-export interface LaptopHistory {
-    laptop: string;
-    history: LaptopHistoryItem[]
-}

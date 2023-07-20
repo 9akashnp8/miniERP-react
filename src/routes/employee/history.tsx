@@ -13,6 +13,7 @@ import {
     StyledTableCell,
 } from '../../lib/theme';
 import { useGetEmployeeHistoryQuery } from '../../features/employees/employeesApiSlice';
+import { HistoryItem } from '../../types/common';
 
 export default function EmployeeHistory() {
     const { id } = useParams();
@@ -46,7 +47,7 @@ export default function EmployeeHistory() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {employeeHistory.history.map((history) => (
+                        {employeeHistory.history.map((history: HistoryItem) => (
                             <TableRow
                                 key={history.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
