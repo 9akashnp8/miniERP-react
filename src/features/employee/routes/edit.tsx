@@ -17,7 +17,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 import * as Yup from 'yup';
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { useState, forwardRef } from "react";
 
@@ -41,6 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 export default function EmployeeEdit() {
     let { id } = useParams();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const { 
@@ -84,11 +85,13 @@ export default function EmployeeEdit() {
                 emp_date_joined: values.dateJoined,
                 emp_date_exited: values.dateExited ? values.dateExited : null,
             }
-            updateEmployee(payload)
+            updateEmployee({ id: id, payload: payload })
                 .unwrap()
                 .then((res) => {
-                    setOpen(true)
-                    resetForm();
+                    setOpen(true);
+                    setTimeout(() => {
+                        navigate('/employee/')
+                    }, 1000)
                 })
                 .catch((error) => {
                     Object.entries(error.data).forEach(([field, message]: [string, any]) => { // TODO: Change this
@@ -387,7 +390,7 @@ export default function EmployeeEdit() {
                             severity="success"
                             sx={{ width: "100%" }}
                         >
-                            Employee Added Successfully
+                            Employee Edited Successfully
                         </Alert>
                     </Snackbar>
                 </Box>
