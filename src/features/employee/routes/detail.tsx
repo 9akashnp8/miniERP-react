@@ -29,6 +29,7 @@ import {
 } from "../../../lib/theme";
 import DetailItem from "../../common/components/DetailContent";
 import Delete from "../../common/components/Delete";
+import StatusInfo from "../components/StatusInfo";
 import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
 import { Laptop } from "../../../types/laptop";
 import { OnClickEvent } from "../../../types/common";
@@ -56,9 +57,12 @@ export default function EmployeeDetail() {
         return (
             <>
                 <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
-                    <Typography variant="h4" component="h1">
-                        {employee?.emp_name}
-                    </Typography>
+                    <Stack direction={"row"} spacing={2} alignItems={"center"} useFlexGap>
+                        <Typography variant="h4" component="h1">
+                            {employee?.emp_name}
+                        </Typography>
+                        <StatusInfo isActive={employee?.emp_status == 'Active'} />
+                    </Stack>
                     <Link
                         to={`edit`}
                         style={{ textDecoration: 'none', color: 'inherit', marginLeft: 'auto' }}
