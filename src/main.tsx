@@ -1,18 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import CssBaseline from '@mui/material/CssBaseline'; // place import before Box
-import Root from './routes/root';
+import Root from './features/common/routes/root';
 import ErrorPage from './error-page';
-import EmployeeTable from './routes/employee/list';
-import LaptopTable from './routes/laptop/list';
-import Login from './routes/login';
+import EmployeeTable from './features/employee/routes/list';
+import LaptopTable from './features/laptop/routes/list';
+import Login from './features/auth/routes/login';
 import RequireAuth from './features/auth/RequireAuth';
-import EmployeeDetail from './routes/employee/detail';
-import LaptopDetail from './routes/laptop/detail';
-import LaptopHistory from './routes/laptop/history';
-import EmployeeCreate from './routes/employee/create';
-import EmployeeHistory from './routes/employee/history';
-import EmployeeEdit from './routes/employee/edit';
+import EmployeeDetail from './features/employee/routes/detail';
+import LaptopDetail from './features/laptop/routes/detail';
+import LaptopHistory from './features/laptop/routes/history';
+import EmployeeCreate from './features/employee/routes/create';
+import EmployeeHistory from './features/employee/routes/history';
+import EmployeeEdit from './features/employee/routes/edit';
 
 // 3rd part
 import{

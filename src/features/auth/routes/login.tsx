@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { setCredentials } from "../features/auth/authSlice";
-import { useLoginMutation } from "../features/auth/authApiSlice";
-import { OnSubmitEvent } from "../types/common";
+import { setCredentials } from "../authSlice";
+import { useLoginMutation } from "../authApiSlice";
+import { OnSubmitEvent } from "../../../types/common";
 
 export default function Login() {
     const navigate = useNavigate();

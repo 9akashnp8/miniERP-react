@@ -19,17 +19,17 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-import { deleteCookie } from '../lib/utils';
+import { deleteCookie } from '../../../../lib/utils';
 
 // Types
 import {
     FCWithChildren,
     OnClickEvent
-} from '../types/common';
+} from '../../../../types/common';
 
 const drawerWidth = 200;
 
-export default function SideDrawer ({ children }: FCWithChildren) {
+export default function ({ children }: FCWithChildren) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
 

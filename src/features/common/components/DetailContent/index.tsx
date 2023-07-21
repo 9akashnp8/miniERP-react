@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { darkTheme, StyledLink } from '../lib/theme';
+import { darkTheme, StyledLink } from '../../../../lib/theme';
 
 interface DetailItemProps {
     breakPoint?: number,
@@ -12,7 +12,7 @@ interface DetailItemProps {
     linkTo?: string
 }
 
-export default function DetailItem({
+export default function ({
     breakPoint = 4,
     textAlign,
     title,

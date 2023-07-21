@@ -26,10 +26,10 @@ import {
     StyledButton,
     StyledTableCell,
     StyledLink
-} from "../../lib/theme";
-import DetailItem from "../../components/DetailItem";
-import { useGetLaptopDetailQuery } from "../../features/laptops/laptopsApiSlice";
-import { OnClickEvent } from "../../types/common";
+} from "../../../lib/theme";
+import DetailItem from "../../common/components/DetailContent";
+import { useGetLaptopDetailQuery } from "../laptopsApiSlice";
+import { OnClickEvent } from "../../../types/common";
 
 export default function LaptopDetail() {
     const { id } = useParams();

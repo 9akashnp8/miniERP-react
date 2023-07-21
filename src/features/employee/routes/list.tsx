@@ -1,4 +1,7 @@
-import { useState, useCallback } from 'react';
+import {
+    useState,
+    useCallback
+} from 'react';
 
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -11,8 +14,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
 import {
@@ -22,22 +25,23 @@ import {
     StyledTableCell,
     StyledButton,
     StyledLink
-} from '../../lib/theme';
-import { useGetLaptopsQuery } from '../../features/laptops/laptopsApiSlice';
-import { OnClickEvent } from '../../types/common';
-import { Laptop } from '../../types/laptop';
+} from '../../../lib/theme';
+import { useGetEmployeesQuery } from '../employeesApiSlice';
+import { Employee } from '../../../types/employee';
 
 import { Link } from "react-router-dom";
 
-export default function LaptopTable() {
+export default function EmployeeTable() {
     const [page, setPage] = useState(1);
-    const [laptopSearch, setLaptopSearch] = useState('');
+    const [employeeSearch, setEmployeeSearch] = useState('');
+
     const {
-        data: laptops,
+        data: employees,
         isLoading,
+        isFetching,
         isError,
         error
-    } = useGetLaptopsQuery({ page: page, laptopSearch: laptopSearch });
+    } = useGetEmployeesQuery({page: page, employeeSearch: employeeSearch});
 
     const handleChangePage = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
@@ -71,7 +75,7 @@ export default function LaptopTable() {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
-                            onChange={(e) => setLaptopSearch(e.target.value)}
+                            onChange={(e) => setEmployeeSearch(e.target.value)}
                         />
                     </Search>
                     <Link
@@ -89,30 +93,28 @@ export default function LaptopTable() {
                     <StyledButton>...</StyledButton>
                 </Box>
             </AppBar>
-            <TableContainer component={Paper} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
+            <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">Laptop HW ID</StyledTableCell>
-                            <StyledTableCell align="center">Serial Number</StyledTableCell>
-                            <StyledTableCell align="center">Processor</StyledTableCell>
-                            <StyledTableCell align="center">RAM</StyledTableCell>
-                            <StyledTableCell align="center">Location</StyledTableCell>
+                            <StyledTableCell align="center">Employee Name</StyledTableCell>
+                            <StyledTableCell align="center">Department</StyledTableCell>
+                            <StyledTableCell align="center">Designation</StyledTableCell>
+                            <StyledTableCell align="center">Branch</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {laptops.results.map((laptop: Laptop) => ( // TODO: change this
+                        {employees.results.map((employee: Employee) => (
                             <TableRow
-                                key={laptop.id}
+                                key={employee.emp_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</StyledLink>
+                                    <StyledLink to={`/employee/${employee.emp_id}`}>{employee.emp_name}</StyledLink>
                                 </TableCell>
-                                <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
-                                <TableCell align="center">{laptop.processor}</TableCell>
-                                <TableCell align="center">{laptop.ram_capacity}</TableCell>
-                                <TableCell align="center">{laptop.laptop_branch.location}</TableCell>
+                                <TableCell align="center">{employee.dept_id?.dept_name}</TableCell>
+                                <TableCell align="center">{employee.desig_id?.designation}</TableCell>
+                                <TableCell align="center">{employee.loc_id?.location}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -121,7 +123,7 @@ export default function LaptopTable() {
             <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
-                count={laptops.count}
+                count={employees.count}
                 rowsPerPage={10}
                 page={page - 1}
                 onPageChange={handleChangePage}
