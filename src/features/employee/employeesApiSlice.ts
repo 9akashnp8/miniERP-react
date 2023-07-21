@@ -26,11 +26,11 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
             })
         }),
         updateEmployee: builder.mutation({
-            query: (payload) => ({
-                url: 'employee/',
-                method: 'PUT',
-                body: payload
-            })
+            query: (args) => ({
+                url: `employee/${args.id}/`,
+                method: 'PATCH',
+                body: args.payload
+            }),
         }),
         deleteEmployee: builder.mutation({
             query: (id) => ({
