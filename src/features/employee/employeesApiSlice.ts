@@ -9,6 +9,7 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                     url: `employee/?page=${page}&emp_name=${employeeSearch}`
                 }
             },
+            providesTags: ['Employee']
         }),
         getEmployeeDetail: builder.query({
             query: (args) => {
@@ -31,6 +32,7 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: args.payload
             }),
+            invalidatesTags: ['Employee']
         }),
         deleteEmployee: builder.mutation({
             query: (id) => ({
