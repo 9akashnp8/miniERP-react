@@ -17,7 +17,8 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 return {
                     url: `employee/${id}/`
                 }
-            }
+            },
+            providesTags: ['Employee'] // TODO: provide tag based on id.
         }),
         createNewEmployee: builder.mutation({
             query: (payload) => ({
