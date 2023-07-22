@@ -25,7 +25,14 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                     url: `laptop/${id}/history/`
                 }
             }
-        })
+        }),
+        returnLaptop: builder.mutation({
+            query: (payload) => ({
+                url: `laptop/${payload.laptop_id}/return/`,
+                method: 'POST',
+                body: payload
+            })
+        }),
     })
 })
 
@@ -33,4 +40,5 @@ export const {
     useGetLaptopsQuery,
     useGetLaptopDetailQuery,
     useGetLaptopHistoryQuery,
+    useReturnLaptopMutation,
 } = laptopApiSlice

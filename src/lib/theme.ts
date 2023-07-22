@@ -87,6 +87,12 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     },
 }))
 
+export const SecondaryButton = styled(StyledButton)(({ theme }) => ({
+    fontSize: '0.75rem',
+    padding: '0.35rem',
+    backgroundColor: 'transparent'
+}))
+
 export const StyledLink = styled(Link)(({ theme }) => ({
     textDecoration: 'none',
     color: 'inherit',
