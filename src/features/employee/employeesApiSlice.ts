@@ -18,7 +18,10 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                     url: `employee/${id}/`
                 }
             },
-            providesTags: ['Employee'] // TODO: provide tag based on id.
+            providesTags: (result, error, args) =>
+                result
+                    ? [{type: 'Employee', id: result.emp_id}]
+                    : ['Employee'] // TODO: provide tag based on id.
         }),
         createNewEmployee: builder.mutation({
             query: (payload) => ({
@@ -33,7 +36,7 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: args.payload
             }),
-            invalidatesTags: ['Employee']
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.id}]
         }),
         deleteEmployee: builder.mutation({
             query: (id) => ({
