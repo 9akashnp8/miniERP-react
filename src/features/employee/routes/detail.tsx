@@ -55,10 +55,7 @@ export default function EmployeeDetail() {
     let { id } = useParams();
     const {
         data: employee,
-        isLoading,
-        isFetching,
-        isError,
-        error
+        isLoading
     } = useGetEmployeeDetailQuery({ id: id });
     const [ returnLaptop ] = useReturnLaptopMutation()
     const formik = useFormik({
@@ -71,7 +68,7 @@ export default function EmployeeDetail() {
             returnDate: Yup.date().required()
         }),
         onSubmit: (values) => 
-            handleReturnDialogSubmit(values)
+            handleReturnDialogSubmit(2)
     })
     const [anchorEl, setAnchorEl] = useState<null | EventTarget & HTMLButtonElement>(null);
     const [ returnDialogOpen, setReturnDialogOpen ] = useState<boolean>(false);
@@ -294,7 +291,7 @@ export default function EmployeeDetail() {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell colSpan={4} align="center">
-                                                <StyledLink to={'#'} >No Laptops Assigned</StyledLink>
+                                                No Laptops Assigned
                                             </TableCell>
                                         </TableRow>
                                     )

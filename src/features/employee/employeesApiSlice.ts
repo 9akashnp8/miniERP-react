@@ -11,7 +11,7 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
             },
             providesTags: ['Employee']
         }),
-        getEmployeeDetail: builder.query({
+        getEmployeeDetail: builder.query({ // TODO: get employee laptops from separate api
             query: (args) => {
                 const { id } = args
                 return {

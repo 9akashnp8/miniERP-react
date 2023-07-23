@@ -29,13 +29,7 @@ import { useCreateNewEmployeeMutation } from "../employeesApiSlice";
 import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import { FormFieldMapping } from '../../../types/common';
 import { Department, Designation, Location } from '../../../types/employee';
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import { Alert } from '../../common/components/Alert';
 
 export default function EmployeeCreate() {
     const [open, setOpen] = useState(false);
