@@ -21,6 +21,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
+import Snackbar from "@mui/material/Snackbar";
+import { SnackbarCloseReason } from "@mui/material/Snackbar";
 
 // React imports
 import { useState } from "react";
@@ -42,6 +44,7 @@ import { getCurrentDate } from "../../../lib/utils";
 import DetailItem from "../../common/components/DetailContent";
 import Delete from "../../common/components/Delete";
 import StatusInfo from "../components/StatusInfo";
+import { Alert } from "../../common/components/Alert";
 import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
 import { useReturnLaptopMutation } from "../../laptop/laptopsApiSlice";
 import { Laptop } from "../../../types/laptop";
@@ -72,6 +75,7 @@ export default function EmployeeDetail() {
     })
     const [anchorEl, setAnchorEl] = useState<null | EventTarget & HTMLButtonElement>(null);
     const [ returnDialogOpen, setReturnDialogOpen ] = useState<boolean>(false);
+    const [ returnSuccess, setReturnSuccess ] = useState<boolean>(false);
     const open = Boolean(anchorEl);
     const handleClick = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
@@ -80,17 +84,28 @@ export default function EmployeeDetail() {
         setAnchorEl(null);
     };
 
+    function handleSuccessSnackBarClose(
+        event: Event | React.SyntheticEvent<any, Event>,
+        reason: SnackbarCloseReason
+    ) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setReturnSuccess(false);
+    }
+
     const handleReturnDialogClose = () => {
         formik.resetForm();
         setReturnDialogOpen(false);
     }
 
     const handleReturnDialogSubmit = (laptop_id: number) => {
-        let payload = {...formik.values, laptop_id}
+        let payload = {...formik.values, employee_id: id, laptop_id,}
         returnLaptop(payload)
             .unwrap()
             .then((res) => {
                 formik.resetForm();
+                setReturnSuccess(true);
             })
             .finally(() => setReturnDialogOpen(false))
     }
@@ -287,6 +302,15 @@ export default function EmployeeDetail() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <Snackbar open={returnSuccess} autoHideDuration={4000} onClose={handleSuccessSnackBarClose}>
+                        <Alert
+                            onClose={() => handleSuccessSnackBarClose}
+                            severity="success"
+                            sx={{ width: "100%" }}
+                        >
+                            Laptop Returned Successfully
+                        </Alert>
+                    </Snackbar>
                 </Paper>
             </>
         )

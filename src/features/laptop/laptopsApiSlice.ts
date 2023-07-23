@@ -31,7 +31,8 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 url: `laptop/${payload.laptop_id}/return/`,
                 method: 'POST',
                 body: payload
-            })
+            }),
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}]
         }),
     })
 })
