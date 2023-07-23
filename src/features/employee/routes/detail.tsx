@@ -118,8 +118,16 @@ export default function EmployeeDetail() {
                         <StatusInfo isActive={employee?.emp_status == 'Active'} />
                     </Stack>
                     <Link
-                        to={`edit`}
+                        to={`assign`}
                         style={{ textDecoration: 'none', color: 'inherit', marginLeft: 'auto' }}
+                    >
+                        <StyledButton>
+                            Assign Laptop
+                        </StyledButton>
+                    </Link>
+                    <Link
+                        to={`edit`}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                         <StyledButton>
                             Edit

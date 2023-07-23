@@ -34,6 +34,14 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}]
         }),
+        assignLaptop: builder.mutation({
+            query: (payload) => ({
+                url: `laptop/${payload.laptop_id}/assign/`,
+                method: 'POST',
+                body: payload
+            }),
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}]
+        }),
     })
 })
 
