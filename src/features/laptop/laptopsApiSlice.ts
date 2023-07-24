@@ -9,6 +9,7 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                     url: `laptop/?page=${page}&search=${laptopSearch}&${filterQuery}`
                 }
             },
+            providesTags: ['Laptop']
         }),
         getLaptopDetail: builder.query({
             query: (args) => {
@@ -40,7 +41,7 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}]
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Laptop']
         }),
     })
 })
