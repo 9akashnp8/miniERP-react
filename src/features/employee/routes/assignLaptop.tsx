@@ -48,7 +48,7 @@ export default function AssignLaptop() {
     } = useGetLaptopsQuery({
         page: page,
         laptopSearch: laptopSearch,
-        filterQuery: 'emp_id=&laptop_status=Working'
+        filterQuery: 'emp_id__isnull=true&laptop_status=Working'
     });
     const [ assignLaptop ] = useAssignLaptopMutation()
 
