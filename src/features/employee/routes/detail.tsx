@@ -28,7 +28,7 @@ import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import { useState } from "react";
 
 // 3rd party tools
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { useFormik } from "formik";
 
@@ -52,6 +52,7 @@ import { OnClickEvent } from "../../../types/common";
 
 
 export default function EmployeeDetail() {
+    const navigate = useNavigate();
     let { id } = useParams();
     const {
         data: employee,
@@ -73,6 +74,7 @@ export default function EmployeeDetail() {
     const [anchorEl, setAnchorEl] = useState<null | EventTarget & HTMLButtonElement>(null);
     const [ returnDialogOpen, setReturnDialogOpen ] = useState<boolean>(false);
     const [ returnSuccess, setReturnSuccess ] = useState<boolean>(false);
+    const [ isLaptopReplacement, setIsLaptopReplacement  ] = useState<boolean>(false);
     const open = Boolean(anchorEl);
     const handleClick = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
@@ -104,7 +106,14 @@ export default function EmployeeDetail() {
                 formik.resetForm();
                 setReturnSuccess(true);
             })
-            .finally(() => setReturnDialogOpen(false))
+            .finally(() => {
+                setReturnDialogOpen(false)
+                if (isLaptopReplacement) {
+                    setTimeout(() => {
+                        navigate(`/employee/${id}/assign`)
+                    }, 1000)
+                }
+            })
     }
 
     if (!isLoading) {
@@ -287,7 +296,12 @@ export default function EmployeeDetail() {
                                                             </Button>
                                                         </DialogActions>
                                                     </Dialog>
-                                                    <SecondaryButton>
+                                                    <SecondaryButton
+                                                        onClick={(e) => {
+                                                            setReturnDialogOpen(true)
+                                                            setIsLaptopReplacement(true)
+                                                        }}
+                                                    >
                                                         Replace
                                                     </SecondaryButton>
                                                 </Stack>
