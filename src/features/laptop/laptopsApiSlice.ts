@@ -4,11 +4,12 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getLaptops: builder.query({
             query: (args) => {
-                const {page, laptopSearch} = args
+                const {page, laptopSearch, filterQuery} = args
                 return {
-                    url: `laptop/?page=${page}&search=${laptopSearch}`
+                    url: `laptop/?page=${page}&search=${laptopSearch}&${filterQuery}`
                 }
             },
+            providesTags: ['Laptop']
         }),
         getLaptopDetail: builder.query({
             query: (args) => {
@@ -34,6 +35,14 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}]
         }),
+        assignLaptop: builder.mutation({
+            query: (payload) => ({
+                url: `laptop/${payload.laptop_id}/assign/`,
+                method: 'POST',
+                body: payload
+            }),
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Laptop']
+        }),
     })
 })
 
@@ -42,4 +51,5 @@ export const {
     useGetLaptopDetailQuery,
     useGetLaptopHistoryQuery,
     useReturnLaptopMutation,
+    useAssignLaptopMutation
 } = laptopApiSlice
