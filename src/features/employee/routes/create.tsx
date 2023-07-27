@@ -143,7 +143,7 @@ export default function EmployeeCreate() {
                                     label="Department"
                                     labelId="department-label"
                                     value={formik.values.department}
-                                    onChange={() => formik.handleChange("department")}
+                                    onChange={formik.handleChange}
                                     onBlur={formik.handleBlur("department")}
                                     error={Boolean(formik.touched.department && formik.errors.department)}
                                 >
@@ -177,7 +177,7 @@ export default function EmployeeCreate() {
                                     label="Designation"
                                     labelId="designation-label"
                                     value={formik.values.designation}
-                                    onChange={() => formik.handleChange("designation")}
+                                    onChange={formik.handleChange}
                                     onBlur={formik.handleBlur("designation")}
                                     error={
                                         Boolean(formik.touched.designation && formik.errors.designation)
@@ -273,7 +273,7 @@ export default function EmployeeCreate() {
                                     label="Employee Status"
                                     labelId="status-label"
                                     value={formik.values.employeeStatus}
-                                    onChange={() => formik.handleChange("employeeStatus")}
+                                    onChange={formik.handleChange}
                                     onBlur={formik.handleBlur("employeeStatus")}
                                     error={
                                         Boolean(formik.touched.employeeStatus && formik.errors.employeeStatus)
@@ -298,7 +298,7 @@ export default function EmployeeCreate() {
                                     label="Branch"
                                     labelId="branch-label"
                                     value={formik.values.branch}
-                                    onChange={() => formik.handleChange("branch")}
+                                    onChange={formik.handleChange}
                                     onBlur={formik.handleBlur("branch")}
                                     error={Boolean(formik.touched.branch && formik.errors.branch)}
                                 >
