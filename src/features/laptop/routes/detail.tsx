@@ -54,7 +54,7 @@ export default function LaptopDetail() {
             <>
                 <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
                     <Typography variant="h4" component="h1">
-                        {laptop.hardware_id}
+                        {laptop?.hardware_id}
                     </Typography>
                     <Link
                         to={`edit`}
@@ -98,19 +98,19 @@ export default function LaptopDetail() {
                         <DetailItem
                             textAlign={'left'}
                             title={'Serial No.'}
-                            content={laptop.laptop_sr_no}
+                            content={laptop?.laptop_sr_no}
                         />
                         <DetailItem
                             textAlign={'center'}
                             title={'Assigned To'}
-                            content={laptop.emp_id?.lk_emp_id}
+                            content={laptop?.emp_id?.lk_emp_id}
                             isLink
-                            linkTo={`/employee/${laptop.emp_id?.emp_id}`}
+                            linkTo={`/employee/${laptop?.emp_id?.emp_id}`}
                         />
                         <DetailItem
                             textAlign={'right'}
                             title={'Status'}
-                            content={laptop.laptop_status}
+                            content={laptop?.laptop_status}
                         />
                     </Grid>
                 </Paper>
@@ -132,37 +132,37 @@ export default function LaptopDetail() {
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Brand'}
-                                content={laptop.brand.brand_name}
+                                content={laptop?.brand?.brand_name}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Processor'}
-                                content={laptop.processor}
+                                content={laptop?.processor}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'RAM'}
-                                content={laptop.ram_capacity}
+                                content={laptop?.ram_capacity}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Storage'}
-                                content={laptop.storage_capacity}
+                                content={laptop?.storage_capacity}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Screen Size'}
-                                content={laptop.screen_size}
+                                content={laptop?.screen_size}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Screen Type'}
-                                content={laptop.screen_type}
+                                content={laptop?.screen_type}
                             />
                         </Grid>
                     </Paper>
@@ -178,31 +178,31 @@ export default function LaptopDetail() {
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Purchase Date'}
-                                content={laptop.laptop_date_purchased}
+                                content={laptop?.laptop_date_purchased}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Owernship'}
-                                content={laptop.laptop_owner_type}
+                                content={laptop?.laptop_owner_type}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Rental Vendor'}
-                                content={laptop.laptop_rental_vendor}
+                                content={laptop?.laptop_rental_vendor}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Location'}
-                                content={laptop.laptop_branch.location}
+                                content={laptop?.laptop_branch?.location}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Building'}
-                                content={laptop.laptop_building.building}
+                                content={laptop?.laptop_building?.building}
                             />
                         </Grid>
                     </Paper>
@@ -218,19 +218,19 @@ export default function LaptopDetail() {
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Date Returned'}
-                                content={laptop.laptop_date_returned}
+                                content={laptop?.laptop_date_returned}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'right'}
                                 title={'Latest Remarks'}
-                                content={laptop.laptop_return_remarks}
+                                content={laptop?.laptop_return_remarks}
                             />
                             <DetailItem
                                 breakPoint={6}
                                 textAlign={'left'}
                                 title={'Date Sold'}
-                                content={laptop.laptop_date_sold}
+                                content={laptop?.laptop_date_sold}
                             />
                         </Grid>
                     </Paper>

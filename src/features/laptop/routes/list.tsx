@@ -103,16 +103,16 @@ export default function LaptopTable() {
                     <TableBody>
                         {laptops.results.map((laptop: Laptop) => ( // TODO: change this
                             <TableRow
-                                key={laptop.id}
+                                key={laptop?.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</StyledLink>
+                                    <StyledLink to={`/laptop/${laptop?.id}`} >{laptop?.hardware_id}</StyledLink>
                                 </TableCell>
-                                <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
-                                <TableCell align="center">{laptop.processor}</TableCell>
-                                <TableCell align="center">{laptop.ram_capacity}</TableCell>
-                                <TableCell align="center">{laptop.laptop_branch.location}</TableCell>
+                                <TableCell align="center">{laptop?.laptop_sr_no}</TableCell>
+                                <TableCell align="center">{laptop?.processor}</TableCell>
+                                <TableCell align="center">{laptop?.ram_capacity}</TableCell>
+                                <TableCell align="center">{laptop?.laptop_branch?.location}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
