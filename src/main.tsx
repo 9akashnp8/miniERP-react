@@ -10,7 +10,6 @@ import RequireAuth from './features/auth/RequireAuth';
 import EmployeeDetail from './features/employee/routes/detail';
 import LaptopDetail from './features/laptop/routes/detail';
 import LaptopHistory from './features/laptop/routes/history';
-import LaptopEdit from './features/laptop/routes/edit';
 import LaptopCreate from './features/laptop/routes/create';
 import EmployeeCreate from './features/employee/routes/create';
 import EmployeeHistory from './features/employee/routes/history';
@@ -74,10 +73,6 @@ const router = createBrowserRouter([
                     {
                         path: "laptop/:id",
                         element: <LaptopDetail />
-                    },
-                    {
-                        path: "laptop/:id/edit",
-                        element: <LaptopEdit />
                     },
                     {
                         path: "laptop/:id/history",
