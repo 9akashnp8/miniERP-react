@@ -250,7 +250,7 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.screenSize.visible}>
+                        <Grid item xs={6} hidden={!config.screenSize.visible}> {/* TODO: change to Select comp. */}
                             <TextField
                                 fullWidth
                                 id="screenSize"
@@ -340,41 +340,29 @@ export default function () {
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} hidden={!config.rentalVendor.visible}>
-                            <FormControl sx={{ minWidth: 250 }} fullWidth>
-                                <InputLabel id="rentalVendor-label">{config.rentalVendor.label}</InputLabel>
-                                <Select
-                                    defaultValue=""
-                                    id="rentalVendor"
-                                    name="rentalVendor"
-                                    label={config.rentalVendor.label}
-                                    labelId="rentalVendor-label"
-                                    value={formik.values.rentalVendor}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur("rentalVendor")}
-                                    error={
-                                        Boolean(formik.touched.rentalVendor && formik.errors.rentalVendor)
-                                    }
-                                >
-                                    {/* {rentalVendors
-                                        ? designations.results.map((designation: Designation) => {
-                                            return (
-                                                <MenuItem
-                                                    key={designation.designation_id}
-                                                    value={designation.designation_id}
-                                                >
-                                                    {designation.designation}
-                                                </MenuItem>
-                                            );
-                                        })
-                                        : null} */}
-                                </Select>
-                                <FormHelperText error>
-                                    {formik.touched.rentalVendor && formik.errors.rentalVendor
-                                        ? formik.errors.rentalVendor
-                                        : null}
-                                </FormHelperText>
-                            </FormControl>
+                        <Grid
+                            item xs={6}
+                            hidden={
+                                !config.rentalVendor.visible ||
+                                formik.values.laptopOwner != 'Rental'
+                            }
+                        > {/* TODO: change to Select comp. */}
+                            <TextField
+                                fullWidth
+                                id="rentalVendor"
+                                name="rentalVendor"
+                                label={config.rentalVendor.label}
+                                variant="outlined"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.rentalVendor}
+                                error={Boolean(formik.touched.rentalVendor && formik.errors.rentalVendor)}
+                                helperText={
+                                    formik.touched.rentalVendor && formik.errors.rentalVendor
+                                        ? String(formik.errors.rentalVendor)
+                                        : null
+                                }
+                            />
                         </Grid>
                         <Grid item xs={6} hidden={!config.laptopStatus.visible}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>

@@ -38,7 +38,7 @@ export default {
         label: 'Laptop Owner'
     },
     rentalVendor: {
-        visible: false,
+        visible: true,
         label: 'Rental Vendor'
     },
     laptopStatus: {
