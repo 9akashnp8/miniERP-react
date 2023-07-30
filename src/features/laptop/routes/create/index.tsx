@@ -32,6 +32,7 @@ import {
 import { useGetBranchesQuery } from '../../../employee/branchApiSlice';
 import { useGetBrandsQuery } from '../../laptopBrandApiSlice';
 import { useGetBuildingsQuery } from '../../../common/buildingApiSlice';
+import { getCurrentDate } from '../../../../lib/utils';
 
 export default function () {
     const [open, setOpen] = useState(false);
@@ -58,7 +59,7 @@ export default function () {
             laptopStatus: '',
             location: '',
             building: '',
-            purchaseDate: '',
+            purchaseDate: getCurrentDate(new Date()),
             soldDate: undefined,
             returnDate: undefined,
             remarks: ''
