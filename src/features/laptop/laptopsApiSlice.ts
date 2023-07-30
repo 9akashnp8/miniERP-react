@@ -19,6 +19,13 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        createNewLaptop: builder.mutation({
+            query: (payload) => ({
+                url: 'laptop/',
+                method: 'POST',
+                body: payload
+            })
+        }),
         getLaptopHistory: builder.query({
             query: (args) => {
                 const { id } = args
@@ -43,13 +50,26 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Laptop']
         }),
+        getLaptopScreenTypes: builder.query<any, void>({
+            query: () => `laptop-screen-types/`
+        }),
+        getLaptopOwnerTypes: builder.query<any, void>({
+            query: () => `laptop-owner-types/`
+        }),
+        getLaptopStatuses: builder.query<any, void>({
+            query: () => `laptop-statuses/`
+        }),
     })
 })
 
 export const {
     useGetLaptopsQuery,
     useGetLaptopDetailQuery,
+    useCreateNewLaptopMutation,
     useGetLaptopHistoryQuery,
     useReturnLaptopMutation,
-    useAssignLaptopMutation
+    useAssignLaptopMutation,
+    useGetLaptopScreenTypesQuery,
+    useGetLaptopOwnerTypesQuery,
+    useGetLaptopStatusesQuery,
 } = laptopApiSlice
