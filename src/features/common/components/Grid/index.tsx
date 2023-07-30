@@ -2,11 +2,11 @@ import * as React from 'react';
 import Grid from "@mui/material/Grid";
 import { GridProps } from '@mui/material/Grid';
 
-interface CustomGridTypeMap extends GridProps {
+interface CustomGridProps extends GridProps {
     hidden?: boolean,
 }
 
-export default function ({ hidden, ...props}: CustomGridTypeMap) {
+export default function ({ hidden, ...props}: CustomGridProps) {
 
     if (hidden) {
         return (
