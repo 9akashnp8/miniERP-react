@@ -17,7 +17,8 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 return {
                     url: `laptop/${id}/`
                 }
-            }
+            },
+            providesTags: (result, error, args) => [{ type: 'LaptopDetail', id: args.id}]
         }),
         createNewLaptop: builder.mutation({
             query: (payload) => ({
@@ -32,7 +33,7 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: args.payload
             }),
-            invalidatesTags: (result, error, args) => [{ type: 'Laptop', id: args.id}]
+            invalidatesTags: (result, error, args) => ['Laptop', { type: 'LaptopDetail', id: args.id}]
         }),
         getLaptopHistory: builder.query({
             query: (args) => {
