@@ -15,6 +15,7 @@ import EmployeeCreate from './features/employee/routes/create';
 import EmployeeHistory from './features/employee/routes/history';
 import EmployeeEdit from './features/employee/routes/edit';
 import AssignLaptop from './features/employee/routes/assignLaptop';
+import LaptopEdit from './features/laptop/routes/edit';
 
 // 3rd part
 import{
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
                     {
                         path: "laptop/:id",
                         element: <LaptopDetail />
+                    },
+                    {
+                        path: "laptop/:id/edit",
+                        element: <LaptopEdit />
                     },
                     {
                         path: "laptop/:id/history",
