@@ -25,7 +25,6 @@ import {
     darkTheme,
     StyledButton,
     StyledTableCell,
-    StyledLink
 } from "../../../lib/theme";
 import DetailItem from "../../common/components/DetailContent";
 import { useGetLaptopDetailQuery } from "../laptopsApiSlice";

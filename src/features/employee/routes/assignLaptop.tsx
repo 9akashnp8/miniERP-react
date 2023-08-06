@@ -22,10 +22,10 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledLink,
     SecondaryButton
 } from '../../../lib/theme';
 import { Alert } from '../../common/components/Alert';
+import Link from '../../common/components/Link';
 
 import {
     useGetLaptopsQuery,
@@ -127,7 +127,7 @@ export default function AssignLaptop() {
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row" align="center">
-                                        <StyledLink to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</StyledLink>
+                                        <Link to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</Link>
                                     </TableCell>
                                     <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                     <TableCell align="center">{laptop.processor}</TableCell>

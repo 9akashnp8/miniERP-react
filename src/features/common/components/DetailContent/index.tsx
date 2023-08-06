@@ -1,7 +1,8 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { darkTheme, StyledLink } from '../../../../lib/theme';
+import { darkTheme } from '../../../../lib/theme';
+import Link from '../Link';
 
 interface DetailItemProps {
     breakPoint?: number,
@@ -31,9 +32,9 @@ export default function ({
             { 
                 isLink
                 ? (
-                    <StyledLink to={linkTo}>
+                    <Link to={linkTo}>
                         {content}
-                    </StyledLink>
+                    </Link>
                 )
                 : (
                     <Typography
