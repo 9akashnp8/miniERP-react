@@ -21,13 +21,12 @@ import {
     StyledInputBase,
     StyledTableCell,
     StyledButton,
-    StyledLink
 } from '../../../lib/theme';
 import { useGetLaptopsQuery } from '../laptopsApiSlice';
 import { OnClickEvent } from '../../../types/common';
 import { Laptop } from '../../../types/laptop';
 
-import { Link } from "react-router-dom";
+import Link from '../../common/components/Link';
 
 export default function LaptopTable() {
     const [page, setPage] = useState(1);
@@ -107,7 +106,7 @@ export default function LaptopTable() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink to={`/laptop/${laptop?.id}`} >{laptop?.hardware_id}</StyledLink>
+                                    <Link to={`/laptop/${laptop?.id}`} >{laptop?.hardware_id}</Link>
                                 </TableCell>
                                 <TableCell align="center">{laptop?.laptop_sr_no}</TableCell>
                                 <TableCell align="center">{laptop?.processor}</TableCell>

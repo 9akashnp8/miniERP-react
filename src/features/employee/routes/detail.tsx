@@ -28,7 +28,7 @@ import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import { useState } from "react";
 
 // 3rd party tools
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { useFormik } from "formik";
 
@@ -38,12 +38,12 @@ import {
     StyledButton,
     SecondaryButton,
     StyledTableCell,
-    StyledLink
 } from "../../../lib/theme";
 import { getCurrentDate } from "../../../lib/utils";
 import DetailItem from "../../common/components/DetailContent";
 import Delete from "../../common/components/Delete";
 import StatusInfo from "../components/StatusInfo";
+import Link from "../../common/components/Link";
 import { Alert } from "../../common/components/Alert";
 import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
 import { useReturnLaptopMutation } from "../../laptop/laptopsApiSlice";
@@ -231,7 +231,7 @@ export default function EmployeeDetail() {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row" align="center">
-                                                <StyledLink to={`/laptop/${laptop.id}`}>{laptop.hardware_id}</StyledLink>
+                                                <Link to={`/laptop/${laptop.id}`}>{laptop.hardware_id}</Link>
                                             </TableCell>
                                             <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                             <TableCell align="center">{laptop.processor}</TableCell>

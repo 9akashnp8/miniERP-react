@@ -92,18 +92,3 @@ export const SecondaryButton = styled(StyledButton)(({ theme }) => ({
     padding: '0.35rem',
     backgroundColor: 'transparent'
 }))
-
-export const StyledLink = styled(Link)(({ theme }) => ({
-    textDecoration: 'none',
-    color: 'inherit',
-    '&:hover': {
-        padding: '0.25rem 0.5rem',
-        cursor: 'pointer',
-        border: '1px solid rgba(255, 255, 255, 0.5)',
-        borderRadius: '0.25rem',
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    '&:active': {
-        backgroundColor: alpha(theme.palette.common.white, 0.375)
-    },
-}))

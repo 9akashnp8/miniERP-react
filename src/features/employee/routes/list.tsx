@@ -24,12 +24,11 @@ import {
     StyledInputBase,
     StyledTableCell,
     StyledButton,
-    StyledLink
 } from '../../../lib/theme';
 import { useGetEmployeesQuery } from '../employeesApiSlice';
 import { Employee } from '../../../types/employee';
 
-import { Link } from "react-router-dom";
+import Link from '../../common/components/Link';
 
 export default function EmployeeTable() {
     const [page, setPage] = useState(1);
@@ -110,7 +109,7 @@ export default function EmployeeTable() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <StyledLink to={`/employee/${employee.emp_id}`}>{employee.emp_name}</StyledLink>
+                                    <Link to={`/employee/${employee.emp_id}`}>{employee.emp_name}</Link>
                                 </TableCell>
                                 <TableCell align="center">{employee.dept_id?.dept_name}</TableCell>
                                 <TableCell align="center">{employee.desig_id?.designation}</TableCell>
