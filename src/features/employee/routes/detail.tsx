@@ -52,6 +52,7 @@ import { OnClickEvent } from "../../../types/common";
 
 
 export default function EmployeeDetail() {
+    const theme = useTheme();
     const navigate = useNavigate();
     let { id } = useParams();
     const {
@@ -130,19 +131,19 @@ export default function EmployeeDetail() {
                         to={`assign`}
                         style={{ textDecoration: 'none', color: 'inherit', marginLeft: 'auto' }}
                     >
-                        <StyledButton>
+                        <PrimaryButton>
                             Assign Laptop
-                        </StyledButton>
+                        </PrimaryButton>
                     </Link>
                     <Link
                         to={`edit`}
                         style={{ textDecoration: 'none', color: 'inherit' }}
                     >
-                        <StyledButton>
+                        <SecondaryButton>
                             Edit
-                        </StyledButton>
+                        </SecondaryButton>
                     </Link>
-                    <StyledButton onClick={handleClick}>...</StyledButton>
+                    <SecondaryButton onClick={handleClick}>...</SecondaryButton>
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -206,9 +207,15 @@ export default function EmployeeDetail() {
                         />
                     </Grid>
                 </Paper>
-                <Paper variant="outlined" sx={{ padding: '1rem', marginTop: '30px' }}>
+                <Paper
+                    variant="outlined"
+                    sx={{
+                        padding: '1rem',
+                        marginTop: '30px',
+                    }}
+                >
                     <Typography
-                        color={darkTheme.palette.text.secondary}
+                        color={theme.palette.text.secondary}
                         mb={2}
                     >
                         Laptops Assigned
@@ -237,9 +244,9 @@ export default function EmployeeDetail() {
                                             <TableCell align="center">{laptop.processor}</TableCell>
                                             <TableCell align="center">
                                                 <Stack direction={"row"} spacing={1} justifyContent={"center"}>
-                                                    <SecondaryButton onClick={(e) => setReturnDialogOpen(true)}>
+                                                    <SmallSecondaryButton onClick={(e) => setReturnDialogOpen(true)}>
                                                         Return
-                                                    </SecondaryButton>
+                                                    </SmallSecondaryButton>
                                                     <Dialog open={returnDialogOpen} onClose={(e) => setReturnDialogOpen(false)}>
                                                         <DialogTitle>Return {employee?.emp_name}'s Laptop</DialogTitle>
                                                         <DialogContent >
@@ -296,14 +303,14 @@ export default function EmployeeDetail() {
                                                             </Button>
                                                         </DialogActions>
                                                     </Dialog>
-                                                    <SecondaryButton
+                                                    <SmallSecondaryButton
                                                         onClick={(e) => {
                                                             setReturnDialogOpen(true)
                                                             setIsLaptopReplacement(true)
                                                         }}
                                                     >
                                                         Replace
-                                                    </SecondaryButton>
+                                                    </SmallSecondaryButton>
                                                 </Stack>
                                             </TableCell>
                                         </TableRow>
