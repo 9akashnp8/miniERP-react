@@ -1,5 +1,4 @@
-// Material UI Imports
-import { Paper } from "@mui/material"
+// Material UI
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -9,8 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
@@ -18,37 +15,42 @@ import MenuItem from '@mui/material/MenuItem';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import Snackbar from "@mui/material/Snackbar";
+import { Paper } from "@mui/material"
 import { SnackbarCloseReason } from "@mui/material/Snackbar";
 
-// React imports
-import { useState } from "react";
-
-// 3rd party tools
-import { useParams, useNavigate } from "react-router-dom";
-import * as Yup from 'yup';
-import { useFormik } from "formik";
-
 // Custom Components
-import {
-    darkTheme,
-    StyledButton,
-    SecondaryButton,
-    StyledTableCell,
-} from "../../../lib/theme";
-import { getCurrentDate } from "../../../lib/utils";
+import PrimaryButton from "../../common/components/Button/PrimaryButton";
+import SecondaryButton from "../../common/components/Button/SecondaryButton";
 import DetailItem from "../../common/components/DetailContent";
 import Delete from "../../common/components/Delete";
 import StatusInfo from "../components/StatusInfo";
 import Link from "../../common/components/Link";
 import { Alert } from "../../common/components/Alert";
-import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
-import { useReturnLaptopMutation } from "../../laptop/laptopsApiSlice";
+import { StyledTableCell } from "../../../lib/theme";
+import { SmallSecondaryButton } from "../../common/components/Button/SecondaryButton";
+
+// Types
 import { Laptop } from "../../../types/laptop";
 import { OnClickEvent } from "../../../types/common";
+
+// Utils
+import { getCurrentDate } from "../../../lib/utils";
+
+// APIs (RTK Queries)
+import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
+import { useReturnLaptopMutation } from "../../laptop/laptopsApiSlice";
+
+// React imports
+import { useState } from "react";
+
+// 3rd party tools
+import * as Yup from 'yup';
+import { useFormik } from "formik";
+import { useTheme } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
 
 
 export default function EmployeeDetail() {
