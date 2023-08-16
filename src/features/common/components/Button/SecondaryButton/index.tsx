@@ -3,9 +3,42 @@ import { styled } from '@mui/material/styles';
 import { colors } from '../../../theme/colors';
 import { ButtonProps } from '@mui/material';
 
-const SecondaryButton = styled(ButtonBase)(({ theme }) => ({
-    fontSize: '1rem',
-    padding: '0.625rem',
+const buttonSizes = {
+    small: 'small',
+    default: 'medium',
+    large: 'large'
+} as const
+
+type ButtonTypes = (typeof buttonSizes)[keyof typeof buttonSizes];
+
+const largeButtonOptions = {
+    fontSize:'1.25rem',
+    padding:'1rem',
+}
+
+const defaultButtonOptions = {
+    fontSize:'1rem',
+    padding:'0.625rem',
+}
+
+const smallButtonOptions = {
+    fontSize:'0.75rem',
+    padding:'0.35rem',
+}
+
+const SecondaryButton = styled(ButtonBase, { shouldForwardProp: (prop) => prop !== 'size' })<{size: ButtonTypes}>(({ theme, size }) => ({
+    ...(size === 'large'
+        ? {
+            ...largeButtonOptions
+        }
+        : size === 'medium'
+            ? {
+                ...defaultButtonOptions
+            }
+            : {
+                ...smallButtonOptions
+            }
+    ),
     borderRadius: '0.25rem',
     backgroundColor: 'transparent',
     color: theme.palette.primary.main,
@@ -29,8 +62,8 @@ const SecondaryButton = styled(ButtonBase)(({ theme }) => ({
 
 export default function({ children, ...props }: ButtonProps) {
     return (
-        <SecondaryButton disableRipple {...props}>
+        <SecondaryButton size={'medium'} disableRipple {...props}>
             {children}
         </SecondaryButton>
     )
-}
+} 

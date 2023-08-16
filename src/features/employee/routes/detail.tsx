@@ -246,9 +246,12 @@ export default function EmployeeDetail() {
                                             <TableCell align="center">{laptop.processor}</TableCell>
                                             <TableCell align="center">
                                                 <Stack direction={"row"} spacing={1} justifyContent={"center"}>
-                                                    <SmallSecondaryButton onClick={(e) => setReturnDialogOpen(true)}>
+                                                    <SecondaryButton
+                                                        size='small'
+                                                        onClick={(e) => setReturnDialogOpen(true)}
+                                                    >
                                                         Return
-                                                    </SmallSecondaryButton>
+                                                    </SecondaryButton>
                                                     <Dialog open={returnDialogOpen} onClose={(e) => setReturnDialogOpen(false)}>
                                                         <DialogTitle>Return {employee?.emp_name}'s Laptop</DialogTitle>
                                                         <DialogContent >
@@ -305,14 +308,15 @@ export default function EmployeeDetail() {
                                                             </Button>
                                                         </DialogActions>
                                                     </Dialog>
-                                                    <SmallSecondaryButton
+                                                    <SecondaryButton
+                                                        size='small'
                                                         onClick={(e) => {
                                                             setReturnDialogOpen(true)
                                                             setIsLaptopReplacement(true)
                                                         }}
                                                     >
                                                         Replace
-                                                    </SmallSecondaryButton>
+                                                    </SecondaryButton>
                                                 </Stack>
                                             </TableCell>
                                         </TableRow>

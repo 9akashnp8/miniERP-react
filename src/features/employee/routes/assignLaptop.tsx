@@ -22,10 +22,10 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    SecondaryButton
 } from '../../../lib/theme';
 import { Alert } from '../../common/components/Alert';
 import Link from '../../common/components/Link';
+import SecondaryButton from '../../common/components/Button/SecondaryButton';
 
 import {
     useGetLaptopsQuery,
@@ -135,6 +135,7 @@ export default function AssignLaptop() {
                                     <TableCell align="center">{laptop.laptop_branch.location}</TableCell>
                                     <TableCell align="center" >
                                         <SecondaryButton
+                                            size='small'
                                             onClick={() => handleAssignLaptop(laptop.id)}
                                         >
                                             Assign
