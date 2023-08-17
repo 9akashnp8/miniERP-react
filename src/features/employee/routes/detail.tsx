@@ -30,7 +30,7 @@ import StatusInfo from "../components/StatusInfo";
 import Link from "../../common/components/Link";
 import { Alert } from "../../common/components/Alert";
 import { StyledTableCell } from "../../../lib/theme";
-import { SmallSecondaryButton } from "../../common/components/Button/SecondaryButton";
+import GhostButton from '../../common/components/Button/GhostButton';
 
 // Types
 import { Laptop } from "../../../types/laptop";
@@ -299,13 +299,13 @@ export default function EmployeeDetail() {
                                                             </form>
                                                         </DialogContent>
                                                         <DialogActions>
-                                                            <Button onClick={handleReturnDialogClose}>Cancel</Button>
-                                                            <Button
+                                                            <GhostButton onClick={handleReturnDialogClose}>Cancel</GhostButton>
+                                                            <GhostButton
                                                                 type="button"
                                                                 onClick={() => handleReturnDialogSubmit(laptop.id)}
                                                             >
                                                                 Return
-                                                            </Button>
+                                                            </GhostButton>
                                                         </DialogActions>
                                                     </Dialog>
                                                     <SecondaryButton
