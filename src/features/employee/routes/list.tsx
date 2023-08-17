@@ -23,8 +23,9 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledButton,
 } from '../../../lib/theme';
+import SecondaryButton from '../../common/components/Button/SecondaryButton';
+import PrimaryButton from '../../common/components/Button/PrimaryButton';
 import { useGetEmployeesQuery } from '../employeesApiSlice';
 import { Employee } from '../../../types/employee';
 
@@ -85,11 +86,11 @@ export default function EmployeeTable() {
                             marginLeft: 'auto'
                         }}
                     >
-                        <StyledButton>
+                        <PrimaryButton>
                             Create
-                        </StyledButton>
+                        </PrimaryButton>
                     </Link>
-                    <StyledButton>...</StyledButton>
+                    <SecondaryButton>...</SecondaryButton>
                 </Box>
             </AppBar>
             <TableContainer component={Paper}>
