@@ -27,7 +27,8 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 import "@fontsource/inter"
 
-import { theme, darkTheme } from "./lib/theme";
+// import { theme, darkTheme } from "./lib/theme";
+import { theme } from './features/common/theme';
 
 const router = createBrowserRouter([
     {
@@ -98,7 +99,7 @@ ReactDOM.createRoot(document.getElementById('root') as Element).render(
     <React.StrictMode>
         <Provider store={store}>
             <CssBaseline />
-            <ThemeProvider theme={darkTheme}>
+            <ThemeProvider theme={theme}>
                 <RouterProvider router={router} />
             </ThemeProvider>
         </Provider>

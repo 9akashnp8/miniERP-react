@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useTheme } from '@mui/material';
 
 import { deleteCookie } from '../../../../lib/utils';
 
@@ -32,6 +33,7 @@ const drawerWidth = 200;
 export default function ({ children }: FCWithChildren) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
+    const theme = useTheme();
 
     const handleMenu = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
@@ -107,11 +109,16 @@ export default function ({ children }: FCWithChildren) {
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+                    [`& .MuiDrawer-paper`]: {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                        backgroundColor: theme.palette.background.default
+                    },
                 }}
+                className='test'
             >
                 <Toolbar />
-                <Box sx={{ overflow: 'auto' }}>
+                <Box sx={{ overflow: 'auto' }} className={'test2'}>
                     <List>
                         <Link to={"employee"} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItem key={1} disablePadding>

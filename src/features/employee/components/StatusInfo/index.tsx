@@ -1,15 +1,17 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material';
 
 interface StatusInfoProps {
     isActive: boolean
 }
 
 export default function ({ isActive }: StatusInfoProps) {
+    const theme = useTheme();
 
-    let backgroundColor = 'red';
+    let backgroundColor = theme.palette.error.main;
     if (isActive) {
-        backgroundColor = 'green'
+        backgroundColor = theme.palette.success.main
     }
 
     return (

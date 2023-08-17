@@ -23,7 +23,7 @@ export default styled(Link)(({ theme }) => ({
     textDecorationThickness: '0.5px',
     color: 'white',
     '&:hover': {
-        
+        color: theme.palette.primary.light
     },
     marginLeft: 0,
     width: '100%',
