@@ -132,7 +132,7 @@ export default function AssignLaptop() {
                                     <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
                                     <TableCell align="center">{laptop.processor}</TableCell>
                                     <TableCell align="center">{laptop.ram_capacity}</TableCell>
-                                    <TableCell align="center">{laptop.laptop_branch.location}</TableCell>
+                                    <TableCell align="center">{laptop.laptop_branch?.location}</TableCell>
                                     <TableCell align="center" >
                                         <SecondaryButton
                                             size='small'
