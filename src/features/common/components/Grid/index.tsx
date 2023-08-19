@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Grid from "@mui/material/Grid";
+import { Grid as MaterialGrid } from "@mui/material";
 import { GridProps } from '@mui/material/Grid';
 
 interface CustomGridProps extends GridProps {
@@ -10,15 +10,15 @@ export default function ({ hidden, ...props}: CustomGridProps) {
 
     if (hidden) {
         return (
-            <Grid sx={{ display: 'none' }} {...props}>
+            <MaterialGrid sx={{ display: 'none' }} {...props}>
                 {props.children}
-            </Grid>
+            </MaterialGrid>
         )
     }
 
     return (
-        <Grid {...props}>
+        <MaterialGrid {...props}>
             {props.children}
-        </Grid>
+        </MaterialGrid>
     )
 }
