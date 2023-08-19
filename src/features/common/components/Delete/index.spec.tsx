@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 
 import Delete from ".";
 
-test("sample test", async () => {
+test("confirmation message is displayed on click", async () => {
   render(<Delete employeeId="2" />);
 
   await userEvent.click(screen.getByText("Delete"));
