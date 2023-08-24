@@ -25,8 +25,7 @@ test("confirmation message is displayed on click", async () => {
 });
 
 test("redirection works on delete",async () => {
-  // screen.debug();
   await userEvent.click(screen.getByText("Delete"));
   await userEvent.click(screen.getByText("Confirm?"));
-  expect(screen.getByText('Employee Detail Page2')).toBeInTheDocument();
+  expect(screen.getByText('Employee Detail Page')).toBeInTheDocument();
 })
