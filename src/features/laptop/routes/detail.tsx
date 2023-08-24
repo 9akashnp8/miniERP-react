@@ -3,14 +3,6 @@ import { Paper } from "@mui/material"
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TablePagination from '@mui/material/TablePagination';
-import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -23,10 +15,10 @@ import { useParams, Link } from "react-router-dom";
 // Custom Components
 import {
     darkTheme,
-    StyledButton,
-    StyledTableCell,
 } from "../../../lib/theme";
 import DetailItem from "../../common/components/DetailContent";
+import SecondaryButton from "../../common/components/Button/SecondaryButton";
+import Delete from "../../common/components/Delete";
 import { useGetLaptopDetailQuery } from "../laptopsApiSlice";
 import { OnClickEvent } from "../../../types/common";
 
@@ -35,9 +27,6 @@ export default function LaptopDetail() {
     const {
         data: laptop,
         isLoading,
-        isFetching,
-        isError,
-        error
     } = useGetLaptopDetailQuery({ id: id });
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -59,11 +48,11 @@ export default function LaptopDetail() {
                         to={`edit`}
                         style={{ textDecoration: 'none', color: 'inherit', marginLeft: 'auto' }}
                     >
-                        <StyledButton>
+                        <SecondaryButton>
                             Edit
-                        </StyledButton>
+                        </SecondaryButton>
                     </Link>
-                    <StyledButton onClick={handleClick}>...</StyledButton>
+                    <SecondaryButton onClick={handleClick}>...</SecondaryButton>
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -72,7 +61,15 @@ export default function LaptopDetail() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
-                        sx={{ marginTop: '10px' }}
+                        sx={{ marginTop: '10px'}}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
                     >
                         <MenuItem onClick={handleClose}>
                             <Link
@@ -82,14 +79,7 @@ export default function LaptopDetail() {
                                 History
                             </Link>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Link
-                                to={`delete`}
-                                style={{ textDecoration: 'none', color: 'inherit' }}
-                            >
-                                Delete
-                            </Link>
-                        </MenuItem>
+                        <Delete employeeId={id}/>
                     </Menu>
                 </Stack>
                 <Paper variant="outlined" sx={{ marginBottom: '30px' }}>
@@ -121,7 +111,8 @@ export default function LaptopDetail() {
                 >
                     <Paper variant="outlined">
                         <Typography
-                            color={darkTheme.palette.text.secondary}
+                            color={darkTheme.palette.text.primary}
+                            fontWeight={600}
                             mt={2}
                         >
                             Laptop Spec
@@ -167,7 +158,8 @@ export default function LaptopDetail() {
                     </Paper>
                     <Paper variant="outlined">
                         <Typography
-                            color={darkTheme.palette.text.secondary}
+                            color={darkTheme.palette.text.primary}
+                            fontWeight={600}
                             mt={2}
                         >
                             Additional Information
@@ -207,7 +199,8 @@ export default function LaptopDetail() {
                     </Paper>
                     <Paper variant="outlined">
                         <Typography
-                            color={darkTheme.palette.text.secondary}
+                            color={darkTheme.palette.text.primary}
+                            fontWeight={600}
                             mt={2}
                         >
                             Other Information

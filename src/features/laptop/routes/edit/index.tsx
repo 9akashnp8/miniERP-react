@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Alert } from '../../../common/components/Alert';
+import PrimaryButton from '../../../common/components/Button/PrimaryButton';
 import Grid from '../../../common/components/Grid';
 import { laptopFieldMapping } from '../../utils/constants';
 import { getKeyByValue } from '../../../common/utils/functions';
@@ -554,9 +555,9 @@ export default function () {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type="submit" variant="contained">
+                            <PrimaryButton type="submit" variant="contained">
                                 Submit
-                            </Button>
+                            </PrimaryButton>
                         </Grid>
                     </Grid>
                 </form>
