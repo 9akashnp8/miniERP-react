@@ -20,6 +20,7 @@ export default function ({ isActive }: StatusInfoProps) {
                 paddingX: '4px',
                 paddingY: '2px'
             }}
+            data-testid='statusInfoContainer'
         >
             <Typography fontSize={"small"}>
                 { isActive ? 'Active' : 'Inactive'  }

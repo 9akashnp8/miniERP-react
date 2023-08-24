@@ -22,23 +22,25 @@ export default function ({
     linkTo = ''
 }: DetailItemProps) {
     return (
-        <Grid item xs={breakPoint} textAlign={textAlign}>
+        <Grid item xs={breakPoint} textAlign={textAlign} data-testid={'detailItemContainer'}>
             <Typography
                 fontSize={'0.75rem'}
                 color={darkTheme.palette.text.secondary}
+                data-testid={'detailItemTitle'}
             >
                 {title}
             </Typography>
             { 
                 isLink
                 ? (
-                    <Link to={linkTo}>
+                    <Link to={linkTo} data-testid={'detailItemLink'}>
                         {content}
                     </Link>
                 )
                 : (
                     <Typography
                         fontWeight={'bold'}
+                        data-testid={'detailItemContent'}
                     >
                         {content}
                     </Typography>
