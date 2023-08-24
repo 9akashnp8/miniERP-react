@@ -23,14 +23,17 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledButton,
 } from '../../../lib/theme';
+import SecondaryButton from '../../common/components/Button/SecondaryButton';
+import PrimaryButton from '../../common/components/Button/PrimaryButton';
 import { useGetEmployeesQuery } from '../employeesApiSlice';
 import { Employee } from '../../../types/employee';
+import { useTheme } from '@mui/material/styles';
 
 import Link from '../../common/components/Link';
 
 export default function EmployeeTable() {
+    const theme = useTheme()
     const [page, setPage] = useState(1);
     const [employeeSearch, setEmployeeSearch] = useState('');
 
@@ -64,7 +67,8 @@ export default function EmployeeTable() {
                     sx={{
                         display: 'flex',
                         padding: '0.75rem',
-                        gap: '0.5rem'
+                        gap: '0.5rem',
+                        backgroundColor: theme.palette.background.paper
                     }}
                 >
                     <Search>
@@ -85,11 +89,11 @@ export default function EmployeeTable() {
                             marginLeft: 'auto'
                         }}
                     >
-                        <StyledButton>
+                        <PrimaryButton>
                             Create
-                        </StyledButton>
+                        </PrimaryButton>
                     </Link>
-                    <StyledButton>...</StyledButton>
+                    <SecondaryButton>...</SecondaryButton>
                 </Box>
             </AppBar>
             <TableContainer component={Paper}>

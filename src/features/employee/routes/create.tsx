@@ -30,6 +30,7 @@ import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import { FormFieldMapping } from '../../../types/common';
 import { Department, Designation, Location } from '../../../types/employee';
 import { Alert } from '../../common/components/Alert';
+import PrimaryButton from '../../common/components/Button/PrimaryButton';
 
 export default function EmployeeCreate() {
     const [open, setOpen] = useState(false);
@@ -361,9 +362,9 @@ export default function EmployeeCreate() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button type="submit" variant="contained">
+                            <PrimaryButton type="submit" variant="contained">
                                 Submit
-                            </Button>
+                            </PrimaryButton>
                         </Grid>
                     </Grid>
                 </form>

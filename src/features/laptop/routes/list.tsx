@@ -1,10 +1,7 @@
 import { useState, useCallback } from 'react';
 
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,15 +17,17 @@ import {
     SearchIconWrapper,
     StyledInputBase,
     StyledTableCell,
-    StyledButton,
 } from '../../../lib/theme';
 import { useGetLaptopsQuery } from '../laptopsApiSlice';
-import { OnClickEvent } from '../../../types/common';
 import { Laptop } from '../../../types/laptop';
+import { useTheme } from '@mui/material/styles';
 
 import Link from '../../common/components/Link';
+import PrimaryButton from '../../common/components/Button/PrimaryButton';
+import SecondaryButton from '../../common/components/Button/SecondaryButton';
 
 export default function LaptopTable() {
+    const theme = useTheme();
     const [page, setPage] = useState(1);
     const [laptopSearch, setLaptopSearch] = useState('');
     const {
@@ -40,7 +39,6 @@ export default function LaptopTable() {
 
     const handleChangePage = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
-            console.log(newPage)
             setPage(newPage + 1);
         }, []
     );
@@ -60,7 +58,8 @@ export default function LaptopTable() {
                     sx={{
                         display: 'flex',
                         padding: '0.75rem',
-                        gap: '0.5rem'
+                        gap: '0.5rem',
+                        backgroundColor: theme.palette.background.paper
                     }}
                 >
                     <Search>
@@ -81,11 +80,11 @@ export default function LaptopTable() {
                             marginLeft: 'auto'
                         }}
                     >
-                        <StyledButton>
+                        <PrimaryButton>
                             Create
-                        </StyledButton>
+                        </PrimaryButton>
                     </Link>
-                    <StyledButton>...</StyledButton>
+                    <SecondaryButton>...</SecondaryButton>
                 </Box>
             </AppBar>
             <TableContainer component={Paper} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
