@@ -3,11 +3,8 @@ import {
     useCallback
 } from 'react';
 
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,6 +14,9 @@ import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import MenuItem from "@mui/material/MenuItem";
+
+import { useNavigate } from 'react-router-dom';
 
 import {
     Search,
@@ -24,6 +24,7 @@ import {
     StyledInputBase,
     StyledTableCell,
 } from '../../../lib/theme';
+import MenuButton from '../../common/components/Menu';
 import SecondaryButton from '../../common/components/Button/SecondaryButton';
 import PrimaryButton from '../../common/components/Button/PrimaryButton';
 import { useGetEmployeesQuery } from '../employeesApiSlice';
@@ -34,6 +35,7 @@ import Link from '../../common/components/Link';
 
 export default function EmployeeTable() {
     const theme = useTheme()
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [employeeSearch, setEmployeeSearch] = useState('');
 
@@ -104,6 +106,7 @@ export default function EmployeeTable() {
                             <StyledTableCell align="center">Department</StyledTableCell>
                             <StyledTableCell align="center">Designation</StyledTableCell>
                             <StyledTableCell align="center">Branch</StyledTableCell>
+                            <StyledTableCell align="center">Actions</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -118,6 +121,16 @@ export default function EmployeeTable() {
                                 <TableCell align="center">{employee.dept_id?.dept_name}</TableCell>
                                 <TableCell align="center">{employee.desig_id?.designation}</TableCell>
                                 <TableCell align="center">{employee.loc_id?.location}</TableCell>
+                                <TableCell align="center">
+                                    <MenuButton>
+                                        <MenuItem
+                                            onClick={() => navigate(`/employee/${employee.emp_id}/assign`)}
+                                        >
+                                            Assign Laptop
+                                        </MenuItem>
+                                        <MenuItem>Return Laptop</MenuItem>
+                                    </MenuButton>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
