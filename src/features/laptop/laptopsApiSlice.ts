@@ -49,7 +49,7 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Laptop']
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Employee', 'Laptop']
         }),
         assignLaptop: builder.mutation({
             query: (payload) => ({
@@ -57,7 +57,7 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Laptop']
+            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.employee_id}, 'Employee',  'Laptop']
         }),
         getLaptopScreenTypes: builder.query<any, void>({
             query: () => `laptop-screen-types/`
