@@ -1,3 +1,4 @@
+import { Laptop } from "../../types/laptop";
 import { apiSlice } from "../api/apiSlice";
 
 export const employeeApiSlice = apiSlice.injectEndpoints({
@@ -52,6 +53,14 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        getEmployeeLaptops: builder.query<Laptop[], string>({
+            query: (id) => {
+                return {
+                    url: `employee/${id}/laptops/`
+                }
+            },
+            providesTags: ['Laptop']
+        })
     })
 })
 
@@ -62,4 +71,5 @@ export const {
     useUpdateEmployeeMutation,
     useDeleteEmployeeMutation,
     useGetEmployeeHistoryQuery,
+    useGetEmployeeLaptopsQuery,
 } = employeeApiSlice

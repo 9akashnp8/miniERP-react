@@ -123,12 +123,18 @@ export default function EmployeeTable() {
                                 <TableCell align="center">{employee.loc_id?.location}</TableCell>
                                 <TableCell align="center">
                                     <MenuButton>
-                                        <MenuItem
-                                            onClick={() => navigate(`/employee/${employee.emp_id}/assign`)}
-                                        >
-                                            Assign Laptop
-                                        </MenuItem>
-                                        <MenuItem>Return Laptop</MenuItem>
+                                        <Link sx={{ textDecoration: 'none'}} to={`/employee/${employee.emp_id}/assign`}>
+                                            <MenuItem>
+                                                Assign Laptop
+                                            </MenuItem>
+                                        </Link>
+                                        {employee.is_assigned && (
+                                            <Link sx={{ textDecoration: 'none'}} to={`/employee/${employee.emp_id}/laptops`}>
+                                                <MenuItem>
+                                                    Return Laptop
+                                                </MenuItem>
+                                            </Link>
+                                        )}
                                     </MenuButton>
                                 </TableCell>
                             </TableRow>
