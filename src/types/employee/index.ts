@@ -1,3 +1,4 @@
+import { BaseAPIResponse } from "../common";
 import { Laptop } from "../laptop";
 
 export interface Department {
@@ -31,4 +32,9 @@ export interface Employee {
     dept_id: Department;
     desig_id: Designation;
     loc_id: Location;
+}
+
+// API Respone Types
+export interface DepartmentAPIResponse extends BaseAPIResponse {
+    results: Department[]
 }

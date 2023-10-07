@@ -28,6 +28,12 @@ export interface LaptopHistory {
     history: HistoryItem[]
 }
 
+export interface BaseAPIResponse {
+    count: string,
+    next: string,
+    previous: string,
+}
+
 // Others
 export interface FormFieldMapping {
     dept_id: string,
