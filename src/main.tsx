@@ -17,6 +17,9 @@ import EmployeeEdit from './features/employee/routes/edit';
 import AssignLaptop from './features/employee/routes/assignLaptop';
 import LaptopEdit from './features/laptop/routes/edit';
 import SelectLaptop from './features/employee/routes/selectLaptop';
+import AdminRootRoute from './features/common/routes/admin';
+import AdminDasboardRoute from './features/common/routes/admin/dashboard';
+import DepartmentAdminRoute from './features/common/routes/admin/departments';
 
 // 3rd part
 import{
@@ -88,6 +91,20 @@ const router = createBrowserRouter([
                     {
                         path: "laptop/:id/history",
                         element: <LaptopHistory />
+                    },
+                    {
+                        path: "admin",
+                        element: < AdminRootRoute />,
+                        children: [
+                            {
+                                path: "",
+                                element: <AdminDasboardRoute />
+                            },
+                            {
+                                path: "departments",
+                                element: <DepartmentAdminRoute />
+                            }
+                        ]
                     },
                 ]
             }

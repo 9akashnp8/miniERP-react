@@ -16,7 +16,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
@@ -27,6 +27,7 @@ import {
     FCWithChildren,
     OnClickEvent
 } from '../../../../types/common';
+import Link from '../Link';
 
 const drawerWidth = 200;
 
@@ -84,12 +85,15 @@ export default function ({ children }: FCWithChildren) {
                         </IconButton>
                         <Menu
                             id="menu-appbar"
+                            sx={{
+                                marginTop: -1,
+                                marginLeft: 1,
+                            }}
                             anchorEl={anchorEl}
                             anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
+                                vertical: 'bottom',
+                                horizontal: 'left',
                             }}
-                            keepMounted
                             transformOrigin={{
                                 vertical: 'top',
                                 horizontal: 'right',
@@ -97,6 +101,11 @@ export default function ({ children }: FCWithChildren) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
+                            <Link sx={{ textDecoration: 'none'}} to={'/admin'}>
+                                <MenuItem>
+                                    Admin
+                                </MenuItem>
+                            </Link>
                             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                         </Menu>
                     </div>
