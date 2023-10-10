@@ -8,31 +8,31 @@ import Grid from "../../components/Grid"
 const adminCards = [
     {
         title: "Departments",
-        url: "/admin/employee/departments"
+        url: "/admin/departments"
     },
     {
         title: "Designations",
-        url: "/admin/employee/designations"
+        url: "/admin/designations"
     },
     {
         title: "Locations",
-        url: "/admin/employee/locations"
+        url: "/admin/locations"
     },
     {
         title: "Settings",
-        url: "/admin/employee/settings"
+        url: "/admin/settings"
     },
     {
         title: "Buildings",
-        url: "/admin/hardware/building"
+        url: "/admin/building"
     },
     {
         title: "Brands",
-        url: "/admin/hardware/brand"
+        url: "/admin/brand"
     },
     {
         title: "Settings",
-        url: "/admin/hardware/settings"
+        url: "/admin/settings"
     },
     {
         title: "Users",
