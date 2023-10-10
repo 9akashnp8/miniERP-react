@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
-import { DepartmentAPIResponse } from "../../types/employee";
+
+import { DepartmentAPIResponse } from "../../types/common/api";
 
 export const departmentApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({

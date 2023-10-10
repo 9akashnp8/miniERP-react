@@ -88,7 +88,7 @@ export default function EmployeeCreate() {
     })
     const {
         data: designations
-    } = useGetDesignationsQuery({ deptId: formik.values.department });
+    } = useGetDesignationsQuery(formik.values.department);
     const {
         data: departments
     } = useGetDepartmentsQuery();

@@ -1,4 +1,3 @@
-import { BaseAPIResponse } from "../common";
 import { Laptop } from "../laptop";
 
 export interface Department {
@@ -9,7 +8,7 @@ export interface Department {
 export interface Designation {
     designation_id: number;
     designation: string;
-    dept_id: number
+    dept_id: Department
 }
 
 export interface Location {
@@ -34,7 +33,3 @@ export interface Employee {
     loc_id: Location;
 }
 
-// API Respone Types
-export interface DepartmentAPIResponse extends BaseAPIResponse {
-    results: Department[]
-}

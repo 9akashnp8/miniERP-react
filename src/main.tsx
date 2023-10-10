@@ -20,6 +20,7 @@ import SelectLaptop from './features/employee/routes/selectLaptop';
 import AdminRootRoute from './features/common/routes/admin';
 import AdminDasboardRoute from './features/common/routes/admin/dashboard';
 import DepartmentAdminRoute from './features/common/routes/admin/departments';
+import DesignationAdminRoute from './features/common/routes/admin/designations';
 
 // 3rd part
 import{
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
                             {
                                 path: "departments",
                                 element: <DepartmentAdminRoute />
+                            },
+                            {
+                                path: "designations",
+                                element: <DesignationAdminRoute />
                             }
                         ]
                     },
