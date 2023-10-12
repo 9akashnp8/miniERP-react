@@ -33,3 +33,9 @@ export interface Employee {
     loc_id: Location;
 }
 
+export interface User {
+    first_name: string,
+    last_name: string,
+    username: string,
+    email: string
+}

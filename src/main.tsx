@@ -23,6 +23,7 @@ import DepartmentAdminRoute from './features/common/routes/admin/departments';
 import DesignationAdminRoute from './features/common/routes/admin/designations';
 import BranchAdminRoute from './features/common/routes/admin/branches';
 import BrandAdminRoute from './features/common/routes/admin/laptopBrands';
+import UserAdminRoute from './features/common/routes/admin/users';
 
 // 3rd part
 import{
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
                             {
                                 path: "laptop-brands",
                                 element: <BrandAdminRoute />
+                            },
+                            {
+                                path: "users",
+                                element: <UserAdminRoute />
                             }
                         ]
                     },
