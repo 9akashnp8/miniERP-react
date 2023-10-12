@@ -16,7 +16,7 @@ const adminCards = [
     },
     {
         title: "Locations",
-        url: "/admin/locations"
+        url: "/admin/branches"
     },
     {
         title: "Settings",
