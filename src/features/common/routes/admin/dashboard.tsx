@@ -27,8 +27,8 @@ const adminCards = [
         url: "/admin/building"
     },
     {
-        title: "Brands",
-        url: "/admin/brand"
+        title: "Laptop Brands",
+        url: "/admin/laptop-brands"
     },
     {
         title: "Settings",

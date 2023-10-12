@@ -1,5 +1,5 @@
 // TODO: check optional fields in BE Laptop Model
-interface Brand {
+export interface Brand {
     id: number;
     brand_name: string;
 }
