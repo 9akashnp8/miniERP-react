@@ -1,4 +1,4 @@
-import { Department, Designation, Location } from "../employee"
+import { Department, Designation, Location, User } from "../employee"
 import { Brand } from "../laptop"
 
 export interface BaseAPIResponse {
@@ -21,4 +21,8 @@ export interface LocationAPIResponse extends BaseAPIResponse {
 
 export interface LaptopBrandAPIResponse extends BaseAPIResponse {
     results: Brand[]
+}
+
+export interface UserAPIResponse extends BaseAPIResponse {
+    results: User[]
 }
