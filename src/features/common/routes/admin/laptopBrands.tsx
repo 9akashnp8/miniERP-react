@@ -24,18 +24,18 @@ import { useFormik } from "formik"
 
 // Custom Functions
 import {
-    useGetBranchesQuery,
-    useCreateBranchMutation,
-} from "../../../employee/branchApiSlice"
+    useGetBrandsQuery,
+    useCreateLaptopBrandMutation,
+} from "../../../laptop/laptopBrandApiSlice"
 
-export default function BranchAdminRoute() {
+export default function BrandAdminRoute() {
     const [open, setOpen] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
-    const { data: branches } = useGetBranchesQuery();
-    const [ createBranch ] = useCreateBranchMutation();
+    const { data: brands } = useGetBrandsQuery();
+    const [ createBrand ] = useCreateLaptopBrandMutation();
     const formik = useFormik({
         initialValues: {
-            branchName: ""
+            brandName: ""
         },
         onSubmit: (value) => new Promise((res, rej) => res("success"))
     })
@@ -55,9 +55,9 @@ export default function BranchAdminRoute() {
 
     function handleSubmit() {
         const payload = {
-            location: formik.values.branchName
+            brand_name: formik.values.brandName
         };
-        createBranch(payload)
+        createBrand(payload)
             .unwrap()
             .then((res) => {
                 formik.resetForm();
@@ -66,7 +66,7 @@ export default function BranchAdminRoute() {
             })
             .catch((err) => {
                 formik.setFieldError(
-                    "branchName",
+                    "brandName",
                     err?.data?.dept_name[0]
                 )
             })
@@ -76,7 +76,7 @@ export default function BranchAdminRoute() {
         <>
             <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
                 <Typography variant="h4" component="h1">
-                    Branches
+                    Laptop Brands
                 </Typography>
                 <PrimaryButton
                     style={{ marginLeft: 'auto' }}
@@ -88,25 +88,25 @@ export default function BranchAdminRoute() {
             <Table
                 columns={[
                     "Sl No",
-                    "Branches",
+                    "Brands",
                 ]}
             >
-                {branches?.results.map((branch) => (
+                {brands?.results.map((brand) => (
                     <TableRow
-                        key={branch.location_id}
+                        key={brand.id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell component="th" scope="row" align="center">
-                            {branch.location_id}
+                            {brand.id}
                         </TableCell>
                         <TableCell component="th" scope="row" align="center">
-                            {branch.location}
+                            {brand.brand_name}
                         </TableCell>
                     </TableRow>
                 ))}
             </Table>
             <Dialog open={formOpen} onClose={(e) => setFormOpen(false)}>
-                <DialogTitle>Add New Branch</DialogTitle>
+                <DialogTitle>Add New Laptop Brand</DialogTitle>
                 <DialogContent >
                     <form
                         method="POST"
@@ -119,15 +119,15 @@ export default function BranchAdminRoute() {
                         <FormControl>
                             <TextField
                                 required
-                                id="branchName"
-                                label="Branch Name"
+                                id="brandName"
+                                label="Brand Name"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.branchName}
-                                error={Boolean(formik.touched.branchName && formik.errors.branchName)}
+                                value={formik.values.brandName}
+                                error={Boolean(formik.touched.brandName && formik.errors.brandName)}
                                 helperText={
-                                    formik.touched.branchName && formik.errors.branchName
-                                        ? String(formik.errors.branchName)
+                                    formik.touched.brandName && formik.errors.brandName
+                                        ? String(formik.errors.brandName)
                                         : null
                                 }
                             />
@@ -150,7 +150,7 @@ export default function BranchAdminRoute() {
                     severity="success"
                     sx={{ width: "100%" }}
                 >
-                    Branch Added Successfully
+                    Brand Added Successfully
                 </Alert>
             </Snackbar>
         </>
