@@ -24,6 +24,8 @@ import DesignationAdminRoute from './features/common/routes/admin/designations';
 import BranchAdminRoute from './features/common/routes/admin/branches';
 import BrandAdminRoute from './features/common/routes/admin/laptopBrands';
 import UserAdminRoute from './features/common/routes/admin/users';
+import EmployeeSettingsAdminRoute from './features/common/routes/admin/employeeSettings';
+import HardwareSettingsAdminRoute from './features/common/routes/admin/hardwareSettings';
 
 // 3rd part
 import{
@@ -123,6 +125,14 @@ const router = createBrowserRouter([
                             {
                                 path: "users",
                                 element: <UserAdminRoute />
+                            },
+                            {
+                                path: "employee-settings",
+                                element: <EmployeeSettingsAdminRoute />
+                            },
+                            {
+                                path: "hardware-settings",
+                                element: <HardwareSettingsAdminRoute />
                             }
                         ]
                     },
