@@ -40,6 +40,45 @@ import "@fontsource/inter"
 // import { theme, darkTheme } from "./lib/theme";
 import { theme } from './features/common/theme';
 
+const adminRoutes = {
+    path: "admin",
+    element: < AdminRootRoute />,
+    children: [
+        {
+            path: "",
+            element: <AdminDasboardRoute />
+        },
+        {
+            path: "departments",
+            element: <DepartmentAdminRoute />
+        },
+        {
+            path: "designations",
+            element: <DesignationAdminRoute />
+        },
+        {
+            path: "branches",
+            element: <BranchAdminRoute />
+        },
+        {
+            path: "laptop-brands",
+            element: <BrandAdminRoute />
+        },
+        {
+            path: "users",
+            element: <UserAdminRoute />
+        },
+        {
+            path: "employee-settings",
+            element: <EmployeeSettingsAdminRoute />
+        },
+        {
+            path: "hardware-settings",
+            element: <HardwareSettingsAdminRoute />
+        }
+    ]
+};
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -98,44 +137,7 @@ const router = createBrowserRouter([
                         path: "laptop/:id/history",
                         element: <LaptopHistory />
                     },
-                    {
-                        path: "admin",
-                        element: < AdminRootRoute />,
-                        children: [
-                            {
-                                path: "",
-                                element: <AdminDasboardRoute />
-                            },
-                            {
-                                path: "departments",
-                                element: <DepartmentAdminRoute />
-                            },
-                            {
-                                path: "designations",
-                                element: <DesignationAdminRoute />
-                            },
-                            {
-                                path: "branches",
-                                element: <BranchAdminRoute />
-                            },
-                            {
-                                path: "laptop-brands",
-                                element: <BrandAdminRoute />
-                            },
-                            {
-                                path: "users",
-                                element: <UserAdminRoute />
-                            },
-                            {
-                                path: "employee-settings",
-                                element: <EmployeeSettingsAdminRoute />
-                            },
-                            {
-                                path: "hardware-settings",
-                                element: <HardwareSettingsAdminRoute />
-                            }
-                        ]
-                    },
+                    adminRoutes,
                 ]
             }
         ]
