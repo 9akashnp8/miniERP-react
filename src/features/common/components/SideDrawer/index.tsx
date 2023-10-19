@@ -47,7 +47,7 @@ export default function ({ children }: FCWithChildren) {
     function handleSignOut() {
         deleteCookie("access")
         deleteCookie("refresh")
-        window.location.href = "login"
+        window.location.href = "/login"
     }
 
     return (
