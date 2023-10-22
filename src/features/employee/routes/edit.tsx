@@ -103,7 +103,7 @@ export default function EmployeeEdit() {
     })
     const {
         data: designations
-    } = useGetDesignationsQuery({ deptId: formik.values.department });
+    } = useGetDesignationsQuery(formik.values.department);
     const {
         data: departments
     } = useGetDepartmentsQuery();
