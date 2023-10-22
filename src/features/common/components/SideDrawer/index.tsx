@@ -102,7 +102,7 @@ export default function ({ children }: FCWithChildren) {
                             onClose={handleClose}
                         >
                             <Link sx={{ textDecoration: 'none'}} to={'/admin'}>
-                                <MenuItem>
+                                <MenuItem onClick={handleClose}>
                                     Admin
                                 </MenuItem>
                             </Link>
