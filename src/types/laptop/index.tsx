@@ -9,10 +9,10 @@ interface Branch {
     location: string
 }
 
-interface Building {
+export interface Building {
     id: number;
     building: string;
-    location: number;
+    location: Branch;
 }
 
 export interface Laptop {

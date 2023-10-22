@@ -26,6 +26,7 @@ import BrandAdminRoute from './features/common/routes/admin/laptopBrands';
 import UserAdminRoute from './features/common/routes/admin/users';
 import EmployeeSettingsAdminRoute from './features/common/routes/admin/employeeSettings';
 import HardwareSettingsAdminRoute from './features/common/routes/admin/hardwareSettings';
+import BuildingAdminRoute from './features/common/routes/admin/buildings';
 
 // 3rd part
 import{
@@ -59,6 +60,10 @@ const adminRoutes = {
         {
             path: "branches",
             element: <BranchAdminRoute />
+        },
+        {
+            path: "buildings",
+            element: <BuildingAdminRoute />
         },
         {
             path: "laptop-brands",
