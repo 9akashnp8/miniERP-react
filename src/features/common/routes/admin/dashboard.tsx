@@ -36,7 +36,7 @@ const adminCards = [
     },
     {
         title: "Buildings",
-        url: "/admin/building",
+        url: "/admin/buildings",
         icon: <LocationCityIcon />
     },
     {
