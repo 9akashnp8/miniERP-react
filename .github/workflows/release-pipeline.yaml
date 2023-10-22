@@ -1,0 +1,21 @@
+name: minierp-react-release-pipeline
+run-name: ${{ github.actor }} running release pipeline
+on:
+  release:
+    types: [published]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node
+        with:
+          node-version: "20"
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: placeholder step
+        run: echo "Hello World"
