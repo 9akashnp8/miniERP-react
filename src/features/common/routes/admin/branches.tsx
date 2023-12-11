@@ -28,10 +28,14 @@ import {
     useCreateBranchMutation,
 } from "../../../employee/branchApiSlice"
 
-export default function BranchAdminRoute() {
-    const [open, setOpen] = useState(false);
-    const [formOpen, setFormOpen] = useState(false);
-    const { data: branches } = useGetBranchesQuery();
+import { withFetchData } from "../../components/TableHoC"
+
+type BranchCreateFormProps = {
+    setOpen: (value: boolean) => void,
+    setFormOpen: (value: boolean) => void
+}
+
+function BranchCreateForm({setOpen, setFormOpen}: BranchCreateFormProps) {
     const [ createBranch ] = useCreateBranchMutation();
     const formik = useFormik({
         initialValues: {
@@ -39,19 +43,6 @@ export default function BranchAdminRoute() {
         },
         onSubmit: (value) => new Promise((res, rej) => res("success"))
     })
-
-    function handleSnackBarClose(
-        _: Event | React.SyntheticEvent<any, Event>,
-        reason: SnackbarCloseReason
-    ) {
-        if (reason === 'clickaway') return;
-        setOpen(false);
-    }
-
-    function handleDeptCreateDialogClose() {
-        formik.resetForm();
-        setFormOpen(false);
-    }
 
     function handleSubmit() {
         const payload = {
@@ -72,87 +63,85 @@ export default function BranchAdminRoute() {
             })
     }
 
+    function handleDeptCreateDialogClose() {
+        formik.resetForm();
+        setFormOpen(false);
+    }
+
     return (
         <>
-            <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
-                <Typography variant="h4" component="h1">
-                    Branches
-                </Typography>
-                <PrimaryButton
-                    style={{ marginLeft: 'auto' }}
-                    onClick={() => setFormOpen(true)}
+            <DialogTitle>Add New Branch</DialogTitle>
+            <DialogContent >
+                <form
+                    method="POST"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '10px'
+                    }}
                 >
-                    Add New
-                </PrimaryButton>
-            </Stack>
-            <Table
-                columns={[
-                    "Sl No",
-                    "Branches",
-                ]}
-            >
-                {branches?.results.map((branch) => (
-                    <TableRow
-                        key={branch.location_id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell component="th" scope="row" align="center">
-                            {branch.location_id}
-                        </TableCell>
-                        <TableCell component="th" scope="row" align="center">
-                            {branch.location}
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </Table>
-            <Dialog open={formOpen} onClose={(e) => setFormOpen(false)}>
-                <DialogTitle>Add New Branch</DialogTitle>
-                <DialogContent >
-                    <form
-                        method="POST"
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            marginTop: '10px'
-                        }}
-                    >
-                        <FormControl>
-                            <TextField
-                                required
-                                id="branchName"
-                                label="Branch Name"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.branchName}
-                                error={Boolean(formik.touched.branchName && formik.errors.branchName)}
-                                helperText={
-                                    formik.touched.branchName && formik.errors.branchName
-                                        ? String(formik.errors.branchName)
-                                        : null
-                                }
-                            />
-                        </FormControl>
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <GhostButton onClick={handleDeptCreateDialogClose}>Cancel</GhostButton>
-                    <GhostButton
-                        type="button"
-                        onClick={() => handleSubmit()}
-                    >
-                        Add
-                    </GhostButton>
-                </DialogActions>
-            </Dialog>
-            <Snackbar open={open} autoHideDuration={4000} onClose={handleSnackBarClose}>
-                <Alert
-                    onClose={() => handleSnackBarClose}
-                    severity="success"
-                    sx={{ width: "100%" }}
+                    <FormControl>
+                        <TextField
+                            required
+                            id="branchName"
+                            label="Branch Name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.branchName}
+                            error={Boolean(formik.touched.branchName && formik.errors.branchName)}
+                            helperText={
+                                formik.touched.branchName && formik.errors.branchName
+                                    ? String(formik.errors.branchName)
+                                    : null
+                            }
+                        />
+                    </FormControl>
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <GhostButton onClick={handleDeptCreateDialogClose}>Cancel</GhostButton>
+                <GhostButton
+                    type="button"
+                    onClick={() => handleSubmit()}
                 >
-                    Branch Added Successfully
-                </Alert>
-            </Snackbar>
+                    Add
+                </GhostButton>
+            </DialogActions>
         </>
+    )
+}
+
+type BranchTableRowsProps = {
+    data?: any
+}
+
+function BranchTableRows({ data}: BranchTableRowsProps) {
+    return (
+        <>
+            {data.map((branch: any) => (
+                <TableRow
+                    key={branch.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                    <TableCell component="th" scope="row" align="center">
+                        {branch.userId}
+                    </TableCell>
+                    <TableCell component="th" scope="row" align="center">
+                        {branch.title}
+                    </TableCell>
+                </TableRow>
+            ))}
+        </>
+    )
+}
+
+export default function BranchAdminRoute() {
+    const BrandAdmin = withFetchData(BranchTableRows, BranchCreateForm, useGetBranchesQuery)
+    return (
+        <BrandAdmin
+            pageTitle='Branches'
+            columns={['Sr No', 'Branch']}
+            successAlertMessage='Branch Added Successfully'
+        />
     )
 }
