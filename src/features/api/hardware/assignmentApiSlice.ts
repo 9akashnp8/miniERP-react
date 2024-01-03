@@ -7,6 +7,13 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
             query: (employeeId) => `hardware-assignment/?employee=${employeeId}&is_assigned=True`,
             providesTags: [{type: 'HardwareAssignment', id: 'List'}]
         }),
+        assignHardware: builder.mutation<any, any>({
+            query: (payload) => ({
+                url: 'hardware-assignment/',
+                method: 'POST',
+                body: payload
+            })
+        }),
         returnHardware: builder.mutation<any, any>({
             query: (args) => ({
                 url: `hardware-assignment/${args.id}/`,
@@ -20,5 +27,6 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetHardwaresAssignedQuery,
+    useAssignHardwareMutation,
     useReturnHardwareMutation
 } = assignmentApiSlice

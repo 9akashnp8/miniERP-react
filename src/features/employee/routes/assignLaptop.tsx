@@ -15,7 +15,7 @@ import AppBar from '@mui/material/AppBar';
 import Snackbar from "@mui/material/Snackbar";
 import { SnackbarCloseReason } from "@mui/material/Snackbar";
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 
 import {
     Search,
@@ -31,12 +31,15 @@ import {
     useGetLaptopsQuery,
     useAssignLaptopMutation
 } from '../../laptop/laptopsApiSlice';
+import { useGetAvailableHardwareQuery } from '../../api/hardware/hardwareApiSlice';
+import { useAssignHardwareMutation } from '../../api/hardware/assignmentApiSlice';
 
 import { Laptop } from '../../../types/laptop';
 
 export default function AssignLaptop() {
     const navigate = useNavigate();
     const { id } = useParams();
+    const [searchParams] = useSearchParams()
     const [page, setPage] = React.useState(1);
     const [laptopSearch, setLaptopSearch] = React.useState('');
     const [asssignSuccess, setAssignSuccess] = React.useState(false);
@@ -50,6 +53,8 @@ export default function AssignLaptop() {
         laptopSearch: laptopSearch,
         filterQuery: 'emp_id__isnull=true&laptop_status=Working'
     });
+    const { data: hardwares } = useGetAvailableHardwareQuery(searchParams.get('type') || '')
+    const [ assignHardware ] = useAssignHardwareMutation()
     const [ assignLaptop ] = useAssignLaptopMutation()
 
     function handleClose(event: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason) {
@@ -66,12 +71,13 @@ export default function AssignLaptop() {
         }, []
     );
 
-    function handleAssignLaptop(laptop_id: number) {
+    function handleAssignHardware(hardware_id: string) {
         const payload = {
-            employee_id: id,
-            laptop_id: laptop_id
+            employee: id,
+            hardware: hardware_id,
+            assignment_date: new Date().toISOString()
         }
-        assignLaptop(payload)
+        assignHardware(payload)
             .unwrap()
             .then((res) => {
                 setAssignSuccess(true)
@@ -86,7 +92,7 @@ export default function AssignLaptop() {
         return (
             <>
                 <Typography variant="h4" component="h1" mb={2} >
-                    Assign Laptop
+                    Assign Hardware
                 </Typography>
                 <AppBar position="static">
                     <Box
@@ -112,31 +118,27 @@ export default function AssignLaptop() {
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell align="center">Laptop HW ID</StyledTableCell>
+                                <StyledTableCell align="center">Hardware ID</StyledTableCell>
                                 <StyledTableCell align="center">Serial Number</StyledTableCell>
-                                <StyledTableCell align="center">Processor</StyledTableCell>
-                                <StyledTableCell align="center">RAM</StyledTableCell>
                                 <StyledTableCell align="center">Location</StyledTableCell>
                                 <StyledTableCell align="center">Actions</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {laptops.results.map((laptop: Laptop) => ( // TODO: change this
+                            {hardwares?.results.map((hardware) => (
                                 <TableRow
-                                    key={laptop.id}
+                                    key={hardware.uuid}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row" align="center">
-                                        <Link to={`/laptop/${laptop.id}`} >{laptop.hardware_id}</Link>
+                                        <Link to={`/laptop/${hardware.uuid}`} >{hardware.hardware_id}</Link>
                                     </TableCell>
-                                    <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
-                                    <TableCell align="center">{laptop.processor}</TableCell>
-                                    <TableCell align="center">{laptop.ram_capacity}</TableCell>
-                                    <TableCell align="center">{laptop.laptop_branch?.location}</TableCell>
+                                    <TableCell align="center">{hardware.serial_no}</TableCell>
+                                    <TableCell align="center">{hardware.location.location}</TableCell>
                                     <TableCell align="center" >
                                         <SecondaryButton
                                             size='small'
-                                            onClick={() => handleAssignLaptop(laptop.id)}
+                                            onClick={() => handleAssignHardware(hardware.uuid)}
                                         >
                                             Assign
                                         </SecondaryButton>
@@ -160,7 +162,7 @@ export default function AssignLaptop() {
                         severity="success"
                         sx={{ width: "100%" }}
                     >
-                        Laptop Assigned Successfully
+                        Hardware Assigned Successfully
                     </Alert>
                 </Snackbar>
             </>
