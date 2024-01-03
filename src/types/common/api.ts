@@ -1,5 +1,6 @@
 import { Department, Designation, Location, User } from "../employee"
 import { Brand, Building } from "../laptop"
+import { HardwareAssignment } from "../hardware"
 
 export interface BaseAPIResponse {
     count: string,
@@ -29,4 +30,8 @@ export interface UserAPIResponse extends BaseAPIResponse {
 
 export interface BuildingAPIResponse extends BaseAPIResponse {
     results: Building[]
+}
+
+export interface HardwareAssignmentAPIRes extends BaseAPIResponse {
+    results: HardwareAssignment[]
 }

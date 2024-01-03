@@ -46,6 +46,7 @@ export const apiSlice = createApi({
         'LaptopBrand',
         'User',
         'Building',
+        'HardwareAssignment'
     ],
     endpoints: builder => ({})
 })

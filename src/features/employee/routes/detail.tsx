@@ -8,7 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -33,7 +32,6 @@ import { StyledTableCell } from "../../../lib/theme";
 import GhostButton from '../../common/components/Button/GhostButton';
 
 // Types
-import { Laptop } from "../../../types/laptop";
 import { OnClickEvent } from "../../../types/common";
 
 // Utils
@@ -41,7 +39,10 @@ import { getCurrentDate } from "../../../lib/utils";
 
 // APIs (RTK Queries)
 import { useGetEmployeeDetailQuery } from "../employeesApiSlice";
-import { useReturnLaptopMutation } from "../../laptop/laptopsApiSlice";
+import {
+    useGetHardwaresAssignedQuery,
+    useReturnHardwareMutation,
+} from '../../api/hardware/assignmentApiSlice';
 
 // React imports
 import { useState } from "react";
@@ -61,23 +62,24 @@ export default function EmployeeDetail() {
         data: employee,
         isLoading
     } = useGetEmployeeDetailQuery({ id: id });
-    const [ returnLaptop ] = useReturnLaptopMutation()
+    const { data } = useGetHardwaresAssignedQuery(id)
+    const [ returnHardware ] = useReturnHardwareMutation()
     const formik = useFormik({
         initialValues: {
-            returnRemarks: '',
+
             returnDate: getCurrentDate(new Date())
         },
         validationSchema: Yup.object({
-            returnRemarks: Yup.string().required(),
             returnDate: Yup.date().required()
         }),
-        onSubmit: (values) => 
-            handleReturnDialogSubmit(2)
+        onSubmit: (values) =>
+            handleReturnDialogSubmit()
     })
     const [anchorEl, setAnchorEl] = useState<null | EventTarget & HTMLButtonElement>(null);
-    const [ returnDialogOpen, setReturnDialogOpen ] = useState<boolean>(false);
-    const [ returnSuccess, setReturnSuccess ] = useState<boolean>(false);
-    const [ isLaptopReplacement, setIsLaptopReplacement  ] = useState<boolean>(false);
+    const [returnDialogOpen, setReturnDialogOpen] = useState<boolean>(false);
+    const [returnSuccess, setReturnSuccess] = useState<boolean>(false);
+    const [isLaptopReplacement, setIsLaptopReplacement] = useState<boolean>(false);
+    const [hardware, setHardware] = useState<number | null>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
@@ -96,14 +98,20 @@ export default function EmployeeDetail() {
         setReturnSuccess(false);
     }
 
+    function handleInitiateReturn(hardwareId: number) {
+        setReturnDialogOpen(true)
+        setHardware(hardwareId)
+    }
+
     const handleReturnDialogClose = () => {
         formik.resetForm();
         setReturnDialogOpen(false);
     }
 
-    const handleReturnDialogSubmit = (laptop_id: number) => {
-        let payload = {...formik.values, employee_id: id, laptop_id,}
-        returnLaptop(payload)
+    const handleReturnDialogSubmit = () => {
+        let payload = { id: hardware, payload: { returned_date: formik.values.returnDate} }
+        debugger
+        returnHardware(payload)
             .unwrap()
             .then((res) => {
                 formik.resetForm();
@@ -154,7 +162,7 @@ export default function EmployeeDetail() {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
-                        sx={{ marginTop: '10px'}}
+                        sx={{ marginTop: '10px' }}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left',
@@ -172,7 +180,7 @@ export default function EmployeeDetail() {
                                 History
                             </Link>
                         </MenuItem>
-                        <Delete employeeId={id}/>
+                        <Delete employeeId={id} />
                     </Menu>
                 </Stack>
                 <Paper variant="outlined">
@@ -220,117 +228,89 @@ export default function EmployeeDetail() {
                         color={theme.palette.text.secondary}
                         mb={2}
                     >
-                        Laptops Assigned
+                        Hardwares Assigned
                     </Typography>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow>
+                                    <StyledTableCell align="center">Hardware Type</StyledTableCell>
                                     <StyledTableCell align="center">Hardware ID</StyledTableCell>
-                                    <StyledTableCell align="center">Laptop Sr No</StyledTableCell>
-                                    <StyledTableCell align="center">Laptop Grade</StyledTableCell>
+                                    <StyledTableCell align="center">Serial No</StyledTableCell>
                                     <StyledTableCell align="center">Actions</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {employee.laptops.length > 0
-                                    ? employee.laptops.map((laptop: Laptop) => (
-                                        <TableRow
-                                            key={laptop.id}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row" align="center">
-                                                <Link to={`/laptop/${laptop.id}`}>{laptop.hardware_id}</Link>
-                                            </TableCell>
-                                            <TableCell align="center">{laptop.laptop_sr_no}</TableCell>
-                                            <TableCell align="center">{laptop.processor}</TableCell>
-                                            <TableCell align="center">
-                                                <Stack direction={"row"} spacing={1} justifyContent={"center"}>
-                                                    <SecondaryButton
-                                                        size='small'
-                                                        onClick={(e) => setReturnDialogOpen(true)}
-                                                    >
-                                                        Return
-                                                    </SecondaryButton>
-                                                    <Dialog open={returnDialogOpen} onClose={(e) => setReturnDialogOpen(false)}>
-                                                        <DialogTitle>Return {employee?.emp_name}'s Laptop</DialogTitle>
-                                                        <DialogContent >
-                                                            <form
-                                                                method="POST"
-                                                                style={{
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    marginTop: '10px'
-                                                                }}
-                                                                onSubmit={formik.handleSubmit}
-                                                            >
-                                                                <FormControl>
-                                                                    <TextField
-                                                                        id="returnRemarks"
-                                                                        label="Return Remarks"
-                                                                        multiline
-                                                                        rows={4}
-                                                                        onChange={formik.handleChange}
-                                                                        onBlur={formik.handleBlur}
-                                                                        value={formik.values.returnRemarks}
-                                                                        error={Boolean(formik.touched.returnRemarks && formik.errors.returnRemarks)}
-                                                                        helperText={
-                                                                            formik.touched.returnRemarks && formik.errors.returnRemarks
-                                                                                ? String(formik.errors.returnRemarks)
-                                                                                : null
-                                                                        }
-                                                                    />
-                                                                    <TextField
-                                                                        id="returnDate"
-                                                                        label="Return Date"
-                                                                        type="date"
-                                                                        margin="normal"
-                                                                        onChange={formik.handleChange}
-                                                                        onBlur={formik.handleBlur}
-                                                                        value={formik.values.returnDate}
-                                                                        error={Boolean(formik.touched.returnDate && formik.errors.returnDate)}
-                                                                        helperText={
-                                                                            formik.touched.returnDate && formik.errors.returnDate
-                                                                                ? String(formik.errors.returnDate)
-                                                                                : null
-                                                                        }
-                                                                    />
-                                                                </FormControl>
-                                                            </form>
-                                                        </DialogContent>
-                                                        <DialogActions>
-                                                            <GhostButton onClick={handleReturnDialogClose}>Cancel</GhostButton>
-                                                            <GhostButton
-                                                                type="button"
-                                                                onClick={() => handleReturnDialogSubmit(laptop.id)}
-                                                            >
-                                                                Return
-                                                            </GhostButton>
-                                                        </DialogActions>
-                                                    </Dialog>
-                                                    <SecondaryButton
-                                                        size='small'
-                                                        onClick={(e) => {
-                                                            setReturnDialogOpen(true)
-                                                            setIsLaptopReplacement(true)
-                                                        }}
-                                                    >
-                                                        Replace
-                                                    </SecondaryButton>
-                                                </Stack>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                    : (
-                                        <TableRow
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell colSpan={4} align="center">
-                                                No Laptops Assigned
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                }
+                                {data?.results.map((assignment) => (
+                                    <TableRow
+                                        key={assignment.id}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell align="center">{assignment.hardware.type}</TableCell>
+                                        <TableCell align="center">{assignment.assignment_id}</TableCell>
+                                        <TableCell align="center">{assignment.hardware.serial_no}</TableCell>
+                                        <TableCell align="center">
+                                            <Stack direction={"row"} spacing={1} justifyContent={"center"}>
+                                                <SecondaryButton
+                                                    size='small'
+                                                    onClick={() => handleInitiateReturn(assignment.id)}
+                                                >
+                                                    Return
+                                                </SecondaryButton>
+                                                <Dialog open={returnDialogOpen} onClose={(e) => setReturnDialogOpen(false)}>
+                                                    <DialogTitle>Return {employee?.emp_name}'s Hardware</DialogTitle>
+                                                    <DialogContent >
+                                                        <form
+                                                            method="POST"
+                                                            style={{
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                marginTop: '10px'
+                                                            }}
+                                                            onSubmit={formik.handleSubmit}
+                                                        >
+                                                            <FormControl>
+                                                                <TextField
+                                                                    id="returnDate"
+                                                                    label="Return Date"
+                                                                    type="date"
+                                                                    margin="normal"
+                                                                    onChange={formik.handleChange}
+                                                                    onBlur={formik.handleBlur}
+                                                                    value={formik.values.returnDate}
+                                                                    error={Boolean(formik.touched.returnDate && formik.errors.returnDate)}
+                                                                    helperText={
+                                                                        formik.touched.returnDate && formik.errors.returnDate
+                                                                            ? String(formik.errors.returnDate)
+                                                                            : null
+                                                                    }
+                                                                />
+                                                            </FormControl>
+                                                        </form>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <GhostButton onClick={handleReturnDialogClose}>Cancel</GhostButton>
+                                                        <GhostButton
+                                                            type="button"
+                                                            onClick={handleReturnDialogSubmit}
+                                                        >
+                                                            Return
+                                                        </GhostButton>
+                                                    </DialogActions>
+                                                </Dialog>
+                                                <SecondaryButton
+                                                    size='small'
+                                                    onClick={(e) => {
+                                                        setReturnDialogOpen(true)
+                                                        setIsLaptopReplacement(true)
+                                                    }}
+                                                >
+                                                    Replace
+                                                </SecondaryButton>
+                                            </Stack>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
