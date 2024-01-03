@@ -53,6 +53,10 @@ import { useFormik } from "formik";
 import { useTheme } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
+type ReturningHardware = {
+    id: string,
+    type: number
+}
 
 export default function EmployeeDetail() {
     const theme = useTheme();
@@ -79,7 +83,7 @@ export default function EmployeeDetail() {
     const [returnDialogOpen, setReturnDialogOpen] = useState<boolean>(false);
     const [returnSuccess, setReturnSuccess] = useState<boolean>(false);
     const [isLaptopReplacement, setIsLaptopReplacement] = useState<boolean>(false);
-    const [hardware, setHardware] = useState<number | null>(null);
+    const [hardware, setHardware] = useState<ReturningHardware | null>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: OnClickEvent) => {
         setAnchorEl(event.currentTarget);
@@ -98,9 +102,10 @@ export default function EmployeeDetail() {
         setReturnSuccess(false);
     }
 
-    function handleInitiateReturn(hardwareId: number) {
+    function handleInitiateReturn(hardware: ReturningHardware) {
+        console.log(hardware)
         setReturnDialogOpen(true)
-        setHardware(hardwareId)
+        setHardware(hardware)
     }
 
     const handleReturnDialogClose = () => {
@@ -109,7 +114,7 @@ export default function EmployeeDetail() {
     }
 
     const handleReturnDialogSubmit = () => {
-        let payload = { id: hardware, payload: { returned_date: formik.values.returnDate} }
+        let payload = { id: hardware?.id, payload: { returned_date: formik.values.returnDate} }
         debugger
         returnHardware(payload)
             .unwrap()
@@ -121,7 +126,7 @@ export default function EmployeeDetail() {
                 setReturnDialogOpen(false)
                 if (isLaptopReplacement) {
                     setTimeout(() => {
-                        navigate(`/employee/${id}/assign`)
+                        navigate(`/employee/${id}/assign?type=${hardware?.type}`)
                     }, 1000)
                 }
             })
@@ -246,14 +251,19 @@ export default function EmployeeDetail() {
                                         key={assignment.id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align="center">{assignment.hardware.type}</TableCell>
+                                        <TableCell align="center">{assignment.hardware.type.name}</TableCell>
                                         <TableCell align="center">{assignment.assignment_id}</TableCell>
                                         <TableCell align="center">{assignment.hardware.serial_no}</TableCell>
                                         <TableCell align="center">
                                             <Stack direction={"row"} spacing={1} justifyContent={"center"}>
                                                 <SecondaryButton
                                                     size='small'
-                                                    onClick={() => handleInitiateReturn(assignment.id)}
+                                                    onClick={() => {
+                                                        handleInitiateReturn({
+                                                            id: assignment.assignment_id,
+                                                            type: assignment.hardware.type.id
+                                                        })
+                                                    }}
                                                 >
                                                     Return
                                                 </SecondaryButton>
@@ -303,6 +313,7 @@ export default function EmployeeDetail() {
                                                     onClick={(e) => {
                                                         setReturnDialogOpen(true)
                                                         setIsLaptopReplacement(true)
+                                                        handleInitiateReturn({id: assignment.assignment_id, type: assignment.hardware.type.id})
                                                     }}
                                                 >
                                                     Replace
