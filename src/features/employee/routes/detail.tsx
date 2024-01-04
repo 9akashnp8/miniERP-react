@@ -54,7 +54,7 @@ import { useTheme } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
 type ReturningHardware = {
-    id: string,
+    id: number,
     type: number
 }
 
@@ -115,7 +115,6 @@ export default function EmployeeDetail() {
 
     const handleReturnDialogSubmit = () => {
         let payload = { id: hardware?.id, payload: { returned_date: formik.values.returnDate} }
-        debugger
         returnHardware(payload)
             .unwrap()
             .then((res) => {
@@ -260,7 +259,7 @@ export default function EmployeeDetail() {
                                                     size='small'
                                                     onClick={() => {
                                                         handleInitiateReturn({
-                                                            id: assignment.assignment_id,
+                                                            id: assignment.id,
                                                             type: assignment.hardware.type.id
                                                         })
                                                     }}
@@ -313,7 +312,7 @@ export default function EmployeeDetail() {
                                                     onClick={(e) => {
                                                         setReturnDialogOpen(true)
                                                         setIsLaptopReplacement(true)
-                                                        handleInitiateReturn({id: assignment.assignment_id, type: assignment.hardware.type.id})
+                                                        handleInitiateReturn({id: assignment.id, type: assignment.hardware.type.id})
                                                     }}
                                                 >
                                                     Replace

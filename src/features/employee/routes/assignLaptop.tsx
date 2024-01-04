@@ -29,12 +29,10 @@ import SecondaryButton from '../../common/components/Button/SecondaryButton';
 
 import {
     useGetLaptopsQuery,
-    useAssignLaptopMutation
 } from '../../laptop/laptopsApiSlice';
 import { useGetAvailableHardwareQuery } from '../../api/hardware/hardwareApiSlice';
 import { useAssignHardwareMutation } from '../../api/hardware/assignmentApiSlice';
 
-import { Laptop } from '../../../types/laptop';
 
 export default function AssignLaptop() {
     const navigate = useNavigate();
@@ -46,8 +44,6 @@ export default function AssignLaptop() {
     const {
         data: laptops,
         isLoading,
-        isError,
-        error
     } = useGetLaptopsQuery({
         page: page,
         laptopSearch: laptopSearch,
@@ -55,7 +51,6 @@ export default function AssignLaptop() {
     });
     const { data: hardwares } = useGetAvailableHardwareQuery(searchParams.get('type') || '')
     const [ assignHardware ] = useAssignHardwareMutation()
-    const [ assignLaptop ] = useAssignLaptopMutation()
 
     function handleClose(event: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason) {
         if (reason === 'clickaway') {
@@ -72,10 +67,11 @@ export default function AssignLaptop() {
     );
 
     function handleAssignHardware(hardware_id: string) {
+        const currDate = new Date()
         const payload = {
             employee: id,
             hardware: hardware_id,
-            assignment_date: new Date().toISOString()
+            assignment_date: `${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`
         }
         assignHardware(payload)
             .unwrap()
