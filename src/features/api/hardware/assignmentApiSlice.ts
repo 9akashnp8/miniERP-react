@@ -12,7 +12,8 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
                 url: 'hardware-assignment/',
                 method: 'POST',
                 body: payload
-            })
+            }),
+            invalidatesTags: [{type: 'HardwareAssignment', id: 'List'}]
         }),
         returnHardware: builder.mutation<any, any>({
             query: (args) => ({
