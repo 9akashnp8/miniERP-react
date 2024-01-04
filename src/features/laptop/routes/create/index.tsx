@@ -99,7 +99,6 @@ export default function () {
                 })
                 .catch((error) => {
                     Object.entries(error.data).forEach(([field, message]: [string, any]) => { // TODO: Change this
-                        debugger;
                         const formField: string = getKeyByValue(laptopFieldMapping, field)!;
                         formik.setFieldError(formField, message)
                     })

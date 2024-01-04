@@ -57,7 +57,6 @@ export default function SelectLaptop() {
     returnLaptop(payload)
       .unwrap()
       .then((res) => {
-        debugger;
         formik.resetForm();
         setReturnSuccess(true);
       })
