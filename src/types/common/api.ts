@@ -3,7 +3,7 @@ import { Brand, Building } from "../laptop"
 import { HardwareAssignment, Hardware } from "../hardware"
 
 export interface BaseAPIResponse {
-    count: string,
+    count: number,
     next: string,
     previous: string,
 }
