@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,26 +9,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
 import Snackbar from "@mui/material/Snackbar";
 import { SnackbarCloseReason } from "@mui/material/Snackbar";
 
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 
 import {
-    Search,
-    SearchIconWrapper,
-    StyledInputBase,
     StyledTableCell,
 } from '../../../lib/theme';
 import { Alert } from '../../common/components/Alert';
 import Link from '../../common/components/Link';
 import SecondaryButton from '../../common/components/Button/SecondaryButton';
 
-import {
-    useGetLaptopsQuery,
-} from '../../laptop/laptopsApiSlice';
 import { useGetAvailableHardwareQuery } from '../../api/hardware/hardwareApiSlice';
 import { useAssignHardwareMutation } from '../../api/hardware/assignmentApiSlice';
 
@@ -39,17 +30,8 @@ export default function AssignLaptop() {
     const { id } = useParams();
     const [searchParams] = useSearchParams()
     const [page, setPage] = React.useState(1);
-    const [laptopSearch, setLaptopSearch] = React.useState('');
     const [asssignSuccess, setAssignSuccess] = React.useState(false);
-    const {
-        data: laptops,
-        isLoading,
-    } = useGetLaptopsQuery({
-        page: page,
-        laptopSearch: laptopSearch,
-        filterQuery: 'emp_id__isnull=true&laptop_status=Working'
-    });
-    const { data: hardwares } = useGetAvailableHardwareQuery(searchParams.get('type') || '')
+    const { data: hardwares, isLoading } = useGetAvailableHardwareQuery(searchParams.get('type') || '')
     const [ assignHardware ] = useAssignHardwareMutation()
 
     function handleClose(event: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason) {
@@ -90,30 +72,11 @@ export default function AssignLaptop() {
                 <Typography variant="h4" component="h1" mb={2} >
                     Assign Hardware
                 </Typography>
-                <AppBar position="static">
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            padding: '0.75rem',
-                            gap: '0.5rem'
-                        }}
-                    >
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                                onChange={(e) => setLaptopSearch(e.target.value)}
-                            />
-                        </Search>
-                    </Box>
-                </AppBar>
-                <TableContainer component={Paper} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
+                <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
+                                <StyledTableCell align="center">Hardware Type</StyledTableCell>
                                 <StyledTableCell align="center">Hardware ID</StyledTableCell>
                                 <StyledTableCell align="center">Serial Number</StyledTableCell>
                                 <StyledTableCell align="center">Location</StyledTableCell>
@@ -126,11 +89,12 @@ export default function AssignLaptop() {
                                     key={hardware.uuid}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
+                                    <TableCell align="center">{hardware.type?.name}</TableCell>
                                     <TableCell component="th" scope="row" align="center">
                                         <Link to={`/laptop/${hardware.uuid}`} >{hardware.hardware_id}</Link>
                                     </TableCell>
                                     <TableCell align="center">{hardware.serial_no}</TableCell>
-                                    <TableCell align="center">{hardware.location.location}</TableCell>
+                                    <TableCell align="center">{hardware.location?.location}</TableCell>
                                     <TableCell align="center" >
                                         <SecondaryButton
                                             size='small'
@@ -147,7 +111,7 @@ export default function AssignLaptop() {
                 <TablePagination
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={laptops.count}
+                    count={hardwares?.count ?? 0}
                     rowsPerPage={10}
                     page={page - 1}
                     onPageChange={handleChangePage}
