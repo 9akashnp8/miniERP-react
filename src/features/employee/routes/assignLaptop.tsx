@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
 import Snackbar from "@mui/material/Snackbar";
 import { SnackbarCloseReason } from "@mui/material/Snackbar";
+import type { AlertColor } from '@mui/material';
 
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 
@@ -30,6 +31,8 @@ export default function AssignLaptop() {
     const { id } = useParams();
     const [searchParams] = useSearchParams()
     const [page, setPage] = React.useState(1);
+    const [ alertMessage, setAlertMessage ] = React.useState<string>("")
+    const [ alertType, setAlertType ] = React.useState<AlertColor>("success")
     const [asssignSuccess, setAssignSuccess] = React.useState(false);
     const { data: hardwares, isLoading } = useGetAvailableHardwareQuery(searchParams.get('type') || '')
     const [ assignHardware ] = useAssignHardwareMutation()
@@ -58,10 +61,19 @@ export default function AssignLaptop() {
         assignHardware(payload)
             .unwrap()
             .then((res) => {
+                setAlertType("success")
+                setAlertMessage("Hardware Assigned Successfully")
                 setAssignSuccess(true)
                 setTimeout(() => {
                     navigate(`/employee/${id}`)
                 }, 1000)
+            })
+            .catch(err => {
+                const errMessage = err?.data && err?.data[0]
+                setAlertType("error")
+                setAlertMessage(errMessage)
+                setAssignSuccess(true)
+                
             })
             .finally(() => null)
     }
@@ -119,10 +131,10 @@ export default function AssignLaptop() {
                 <Snackbar open={asssignSuccess} autoHideDuration={4000} onClose={handleClose}>
                     <Alert
                         onClose={() => handleClose}
-                        severity="success"
+                        severity={alertType}
                         sx={{ width: "100%" }}
                     >
-                        Hardware Assigned Successfully
+                        {alertMessage}
                     </Alert>
                 </Snackbar>
             </>
