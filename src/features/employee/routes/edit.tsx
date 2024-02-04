@@ -90,7 +90,7 @@ export default function EmployeeEdit() {
                 .then((res) => {
                     setOpen(true);
                     setTimeout(() => {
-                        navigate('/employee/')
+                        navigate(`/employee/${id}`)
                     }, 1000)
                 })
                 .catch((error) => {

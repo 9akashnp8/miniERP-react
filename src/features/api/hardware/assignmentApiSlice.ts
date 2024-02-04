@@ -13,7 +13,7 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-            invalidatesTags: [{type: 'HardwareAssignment', id: 'List'}]
+            invalidatesTags: [{type: 'HardwareAssignment', id: 'List'}, 'Hardware']
         }),
         returnHardware: builder.mutation<any, any>({
             query: (args) => ({
@@ -21,7 +21,7 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: args.payload,
             }),
-            invalidatesTags: [{type: 'HardwareAssignment', id: 'List'}]
+            invalidatesTags: [{type: 'HardwareAssignment', id: 'List'}, 'Hardware']
         }),
     })
 })
