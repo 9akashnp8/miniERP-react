@@ -146,7 +146,7 @@ export default function EmployeeDetail() {
                         style={{ textDecoration: 'none', color: 'inherit', marginLeft: 'auto' }}
                     >
                         <PrimaryButton>
-                            Assign Laptop
+                            Assign Hardware
                         </PrimaryButton>
                     </Link>
                     <Link
@@ -251,7 +251,7 @@ export default function EmployeeDetail() {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell align="center">{assignment.hardware.type.name}</TableCell>
-                                        <TableCell align="center">{assignment.assignment_id}</TableCell>
+                                        <TableCell align="center">{assignment.hardware.hardware_id}</TableCell>
                                         <TableCell align="center">{assignment.hardware.serial_no}</TableCell>
                                         <TableCell align="center">
                                             <Stack direction={"row"} spacing={1} justifyContent={"center"}>

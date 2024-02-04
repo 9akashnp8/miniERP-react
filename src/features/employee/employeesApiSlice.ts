@@ -37,7 +37,10 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body: args.payload
             }),
-            invalidatesTags: (result, error, args) => [{ type: 'Employee', id: args.id}]
+            invalidatesTags: (_result, _error, args) => [
+                { type: 'Employee', id: args.id},
+                { type: 'EmployeeHistory', id: args.id}
+            ]
         }),
         deleteEmployee: builder.mutation({
             query: (id) => ({
@@ -51,7 +54,10 @@ export const employeeApiSlice = apiSlice.injectEndpoints({
                 return {
                     url: `employee/${id}/history/`
                 }
-            }
+            },
+            providesTags: (_result, _error, args) => [
+                { type: 'EmployeeHistory', id: args.id},
+            ]
         }),
         getEmployeeLaptops: builder.query<Laptop[], string>({
             query: (id) => {
