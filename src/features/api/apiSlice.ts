@@ -22,7 +22,6 @@ async function baseQueryWithReauth(args: any, api: any, extraOptions: any) { // 
     if (result?.error?.status === 401) {
         const argsX = {url: 'token/refresh/', method: 'POST'}
         const refreshResult = await baseQuery(argsX, api, extraOptions)
-        console.log(refreshResult)
         if (refreshResult?.data) {
             api.dispatch(setCredentials({ ...refreshResult.data }))
             result = await baseQuery(args, api, extraOptions)
@@ -46,7 +45,9 @@ export const apiSlice = createApi({
         'LaptopBrand',
         'User',
         'Building',
-        'HardwareAssignment'
+        'HardwareAssignment',
+        'Hardware',
+        'EmployeeHistory',
     ],
     endpoints: builder => ({})
 })
