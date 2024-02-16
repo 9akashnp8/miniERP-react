@@ -52,3 +52,18 @@ export interface Hardware {
     }
 
 }
+
+export interface HardwareType {
+    id: number,
+    name: string,
+}
+
+export interface HardwareOwner {
+    id: number,
+    name: string,
+}
+
+export interface HardwareCondition {
+    id: number,
+    condition: string,
+}

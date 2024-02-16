@@ -123,11 +123,11 @@ const router = createBrowserRouter([
                         element: <SelectLaptop />
                     },
                     {
-                        path: "laptop",
+                        path: "hardware",
                         element: <LaptopTable />
                     },
                     {
-                        path: "laptop/create",
+                        path: "hardware/create",
                         element: <LaptopCreate />
                     },
                     {

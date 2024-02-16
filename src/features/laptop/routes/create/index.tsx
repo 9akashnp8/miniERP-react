@@ -25,10 +25,13 @@ import { getKeyByValue } from '../../../common/utils/functions';
 import config from './config';
 import {
     useCreateNewLaptopMutation,
-    useGetLaptopScreenTypesQuery,
-    useGetLaptopOwnerTypesQuery,
-    useGetLaptopStatusesQuery,
+    useGetLaptopScreenSizesQuery,
 } from '../../laptopsApiSlice';
+import {
+    useGetHardwareTypesQuery,
+    useGetHardwareOwnersQuery,
+    useGetHardwareConditionsQuery,
+} from '../../../api/hardware/hardwareApiSlice';
 import { useGetBranchesQuery } from '../../../employee/branchApiSlice';
 import { useGetBrandsQuery } from '../../laptopBrandApiSlice';
 import { useGetBuildingsQuery } from '../../../common/buildingApiSlice';
@@ -37,26 +40,27 @@ import { getCurrentDate } from '../../../../lib/utils';
 export default function () {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { data: laptopBrands } = useGetBrandsQuery();
-    const { data: buildings } = useGetBuildingsQuery();
-    const { data: screenTypes } = useGetLaptopScreenTypesQuery();
-    const { data: ownerTypes } = useGetLaptopOwnerTypesQuery();
-    const { data: laptopStatuses } = useGetLaptopStatusesQuery();
+    const { data: hardwareTypes } = useGetHardwareTypesQuery();
+    const { data: hardwareOwners } = useGetHardwareOwnersQuery();
+    const { data: hardwareConditions } = useGetHardwareConditionsQuery();
     const { data: locations } = useGetBranchesQuery();
+    const { data: buildings } = useGetBuildingsQuery();
+    const { data: laptopBrands } = useGetBrandsQuery();
+    const { data: screenSizes } = useGetLaptopScreenSizesQuery();
     const [ createNewLaptop ] = useCreateNewLaptopMutation();
     const formik = useFormik({
         initialValues: {
-            hardwareId: '',
             serialNumber: '',
+            hardwareType: '',
             brand: '',
             processor: '',
             ramCapacity: '',
             storageCapacity: '',
             screenSize: '',
             screenType: '',
-            laptopOwner: '',
+            hardwareOwner: '',
             rentalVendor: '',
-            laptopStatus: '',
+            hardwareCondition: '',
             location: '',
             building: '',
             purchaseDate: getCurrentDate(new Date()),
@@ -66,17 +70,17 @@ export default function () {
 
         },
         validationSchema: Yup.object({
-            hardwareId: Yup.string(),
             serialNumber: Yup.string().required('Required'),
+            hardwareType: Yup.string().required('Required'),
             brand: Yup.string().required('Required'),
             processor: Yup.string().required('Required'),
             ramCapacity: Yup.string().required('Required'),
             storageCapacity: Yup.string().required('Required'),
             screenSize: Yup.string().required('Required'),
             screenType: Yup.string().required('Required'),
-            laptopOwner: Yup.string().required('Required'),
+            hardwareOwner: Yup.string().required('Required'),
             rentalVendor: Yup.string(),
-            laptopStatus: Yup.string().required('Required'),
+            hardwareCondition: Yup.string().required('Required'),
             location: Yup.string().required('Required'),
             building: Yup.string().required('Required'),
             purchaseDate: Yup.string().required('Required'),
@@ -86,10 +90,22 @@ export default function () {
         }),
         onSubmit: (values, { resetForm }) => {
             setLoading(true)
-            let payload = {}
-            for (const [key, value] of Object.entries(values)) {
-                const obj = Object.fromEntries([[laptopFieldMapping[key], value]])
-                Object.assign(payload, obj)
+            let payload = {
+                hardware_id: {
+                    serial_no: values.serialNumber,
+                    type: values.hardwareType,
+                    owner: values.hardwareOwner,
+                    condition: values.hardwareCondition,
+                    location: values.location,
+                    building: values.building,
+                    purchased_date: values.purchaseDate,
+                },
+                brand: values.brand,
+                processor: values.processor,
+                ram_capacity: values.ramCapacity,
+                storage_capacity: values.storageCapacity,
+                screen_size: values.screenSize,
+                is_touch: values.screenType,
             }
             createNewLaptop(payload)
                 .unwrap()
@@ -104,7 +120,7 @@ export default function () {
                     })
                 })
                 .finally(() => setLoading(false))
-        }
+        },
     })
 
     function handleClose(event: Event | React.SyntheticEvent<any, Event>, reason: SnackbarCloseReason) {
@@ -114,18 +130,18 @@ export default function () {
         setOpen(false);
     }
 
-
+    console.log("render")
     return (
         <Box sx={{ maxWidth: "80%", margin: "auto", py: 3 }}>
             <Typography variant="h4" component="h1" gutterBottom>
-                Add Laptop
+                Add New Hardware
             </Typography>
             <Divider />
             {loading ? <LinearProgress /> : null}
             <Box sx={{ pt: 3 }}>
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid item xs={6} hidden={!config.hardwareId.visible}>
+                        <Grid item xs={6} hidden={config.hardwareId.hidden}>
                             <TextField
                                 fullWidth
                                 id="hardwareId"
@@ -143,7 +159,7 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.serialNumber.visible}>
+                        <Grid item xs={6} hidden={config.serialNumber.hidden}>
                             <TextField
                                 fullWidth
                                 id="serialNumber"
@@ -161,180 +177,74 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.brand.visible}>
+                        <Grid item xs={6} hidden={config.hardwareType.hidden}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>
-                                <InputLabel id="brand-label">{config.brand.label}</InputLabel>
+                                <InputLabel id="hardware-type">{config.hardwareType.label}</InputLabel>
                                 <Select
                                     defaultValue=""
-                                    id="brand"
-                                    name="brand"
-                                    label={config.brand.label}
-                                    labelId="brand-label"
-                                    value={formik.values.brand}
+                                    id="hardwareType"
+                                    name="hardwareType"
+                                    label={config.hardwareType.label}
+                                    labelId="hardware-type"
+                                    value={formik.values.hardwareType}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur("brand")}
-                                    error={Boolean(formik.touched.brand && formik.errors.brand)}
-                                >
-                                    {laptopBrands
-                                        ? laptopBrands.results.map((department: any) => { // TODO: change this
-                                            return (
-                                                <MenuItem
-                                                    key={department.id}
-                                                    value={department.id}
-                                                >
-                                                    {department.brand_name}
-                                                </MenuItem>
-                                            )
-                                        })
-                                        : null}
-                                </Select>
-                                <FormHelperText error>
-                                    {formik.touched.brand && formik.errors.brand
-                                        ? formik.errors.brand
-                                        : null}
-                                </FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={6} hidden={!config.processor.visible}>
-                            <TextField
-                                fullWidth
-                                id="processor"
-                                name="processor"
-                                label={config.processor.label}
-                                variant="outlined"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.processor}
-                                error={Boolean(formik.touched.processor && formik.errors.processor)}
-                                helperText={
-                                    formik.touched.processor && formik.errors.processor
-                                        ? String(formik.errors.processor)
-                                        : null
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6} hidden={!config.ramCapacity.visible}>
-                            <TextField
-                                fullWidth
-                                id="ramCapacity"
-                                name="ramCapacity"
-                                label={config.ramCapacity.label}
-                                variant="outlined"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.ramCapacity}
-                                error={Boolean(formik.touched.ramCapacity && formik.errors.ramCapacity)}
-                                helperText={
-                                    formik.touched.ramCapacity && formik.errors.ramCapacity
-                                        ? String(formik.errors.ramCapacity)
-                                        : null
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6} hidden={!config.storageCapacity.visible}>
-                            <TextField
-                                fullWidth
-                                id="storageCapacity"
-                                name="storageCapacity"
-                                label={config.storageCapacity.label}
-                                variant="outlined"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.storageCapacity}
-                                error={Boolean(formik.touched.storageCapacity && formik.errors.storageCapacity)}
-                                helperText={
-                                    formik.touched.storageCapacity && formik.errors.storageCapacity
-                                        ? String(formik.errors.storageCapacity)
-                                        : null
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6} hidden={!config.screenSize.visible}> {/* TODO: change to Select comp. */}
-                            <TextField
-                                fullWidth
-                                id="screenSize"
-                                name="screenSize"
-                                label={config.screenSize.label}
-                                variant="outlined"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.screenSize}
-                                error={Boolean(formik.touched.screenSize && formik.errors.screenSize)}
-                                helperText={
-                                    formik.touched.screenSize && formik.errors.screenSize
-                                        ? String(formik.errors.screenSize)
-                                        : null
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={6} hidden={!config.screenType.visible}>
-                            <FormControl sx={{ minWidth: 250 }} fullWidth>
-                                <InputLabel id="screenType-label">{config.screenType.label}</InputLabel>
-                                <Select
-                                    defaultValue=""
-                                    id="screenType"
-                                    name="screenType"
-                                    label={config.screenType.label}
-                                    labelId="screenType-label"
-                                    value={formik.values.screenType}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur("screenType")}
+                                    onBlur={formik.handleBlur("hardwareType")}
                                     error={
-                                        Boolean(formik.touched.screenType && formik.errors.screenType)
+                                        Boolean(formik.touched.hardwareType && formik.errors.hardwareType)
                                     }
                                 >
-                                    {screenTypes
-                                        ? screenTypes.laptop_screen_types.map((screenType: any) => { // TODO: change this
+                                    {locations
+                                        ? hardwareTypes?.results.map((type: any) => { // TODO: change this
                                             return (
                                                 <MenuItem
-                                                    key={screenType.id}
-                                                    value={screenType.value}
+                                                    key={type.id}
+                                                    value={type.id}
                                                 >
-                                                    {screenType.label}
+                                                    {type.name}
                                                 </MenuItem>
                                             );
                                         })
                                         : null}
                                 </Select>
                                 <FormHelperText error>
-                                    {formik.touched.screenType && formik.errors.screenType
-                                        ? formik.errors.screenType
+                                    {formik.touched.hardwareType && formik.errors.hardwareType
+                                        ? formik.errors.hardwareType
                                         : null}
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} hidden={!config.laptopOwner.visible}>
+                        <Grid item xs={6} hidden={config.hardwareOwner.hidden}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>
-                                <InputLabel id="laptopOwner-label">{config.laptopOwner.label}</InputLabel>
+                                <InputLabel id="hardwareOwner">{config.hardwareOwner.label}</InputLabel>
                                 <Select
                                     defaultValue=""
-                                    id="laptopOwner"
-                                    name="laptopOwner"
-                                    label={config.laptopOwner.label}
-                                    labelId="laptopOwner-label"
-                                    value={formik.values.laptopOwner}
+                                    id="hardwareOwner"
+                                    name="hardwareOwner"
+                                    label={config.hardwareOwner.label}
+                                    labelId="hardwareOwner"
+                                    value={formik.values.hardwareOwner}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur("laptopOwner")}
+                                    onBlur={formik.handleBlur("hardwareOwner")}
                                     error={
-                                        Boolean(formik.touched.laptopOwner && formik.errors.laptopOwner)
+                                        Boolean(formik.touched.hardwareOwner && formik.errors.hardwareOwner)
                                     }
                                 >
-                                    {ownerTypes
-                                        ? ownerTypes.laptop_owner_types.map((ownerType: any) => { // TODO: change this
+                                    {hardwareOwners
+                                        ? hardwareOwners.results.map((owner) => {
                                             return (
                                                 <MenuItem
-                                                    key={ownerType.id}
-                                                    value={ownerType.value}
+                                                    key={owner.id}
+                                                    value={owner.id}
                                                 >
-                                                    {ownerType.label}
+                                                    {owner.name}
                                                 </MenuItem>
                                             );
                                         })
                                         : null}
                                 </Select>
                                 <FormHelperText error>
-                                    {formik.touched.laptopOwner && formik.errors.laptopOwner
-                                        ? formik.errors.laptopOwner
+                                    {formik.touched.hardwareOwner && formik.errors.hardwareOwner
+                                        ? formik.errors.hardwareOwner
                                         : null}
                                 </FormHelperText>
                             </FormControl>
@@ -342,8 +252,8 @@ export default function () {
                         <Grid
                             item xs={6}
                             hidden={
-                                !config.rentalVendor.visible ||
-                                formik.values.laptopOwner != 'Rental'
+                                config.rentalVendor.hidden ||
+                                formik.values.hardwareOwner != 'Rental'
                             }
                         > {/* TODO: change to Select comp. */}
                             <TextField
@@ -363,43 +273,43 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.laptopStatus.visible}>
+                        <Grid item xs={6} hidden={config.hardwareCondition.hidden}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>
-                                <InputLabel id="laptopStatus-label">{config.laptopStatus.label}</InputLabel>
+                                <InputLabel id="hardwareCondition">{config.hardwareCondition.label}</InputLabel>
                                 <Select
                                     defaultValue=""
-                                    id="laptopStatus"
-                                    name="laptopStatus"
-                                    label={config.laptopStatus.label}
-                                    labelId="laptopStatus-label"
-                                    value={formik.values.laptopStatus}
+                                    id="hardwareCondition"
+                                    name="hardwareCondition"
+                                    label={config.hardwareCondition.label}
+                                    labelId="hardwareCondition"
+                                    value={formik.values.hardwareCondition}
                                     onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur("laptopStatus")}
+                                    onBlur={formik.handleBlur("hardwareCondition")}
                                     error={
-                                        Boolean(formik.touched.laptopStatus && formik.errors.laptopStatus)
+                                        Boolean(formik.touched.hardwareCondition && formik.errors.hardwareCondition)
                                     }
                                 >
-                                    {laptopStatuses
-                                        ? laptopStatuses.laptop_statuses.map((laptopStatus: any) => { // TODO: change this
+                                    {hardwareConditions
+                                        ? hardwareConditions.results.map((condition) => { // TODO: change this
                                             return (
                                                 <MenuItem
-                                                    key={laptopStatus.id}
-                                                    value={laptopStatus.value}
+                                                    key={condition.id}
+                                                    value={condition.id}
                                                 >
-                                                    {laptopStatus.label}
+                                                    {condition.condition}
                                                 </MenuItem>
                                             );
                                         })
                                         : null}
                                 </Select>
                                 <FormHelperText error>
-                                    {formik.touched.laptopStatus && formik.errors.laptopStatus
-                                        ? formik.errors.laptopStatus
+                                    {formik.touched.hardwareCondition && formik.errors.hardwareCondition
+                                        ? formik.errors.hardwareCondition
                                         : null}
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} hidden={!config.location.visible}>
+                        <Grid item xs={6} hidden={config.location.hidden}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>
                                 <InputLabel id="location-label">{config.location.label}</InputLabel>
                                 <Select
@@ -435,7 +345,7 @@ export default function () {
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} hidden={!config.building.visible}>
+                        <Grid item xs={6} hidden={config.building.hidden}>
                             <FormControl sx={{ minWidth: 250 }} fullWidth>
                                 <InputLabel id="building-label">{config.building.label}</InputLabel>
                                 <Select
@@ -471,7 +381,166 @@ export default function () {
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} hidden={!config.purchaseDate.visible}>
+                        <Grid item xs={6} hidden={config.brand.hidden && +formik.values.hardwareType !== 1}>
+                            <FormControl sx={{ minWidth: 250 }} fullWidth>
+                                <InputLabel id="brand-label">{config.brand.label}</InputLabel>
+                                <Select
+                                    defaultValue=""
+                                    id="brand"
+                                    name="brand"
+                                    label={config.brand.label}
+                                    labelId="brand-label"
+                                    value={formik.values.brand}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur("brand")}
+                                    error={Boolean(formik.touched.brand && formik.errors.brand)}
+                                >
+                                    {laptopBrands
+                                        ? laptopBrands.results.map((department: any) => { // TODO: change this
+                                            return (
+                                                <MenuItem
+                                                    key={department.id}
+                                                    value={department.id}
+                                                >
+                                                    {department.brand_name}
+                                                </MenuItem>
+                                            )
+                                        })
+                                        : null}
+                                </Select>
+                                <FormHelperText error>
+                                    {formik.touched.brand && formik.errors.brand
+                                        ? formik.errors.brand
+                                        : null}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6} hidden={config.processor.hidden && +formik.values.hardwareType !== 1}>
+                            <TextField
+                                fullWidth
+                                id="processor"
+                                name="processor"
+                                label={config.processor.label}
+                                variant="outlined"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.processor}
+                                error={Boolean(formik.touched.processor && formik.errors.processor)}
+                                helperText={
+                                    formik.touched.processor && formik.errors.processor
+                                        ? String(formik.errors.processor)
+                                        : null
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={6} hidden={config.ramCapacity.hidden && +formik.values.hardwareType !== 1}>
+                            <TextField
+                                fullWidth
+                                id="ramCapacity"
+                                name="ramCapacity"
+                                label={config.ramCapacity.label}
+                                variant="outlined"
+                                type='number'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.ramCapacity}
+                                error={Boolean(formik.touched.ramCapacity && formik.errors.ramCapacity)}
+                                helperText={
+                                    formik.touched.ramCapacity && formik.errors.ramCapacity
+                                        ? String(formik.errors.ramCapacity)
+                                        : null
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={6} hidden={config.storageCapacity.hidden && +formik.values.hardwareType !== 1}>
+                            <TextField
+                                fullWidth
+                                id="storageCapacity"
+                                name="storageCapacity"
+                                label={config.storageCapacity.label}
+                                variant="outlined"
+                                type='number'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.storageCapacity}
+                                error={Boolean(formik.touched.storageCapacity && formik.errors.storageCapacity)}
+                                helperText={
+                                    formik.touched.storageCapacity && formik.errors.storageCapacity
+                                        ? String(formik.errors.storageCapacity)
+                                        : null
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={6} hidden={config.screenSize.hidden && +formik.values.hardwareType !== 1}>
+                            <FormControl sx={{ minWidth: 250 }} fullWidth>
+                                <InputLabel id="screenSize-label">{config.screenSize.label}</InputLabel>
+                                <Select
+                                    defaultValue=""
+                                    id="screenSize"
+                                    name="screenSize"
+                                    label={config.screenSize.label}
+                                    labelId="screenSize-label"
+                                    value={formik.values.screenSize}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur("screenSize")}
+                                    error={Boolean(formik.touched.screenSize && formik.errors.screenSize)}
+                                >
+                                    {screenSizes
+                                        ? screenSizes.results.map((screenSize: any) => { // TODO: change this
+                                            return (
+                                                <MenuItem
+                                                    key={screenSize.id}
+                                                    value={screenSize.id}
+                                                >
+                                                    {screenSize.size_range}
+                                                </MenuItem>
+                                            )
+                                        })
+                                        : null}
+                                </Select>
+                                <FormHelperText error>
+                                    {formik.touched.brand && formik.errors.brand
+                                        ? formik.errors.brand
+                                        : null}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6} hidden={config.screenType.hidden && +formik.values.hardwareType !== 1}>
+                            <FormControl sx={{ minWidth: 250 }} fullWidth>
+                                <InputLabel id="screenType-label">{config.screenType.label}</InputLabel>
+                                <Select
+                                    defaultValue=""
+                                    id="screenType"
+                                    name="screenType"
+                                    label={config.screenType.label}
+                                    type='checkbox'
+                                    labelId="screenType-label"
+                                    value={formik.values.screenType}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur("screenType")}
+                                    error={
+                                        Boolean(formik.touched.screenType && formik.errors.screenType)
+                                    }
+                                >
+                                    <MenuItem
+                                        value={'False'}
+                                    >
+                                        {'Non Touch'}
+                                    </MenuItem>
+                                    <MenuItem
+                                        value={'True'}
+                                    >
+                                        {'Non Touch'}
+                                    </MenuItem>
+                                </Select>
+                                <FormHelperText error>
+                                    {formik.touched.screenType && formik.errors.screenType
+                                        ? formik.errors.screenType
+                                        : null}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6} hidden={config.purchaseDate.hidden}>
                             <TextField
                                 fullWidth
                                 type="date"
@@ -490,7 +559,7 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.soldDate.visible}>
+                        <Grid item xs={6} hidden={config.soldDate.hidden}>
                             <TextField
                                 fullWidth
                                 type="date"
@@ -509,7 +578,7 @@ export default function () {
                                 }
                             />
                         </Grid>
-                        <Grid item xs={6} hidden={!config.returnDate.visible}>
+                        <Grid item xs={6} hidden={config.returnDate.hidden}>
                             <TextField
                                 fullWidth
                                 type="date"
@@ -524,26 +593,6 @@ export default function () {
                                 helperText={
                                     formik.touched.returnDate && formik.errors.returnDate
                                         ? String(formik.errors.returnDate)
-                                        : null
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} hidden={!config.remarks.visible}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={3}
-                                id="remarks"
-                                name="remarks"
-                                label={config.remarks.label}
-                                variant="outlined"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.remarks}
-                                error={Boolean(formik.touched.remarks && formik.errors.remarks)}
-                                helperText={
-                                    formik.touched.remarks && formik.errors.remarks
-                                        ? String(formik.errors.remarks)
                                         : null
                                 }
                             />

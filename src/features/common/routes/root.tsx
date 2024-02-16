@@ -5,10 +5,8 @@ import SideDrawer from "../components/SideDrawer"
 export default function Root() {
 
     return (
-        <>
-            <SideDrawer>
-                <Outlet />
-            </SideDrawer>
-        </>
+        <SideDrawer>
+            <Outlet />
+        </SideDrawer>
     )
 }
