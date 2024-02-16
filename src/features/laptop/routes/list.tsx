@@ -18,8 +18,7 @@ import {
     StyledInputBase,
     StyledTableCell,
 } from '../../../lib/theme';
-import { useGetLaptopsQuery } from '../laptopsApiSlice';
-import { Laptop } from '../../../types/laptop';
+import { useGetAvailableHardwareQuery } from '../../api/hardware/hardwareApiSlice';
 import { useTheme } from '@mui/material/styles';
 
 import Link from '../../common/components/Link';
@@ -31,11 +30,11 @@ export default function LaptopTable() {
     const [page, setPage] = useState(1);
     const [laptopSearch, setLaptopSearch] = useState('');
     const {
-        data: laptops,
+        data: hardwares,
         isLoading,
         isError,
-        error
-    } = useGetLaptopsQuery({ page: page, laptopSearch: laptopSearch });
+        error,
+    } = useGetAvailableHardwareQuery({type: null, search: laptopSearch, page});
 
     const handleChangePage = useCallback(
         (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
@@ -91,27 +90,26 @@ export default function LaptopTable() {
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">Laptop HW ID</StyledTableCell>
+                            <StyledTableCell align="center">Hardware ID</StyledTableCell>
                             <StyledTableCell align="center">Serial Number</StyledTableCell>
-                            <StyledTableCell align="center">Processor</StyledTableCell>
-                            <StyledTableCell align="center">RAM</StyledTableCell>
+                            <StyledTableCell align="center">Type</StyledTableCell>
                             <StyledTableCell align="center">Location</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {laptops.results.map((laptop: Laptop) => ( // TODO: change this
+                        {hardwares?.results.map((hardware) => (
                             <TableRow
-                                key={laptop?.id}
+                                key={hardware.uuid}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" align="center">
-                                    <Link to={`/laptop/${laptop?.id}`} >{laptop?.hardware_id}</Link>
+                                    <Link to={`/hardware/${hardware.uuid}`} >{hardware?.hardware_id}</Link>
                                 </TableCell>
-                                <TableCell align="center">{laptop?.laptop_sr_no}</TableCell>
-                                <TableCell align="center">{laptop?.processor}</TableCell>
-                                <TableCell align="center">{laptop?.ram_capacity}</TableCell>
-                                <TableCell align="center">{laptop?.laptop_branch?.location}</TableCell>
+                                <TableCell align="center">{hardware?.serial_no}</TableCell>
+                                <TableCell align="center">{hardware?.type?.name}</TableCell>
+                                <TableCell align="center">{hardware?.location?.location}</TableCell>
                             </TableRow>
+                        
                         ))}
                     </TableBody>
                 </Table>
@@ -119,7 +117,7 @@ export default function LaptopTable() {
             <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
-                count={laptops.count}
+                count={hardwares?.count || 0}
                 rowsPerPage={10}
                 page={page - 1}
                 onPageChange={handleChangePage}

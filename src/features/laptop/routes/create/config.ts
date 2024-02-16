@@ -2,71 +2,93 @@
 
 export default {
     hardwareId: {
-        visible: false,
-        label: 'Hardware ID'
+        hidden: true,
+        label: 'Hardware ID',
+        fieldFor: 'common'
     },
     serialNumber: {
-        visible: true,
-        label: 'Serial Number'
+        hidden: false,
+        label: 'Serial Number',
+        fieldFor: 'common'
+    },
+    hardwareType: {
+        hidden: false,
+        label: 'Hardware Type',
+        fieldFor: 'common'
     },
     brand: {
-        visible: true,
-        label: 'Brand'
+        hidden: true,
+        label: 'Brand',
+        fieldFor: 'laptop'
     },
     processor: {
-        visible: true,
-        label: 'Processor'
+        hidden: true,
+        label: 'Processor',
+        fieldFor: 'laptop'
     },
     ramCapacity: {
-        visible: true,
-        label: 'RAM'
+        hidden: true,
+        label: 'RAM (GB)',
+        fieldFor: 'laptop'
     },
     storageCapacity: {
-        visible: true,
-        label: 'Storage'
+        hidden: true,
+        label: 'Storage (GB)',
+        fieldFor: 'laptop'
     },
     screenSize: {
-        visible: true,
-        label: 'Screen Size'
+        hidden: true,
+        label: 'Screen Size',
+        fieldFor: 'laptop'
     },
     screenType: {
-        visible: true,
-        label: 'Screen Type'
+        hidden: true,
+        label: 'Screen Type',
+        fieldFor: 'laptop'
     },
-    laptopOwner: {
-        visible: true,
-        label: 'Laptop Owner'
+    hardwareOwner: {
+        hidden: false,
+        label: 'Hardware Owner',
+        fieldFor: 'common'
     },
-    rentalVendor: {
-        visible: true,
-        label: 'Rental Vendor'
+    rentalVendor: { // TODO: not required
+        hidden: false,
+        label: 'Rental Vendor',
+        fieldFor: 'common'
     },
-    laptopStatus: {
-        visible: true,
-        label: 'Laptop Status'
+    hardwareCondition: {
+        hidden: false,
+        label: 'Condition',
+        fieldFor: 'common'
     },
     location: {
-        visible: true,
-        label: 'Location'
+        hidden: false,
+        label: 'Location',
+        fieldFor: 'common'
     },
     building: {
-        visible: true,
-        label: 'Building'
+        hidden: false,
+        label: 'Building',
+        fieldFor: 'common'
     },
     purchaseDate: {
-        visible: true,
-        label: 'Purchase Date'
+        hidden: false,
+        label: 'Purchase Date',
+        fieldFor: 'common'
     },
     soldDate: {
-        visible: false,
-        label: 'Date Sold'
+        hidden: false,
+        label: 'Date Sold',
+        fieldFor: 'common'
     },
     returnDate: {
-        visible: false,
-        label: 'Date Returned'
+        hidden: false,
+        label: 'Date Returned',
+        fieldFor: 'common'
     },
     remarks: {
-        visible: true,
-        label: 'Remarks'
+        hidden: false,
+        label: 'Remarks',
+        fieldFor: 'common'
     }
 }

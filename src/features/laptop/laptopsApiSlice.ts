@@ -22,6 +22,10 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
         }),
         createNewLaptop: builder.mutation({
             query: (payload) => ({
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json; version=2'
+                },
                 url: 'laptop/',
                 method: 'POST',
                 body: payload
@@ -68,6 +72,9 @@ export const laptopApiSlice = apiSlice.injectEndpoints({
         getLaptopStatuses: builder.query<any, void>({
             query: () => `laptop-statuses/`
         }),
+        getLaptopScreenSizes: builder.query<any, void>({
+            query: () => `laptop-screen-sizes/`
+        }),
     })
 })
 
@@ -82,4 +89,5 @@ export const {
     useGetLaptopScreenTypesQuery,
     useGetLaptopOwnerTypesQuery,
     useGetLaptopStatusesQuery,
+    useGetLaptopScreenSizesQuery,
 } = laptopApiSlice

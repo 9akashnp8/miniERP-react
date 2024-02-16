@@ -10,7 +10,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import LaptopIcon from '@mui/icons-material/Laptop';
+import GroupIcon from '@mui/icons-material/Group';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
@@ -133,34 +134,24 @@ export default function ({ children }: FCWithChildren) {
                             <ListItem key={1} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <InboxIcon />
+                                        <GroupIcon />
                                     </ListItemIcon>
                                     <ListItemText primary={"Employees"} />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        <Link to={"laptop"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={"hardware"} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItem key={1} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <InboxIcon />
+                                        <LaptopIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={"Laptops"} />
+                                    <ListItemText primary={"Hardwares"} />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))} */}
                     </List>
-                    {/* <Divider />
+                    {/*
                     <List>
                         {['All mail', 'Trash', 'Spam'].map((text, index) => (
                             <ListItem key={text} disablePadding>
