@@ -42,7 +42,7 @@ export interface HardwareAssignmentAPIRes extends BaseAPIResponse {
     results: HardwareAssignment[]
 }
 
-export interface HardwareAPIRes extends BaseAPIResponse {
+export interface HardwareListAPIRes extends BaseAPIResponse {
     results: Hardware[]
 }
 

@@ -8,7 +8,7 @@ import LaptopTable from './features/laptop/routes/list';
 import Login from './features/auth/routes/login';
 import RequireAuth from './features/auth/RequireAuth';
 import EmployeeDetail from './features/employee/routes/detail';
-import LaptopDetail from './features/laptop/routes/detail';
+import HardwareDetail from './features/laptop/routes/detail';
 import LaptopHistory from './features/laptop/routes/history';
 import LaptopCreate from './features/laptop/routes/create';
 import EmployeeCreate from './features/employee/routes/create';
@@ -131,15 +131,15 @@ const router = createBrowserRouter([
                         element: <LaptopCreate />
                     },
                     {
-                        path: "laptop/:id",
-                        element: <LaptopDetail />
+                        path: "hardware/:uuid",
+                        element: <HardwareDetail />
                     },
                     {
-                        path: "laptop/:id/edit",
+                        path: "hardware/:id/edit",
                         element: <LaptopEdit />
                     },
                     {
-                        path: "laptop/:id/history",
+                        path: "hardware/:id/history",
                         element: <LaptopHistory />
                     },
                     adminRoutes,
