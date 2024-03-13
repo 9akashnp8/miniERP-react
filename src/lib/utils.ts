@@ -20,3 +20,8 @@ export function getCurrentDate(dateObject: Date) {
     return dateObject.toISOString().split('T')[0]
   }
 }
+
+export function calculateHardwareAgeAtInventory(hardwarePurchaseDate: Date) {
+  const purchasedYear = hardwarePurchaseDate.getFullYear()
+  return new Date().getFullYear() - purchasedYear 
+}

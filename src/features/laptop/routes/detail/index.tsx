@@ -5,6 +5,12 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 // React imports
 import { useState } from "react";
@@ -13,21 +19,21 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // Custom Components
-import {
-    darkTheme,
-} from "../../../lib/theme";
-import DetailItem from "../../common/components/DetailContent";
-import SecondaryButton from "../../common/components/Button/SecondaryButton";
-import Delete from "../../common/components/Delete";
-import { useGetLaptopDetailQuery } from "../laptopsApiSlice";
-import { OnClickEvent } from "../../../types/common";
+import DetailItem from "../../../common/components/DetailContent";
+import SecondaryButton from "../../../common/components/Button/SecondaryButton";
+import Delete from "../../../common/components/Delete";
+import { useGetHardwareQuery } from "../../../api/hardware/hardwareApiSlice";
+import { useGetEmployeesAssignedQuery } from "../../../api/hardware/assignmentApiSlice";
+import { OnClickEvent } from "../../../../types/common";
+import { calculateHardwareAgeAtInventory } from "../../../../lib/utils";
 
 export default function LaptopDetail() {
-    const { id } = useParams();
+    const { uuid } = useParams();
     const {
-        data: laptop,
+        data: hardware,
         isLoading,
-    } = useGetLaptopDetailQuery({ id: id });
+    } = useGetHardwareQuery({ hardwareUuid: uuid || '' });
+    const { data: employeesAssigned } = useGetEmployeesAssignedQuery(uuid || '')
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: OnClickEvent) => {
@@ -36,13 +42,13 @@ export default function LaptopDetail() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    if (!isLoading) {
+    console.log(employeesAssigned)
+    if (!isLoading && hardware) {
         return (
             <>
                 <Stack direction="row" spacing={1.5} useFlexGap mb={3}>
                     <Typography variant="h4" component="h1">
-                        {laptop?.hardware_id}
+                        {hardware.hardware_id}                                                    
                     </Typography>
                     <Link
                         to={`edit`}
@@ -79,27 +85,73 @@ export default function LaptopDetail() {
                                 History
                             </Link>
                         </MenuItem>
-                        <Delete employeeId={id}/>
+                        <Delete employeeId={hardware.uuid}/>
                     </Menu>
                 </Stack>
+                {/* Hardware Basic Info Card */}
                 <Paper variant="outlined" sx={{ marginBottom: '30px' }}>
                     <Grid container spacing={2} padding={3}>
                         <DetailItem
                             textAlign={'left'}
                             title={'Serial No.'}
-                            content={laptop?.laptop_sr_no}
+                            content={hardware.serial_no}
                         />
                         <DetailItem
                             textAlign={'center'}
                             title={'Assigned To'}
-                            content={laptop?.emp_id?.lk_emp_id}
+                            content={employeesAssigned?.employee.lk_emp_id || ''}
                             isLink
-                            linkTo={`/employee/${laptop?.emp_id?.emp_id}`}
+                            linkTo={`/employee/${employeesAssigned?.employee.emp_id}`}
                         />
                         <DetailItem
                             textAlign={'right'}
-                            title={'Status'}
-                            content={laptop?.laptop_status}
+                            title={'Condition'}
+                            content={hardware.condition.condition}
+                        />
+                    </Grid>
+                </Paper>
+
+                {/* Hardware Specifications */}
+                <Paper
+                    variant="outlined"
+                    sx={{
+                        padding: '1rem',
+                        marginTop: '30px',
+                    }}
+                >
+                    <Typography mb={2}>
+                        Other Information
+                    </Typography>
+                    <Grid container spacing={2} padding={3}>
+                        <DetailItem
+                            textAlign={'left'}
+                            title={'Location'}
+                            content={hardware.location.location}
+                        />
+                        <DetailItem
+                            textAlign={'center'}
+                            title={'Building'}
+                            content={hardware.building.building}
+                        />
+                        <DetailItem
+                            textAlign={'right'}
+                            title={'Owner'}
+                            content={hardware.owner.name}
+                        />
+                        <DetailItem
+                            textAlign={'left'}
+                            title={'Type'}
+                            content={hardware.type.name}
+                        />
+                        <DetailItem
+                            textAlign={'center'}
+                            title={'Purchase Date'}
+                            content={hardware.purchased_date}
+                        />
+                        <DetailItem
+                            textAlign={'right'}
+                            title={'Age at Inventory'}
+                            content={`${calculateHardwareAgeAtInventory(new Date(hardware.purchased_date))} year(s)`}
                         />
                     </Grid>
                 </Paper>
@@ -109,7 +161,7 @@ export default function LaptopDetail() {
                     justifyContent="space-between"
                     textAlign={'center'}
                 >
-                    <Paper variant="outlined">
+                    {/* <Paper variant="outlined">
                         <Typography
                             color={darkTheme.palette.text.primary}
                             fontWeight={600}
@@ -155,8 +207,8 @@ export default function LaptopDetail() {
                                 content={laptop?.screen_type}
                             />
                         </Grid>
-                    </Paper>
-                    <Paper variant="outlined">
+                    </Paper> */}
+                    {/* <Paper variant="outlined">
                         <Typography
                             color={darkTheme.palette.text.primary}
                             fontWeight={600}
@@ -196,8 +248,8 @@ export default function LaptopDetail() {
                                 content={laptop?.laptop_building?.building}
                             />
                         </Grid>
-                    </Paper>
-                    <Paper variant="outlined">
+                    </Paper> */}
+                    {/* <Paper variant="outlined">
                         <Typography
                             color={darkTheme.palette.text.primary}
                             fontWeight={600}
@@ -225,7 +277,7 @@ export default function LaptopDetail() {
                                 content={laptop?.laptop_date_sold}
                             />
                         </Grid>
-                    </Paper>
+                    </Paper> */}
                 </Stack>
             </>
         )

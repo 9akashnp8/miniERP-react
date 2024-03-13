@@ -1,4 +1,5 @@
 import { apiSlice } from "../apiSlice";
+import { HardwareAssignment } from "../../../types/hardware";
 import { HardwareAssignmentAPIRes } from "../../../types/common/api";
 
 export const assignmentApiSlice = apiSlice.injectEndpoints({
@@ -6,6 +7,14 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
         getHardwaresAssigned: builder.query<HardwareAssignmentAPIRes, string | undefined>({
             query: (employeeId) => `hardware-assignment/?employee=${employeeId}&is_assigned=True`,
             providesTags: [{type: 'HardwareAssignment', id: 'List'}]
+        }),
+        getEmployeesAssigned: builder.query<HardwareAssignment, string | undefined>({
+            query: (hardwareUuid) => `hardware-assignment/?hardware=${hardwareUuid}`,
+            providesTags: [{type: 'HardwareAssignment', id: 'List'}],
+            transformResponse: (response: any) => {
+                const currentlyAssignedEmployee = response.results.filter((item: any) => item.returned_date === null)
+                return currentlyAssignedEmployee[0] ?? {}
+            }
         }),
         assignHardware: builder.mutation<any, any>({
             query: (payload) => ({
@@ -28,6 +37,7 @@ export const assignmentApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetHardwaresAssignedQuery,
+    useGetEmployeesAssignedQuery,
     useAssignHardwareMutation,
     useReturnHardwareMutation
 } = assignmentApiSlice
